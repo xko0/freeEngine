@@ -1,10 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const cardRoutes = require("./router/card");
-const categoryRoutes = require("./router/category");
 const userRoutes = require("./router/user");
-const propositionRoutes = require("./router/proposition");
 const sibApi = require("./controllers/sib")
 const crawlApi = require("./controllers/crawler")
 
@@ -39,10 +36,7 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/api/card", cardRoutes);
-app.use("/api/categorie", categoryRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/proposition", propositionRoutes);
 app.get("/api/crawler", crawlApi.crawler);
 app.get("/api/scrapeMaltData", crawlApi.scrapeMaltData);
 app.get("/api/scrapeFreelanceComData", crawlApi.scrapeFreelanceComData);
