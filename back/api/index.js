@@ -1,9 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const userRoutes = require("./router/user");
-const sibApi = require("./controllers/sib")
-const crawlApi = require("./controllers/crawler")
+const userRoutes = require("././router/user");
+const sibApi = require("././controllers/sib")
+const crawlApi = require("././controllers/crawler")
 
 require('dotenv').config()
 
