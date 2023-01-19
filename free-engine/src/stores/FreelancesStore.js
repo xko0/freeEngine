@@ -1,6 +1,6 @@
+
 import { runInAction } from 'mobx'
 import axios from 'axios'
-import fetch from 'vercel-fetch'
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -18,19 +18,18 @@ export function createFreelancesStore() {
         this.hasErrors = false
       })
       try {
-        let response = await fetch(`${BASE_URL}/scrapeMaltData`,{
+        let response = await axios.get(`vercel/scrapeMaltData`,{
           params: {
               argument: infos
           }
         }) 
-        let data = await response.json()
-        if (data) {
+        if (response.data) {
           runInAction(() => {
             this.loading = false
             console.log("in progress...")
-            console.log(data)
-            this.freelancesMalt = data
-            localStorage.setItem('freelancesMalt', JSON.stringify(data))
+            console.log(response.data)
+            this.freelancesMalt = response.data
+            localStorage.setItem('freelancesMalt', JSON.stringify(response.data))
           })
         }    
       } catch(error) {
@@ -68,19 +67,18 @@ export function createFreelancesStore() {
         this.hasErrors = false
       })
       try {
-        let response = await fetch(`${BASE_URL}/scrapeFreelanceComData`,{
+        let response = await axios.get(`vercel/scrapeFreelanceComData`,{
           params: {
               argument: infos
           }
         }) 
-        let data = await response.json()
         if (response.data) {
           runInAction(() => {
             this.loading = false
             console.log("Calcul...")
-            console.log(data)
-            this.freelanceCom = data
-            localStorage.setItem('freelanceCom', JSON.stringify(data))
+            console.log(response.data)
+            this.freelanceCom = response.data
+            localStorage.setItem('freelanceCom', JSON.stringify(response.data))
           })
         }    
       } catch(error) {
