@@ -26,7 +26,7 @@ export default (req, res, next) => {
   }
 
   async function scrapeData() {
-    let html = await rp(`https://api.crawlbase.com/?token=${process.env.CRAWLER_API_KEY}&url=https%3A%2F%2Fwww.malt.fr%2Fs%3Fq%3D${req.query.argument}&ajax_wait=true`);
+    let html = await rp(`https://api.crawlbase.com/?token=${process.env.CRAWLER_API_KEY}&url=https%3A%2F%2Fwww.malt.fr%2Fs%3Fq%3D${req.query.argument}`);
     let $ = cheerio.load(html);
     let data = []
     for ( let i = 0; i < $('section.profile-card').length; i++) {
