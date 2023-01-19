@@ -2,8 +2,12 @@
   "version": 2,
   "routes": [
     {
-      "src": "api/(.*)",
-      "dest": "back/api/index.js"
+      "src": "api/crawler/(.*)?js",
+      "dest": "/api/crawler/(.*)?js"
+    },
+    {
+      "src": "api/crawler/(.*)",
+      "dest": "/api/index.js"
     }
   ]
 }
