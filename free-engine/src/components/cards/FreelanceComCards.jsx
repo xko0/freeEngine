@@ -27,6 +27,7 @@ export const FreelanceComCards = observer(() => {
 
   useEffect(() => {
     if (freelancesStore.freelanceCom.length > 0 ) {
+      console.log(freelanceCom)
       setFilteredFreelanceCom(freelanceCom.filter(freelance => !freelance.includes(null)))
     }
   },[freelanceCom])
