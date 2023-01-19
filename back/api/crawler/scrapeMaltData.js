@@ -45,7 +45,7 @@ export default (req, res, next) => {
       )
       data.push(childrenData);
     }
-    await res.status(200).send(data)
+    await res.setHeader("Access-Control-Allow-Origin", "https://free-engine.vercel.app").status(200).send(data)
     return data;
   }
   scrapeData()
