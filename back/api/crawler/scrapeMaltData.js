@@ -1,3 +1,5 @@
+const rp = require('request-promise');
+const cheerio = require('cheerio');
 
 export default (req, res, next) => {
   const baseSelector = 'section.profile-card:nth-child';
