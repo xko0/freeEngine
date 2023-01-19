@@ -1,6 +1,6 @@
 const express = require("express");
 
-const crawlApi = require("./controllers/crawler.js")
+const crawlApi = require("./crawler/crawler")
 
 const app = express();
 
@@ -19,7 +19,8 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-app.get("/scrapeMaltData", crawlApi.scrapeMaltData);
-app.get("/scrapeFreelanceComData", crawlApi.scrapeFreelanceComData);
+
+app.get("/api/scrapeMaltData", crawlApi.scrapeMaltData);
+app.get("/api/scrapeFreelanceComData", crawlApi.scrapeFreelanceComData);
 
 module.exports = app;
