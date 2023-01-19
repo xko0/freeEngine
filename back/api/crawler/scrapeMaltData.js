@@ -1,5 +1,5 @@
 
-export default scrapeMaltData = (req, res, next) => {
+export default (req, res, next) => {
   const baseSelector = 'section.profile-card:nth-child';
 
   const getPrice = ($, i) => {

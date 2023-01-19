@@ -1,7 +1,7 @@
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-export default scrapeFreelanceComData = (req, res, next) => {
+export default (req, res, next) => {
   const baseSelector = 'a.w-full:nth-child';
 
   const getPrice = ($, i) => {
