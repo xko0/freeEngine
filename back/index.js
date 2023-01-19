@@ -1,22 +1,6 @@
 const express = require("express");
-const mongoose = require("mongoose");
 
-const userRoutes = require("./router/user");
-const sibApi = require("./controllers/sib")
-const crawlApi = require("./controllers/crawler")
-
-require('dotenv').config()
-
-mongoose
-  .connect(
-    `${process.env.MONGO_CONNSTRING}`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+const crawlApi = require("./controllers/crawler.js")
 
 const app = express();
 
@@ -33,13 +17,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/api/user", userRoutes);
-app.get("/api/crawler", crawlApi.crawler);
-app.get("/api/scrapeMaltData", crawlApi.scrapeMaltData);
-app.get("/api/scrapeFreelanceComData", crawlApi.scrapeFreelanceComData);
-app.post("/api/sendemail", sibApi.sendEmail);
+app.get("/scrapeMaltData", crawlApi.scrapeMaltData);
+app.get("/scrapeFreelanceComData", crawlApi.scrapeFreelanceComData);
 
 module.exports = app;
