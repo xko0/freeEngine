@@ -38,7 +38,7 @@ export const FreelanceComCards = observer(() => {
   }, [filteredFreelanceCom, currentPage])
 
   function getFreelanceComCards() {
-    if (freelancesStore.loading) {
+    if (freelancesStore.loadingFreelanceCom) {
       return (
         <Grid display='flex' height='10vh' marginLeft='45%'  marginTop='2vh'>
           <BarLoader color="#e2e612" />

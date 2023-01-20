@@ -5,7 +5,9 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function createFreelancesStore() {
   return {
-    loading: null,
+    loadingMalt: null,
+    loadingFiverr: null,
+    loadingFreelanceCom: null,
     hasErrors: null,
     freelancesMalt: JSON.parse(localStorage.getItem('freelancesMalt')) || [],
     freelancesFiverr: JSON.parse(localStorage.getItem('freelancesFiverr')) || [],
@@ -13,7 +15,7 @@ export function createFreelancesStore() {
 
     async getFreelances(infos) {
       runInAction(() => {
-        this.loading = true
+        this.loadingMalt = true
         this.hasErrors = false
       })
       try {
@@ -24,9 +26,9 @@ export function createFreelancesStore() {
         }) 
         if (response.data) {
           runInAction(() => {
-            this.loading = false
+            this.loadingMalt = false
             console.log("in progress...")
-            console.log(response.data)
+            console.log(response.data, response.resultNumber)
             this.freelancesMalt = response.data
             localStorage.setItem('freelancesMalt', JSON.stringify(response.data))
           })
@@ -38,7 +40,7 @@ export function createFreelancesStore() {
 
     async getFiverrFreelances(infos) {
       runInAction(() => {
-        this.loading = true
+        this.loadingFiverr = true
         this.hasErrors = false
       })
       try {
@@ -49,10 +51,11 @@ export function createFreelancesStore() {
         }) 
         if (response.data) {
           runInAction(() => {
-            this.loading = false
-            console.log("in progress...")
+            this.loadingFiverr = false
+            console.log("working...")
             console.log(response.data)
             this.freelancesFiverr = response.data
+            localStorage.setItem('freelancesFiverr', JSON.stringify(response.data))
           })
         }    
       } catch(error) {
@@ -62,7 +65,7 @@ export function createFreelancesStore() {
 
     async getFreelanceCom(infos) {
       runInAction(() => {
-        this.loading = true
+        this.loadingFreelanceCom = true
         this.hasErrors = false
       })
       try {
@@ -73,7 +76,7 @@ export function createFreelancesStore() {
         }) 
         if (response.data) {
           runInAction(() => {
-            this.loading = false
+            this.loadingFreelanceCom = false
             console.log("Calcul...")
             console.log(response.data)
             this.freelanceCom = response.data

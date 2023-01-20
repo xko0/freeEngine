@@ -183,27 +183,58 @@ exports.scrapeFreelanceComData = (req, res, next) => {
       )
       data.push(childrenData)
     }
+
     await res.status(200).send(data)
     return data;
   }
   scrapeData()
 }
+exports.scrapeFiverrData = (req, res, next) => {
+  const baseSelector = 'div.gig-card-layout:nth-child';
 
-  async function scrapeFiverrData() {
+  const getPrice = ($, i) => {
+    return $(`${baseSelector}(${i+1}) > div:nth-child(1) > footer:nth-child(5) > a:nth-child(2) > span:nth-child(2)`).html();
+  }
+  const getName = ($, i) => {
+    return $(`${baseSelector}(${i+1}) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)`).html();
+  }
+  const getDescription = ($, i) => {
+    return $(`${baseSelector}(${i+1}) > div:nth-child(1) > h3:nth-child(3) > a:nth-child(1)`).html();
+  }
+  const getLink = ($, i) => {
+    return $(`${baseSelector}(${i+1}) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1)`).map((i, el) => $(el).attr('href')).get();
+  }
+  const getImage = ($, i) => {
+    return $(`${baseSelector}(${i+1})`).find('img').map((i, el) => $(el).attr('src')).get();
+  }
+
+  async function scrapeData() {
     let encodedSearch = req.query.argument
     let reEncodeSearch = encodeURIComponent(encodedSearch)
+    console.log(req.query.argument)
     let html = await rp(`https://api.crawlbase.com/?token=${process.env.CRAWLER_API_KEY}&url=https%3A%2F%2Ffr.fiverr.com%2Fsearch%2Fgigs%3Fquery%3D${reEncodeSearch}%26source%3Dtop-bar%26ref_ctx_id%3De485ce60aee4ba1447ace1bacd7bec2c%26search_in%3Deverywhere%26search-autocomplete-original-term%3D${reEncodeSearch}`);
     let $ = cheerio.load(html);
     let data = []
-  
-    for ( let i = 0; i < $('div.py-0').length; i++) {
+
+    for ( let i = 0; i < $('div.gig-card-layout').length; i++) {
       let childrenData = [];
-      childrenData.push($(``));
-      data.push(childrenData)
+      childrenData.push(
+        ...[
+          getPrice($, i), 
+          getName($, i), 
+          getDescription($, i), 
+          getLink($, i), 
+          getImage($, i), 
+        ]
+      )
+      data.push(childrenData);
     }
+
     await res.status(200).send(data)
     return data;
   }
+  scrapeData()
+}
 
 exports.scrapeMaltData = (req, res, next) => {
   const baseSelector = 'section.profile-card:nth-child';
@@ -230,11 +261,16 @@ exports.scrapeMaltData = (req, res, next) => {
     return $(`${baseSelector}(${i+1}) > a:nth-child(1) > div:nth-child(1) > div:nth-child(4) > 
       div:nth-child(2) > div:nth-child(1) > p:nth-child(1) > span:nth-child(2)`).html();
   }
-
+  const getResultNumber = ($) => {
+    return $(`.search-header-query__title`).html();
+  }
+  
   async function scrapeData() {
     let html = await rp(`https://api.crawlbase.com/?token=${process.env.CRAWLER_API_KEY}&url=https%3A%2F%2Fwww.malt.fr%2Fs%3Fq%3D${req.query.argument}&ajax_wait=true`);
     let $ = cheerio.load(html);
     let data = []
+    let resultNumber = getResultNumber($)
+
     for ( let i = 0; i < $('section.profile-card').length; i++) {
       let childrenData = [];
       childrenData.push(
@@ -244,11 +280,12 @@ exports.scrapeMaltData = (req, res, next) => {
           getDescription($, i), 
           getLink($, i), 
           getImage($, i), 
-          getCity($, i)
+          getCity($, i),
         ]
       )
       data.push(childrenData);
     }
+    data.push(resultNumber)
     await res.status(200).send(data)
     return data;
   }
