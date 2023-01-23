@@ -20,7 +20,8 @@ export const SearchBar = observer (() => {
     let encodedSpecialty = encodeURI(specialty)
     freelancesStore.getFreelances(encodedSpecialty)
     // freelancesStore.getFreelanceCom(encodedSpecialty)
-    //freelancesStore.getFiverrFreelances(encodedSpecialty)
+    // freelancesStore.getFiverrFreelances(encodedSpecialty)
+    // freelancesStore.getFreelancesComeup(encodedSpecialty)
   }
 
   return (

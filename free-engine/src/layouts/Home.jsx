@@ -5,6 +5,7 @@ import { SearchBar } from '../components/searchbar/Searchbar'
 import { MaltCards } from '../components/cards/MaltCards'
 import { FreelanceComCards } from '../components/cards/FreelanceComCards'
 import { FiverrCards } from '../components/cards/FiverrCards'
+import { ComeupCards } from '../components/cards/ComeupCards'
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <MaltCards />
       <FreelanceComCards />
       <FiverrCards />
+      <ComeupCards />
     </>
   )
 }

@@ -11,61 +11,59 @@ import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
 
-export const FiverrCards = observer(() => {
+export const ComeupCards = observer(() => {
   const freelancesStore = useFreelancesStore()
-  const [freelancesFiverr, setFreelancesFiverr] = useState(null)
+  const [freelancesComeup, setFreelancesComeup] = useState(null)
+  const [comeupFormatNumber, setComeupFormatNumber] = useState(null)
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
 
   useEffect(() => {
-    if (freelancesStore.freelancesFiverr.length > 0) {
-      setFreelancesFiverr(freelancesStore.freelancesFiverr)
-      setTotalPages(Math.ceil((freelancesStore.freelancesFiverr.length - 1) / itemsPerPage))
+    if (freelancesStore.freelancesComeup.length > 0) {
+      setFreelancesComeup(freelancesStore.freelancesComeup)
+      setComeupFormatNumber(freelancesStore.freelancesComeup[freelancesStore.freelancesComeup.length - 1].replace(/([&nbsp])\w+([;])/g, ""))
+      setTotalPages(Math.ceil((freelancesStore.freelancesComeup.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelancesFiverr, currentPage])
+  }, [freelancesStore.freelancesComeup, currentPage])
 
-  function getFiverrCards() {
-    if (freelancesStore.loadingFiverr) {
+  function getComeupCards() {
+    if (freelancesStore.loadingComeup) {
       return (
         <Grid display='flex' height='10vh' marginLeft='45%' marginTop='2vh'>
           <BarLoader color="#e2e612" />
         </Grid>
       )
     }
-    if (freelancesFiverr) {
+    if (freelancesComeup) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const actualFreelances = freelancesFiverr.slice(0, -1)
+      const actualFreelances = freelancesComeup.slice(0, -1)
       const currentItems = actualFreelances.filter((_, i) => i >= startIndex && i < endIndex);
-      return currentItems.map((freelance, index) => (
+      return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 345, margin: "2vh"}} onClick={() => window.open(`https://www.Fiverr.com${freelance[3]}`, '_blank')}>
+          <Card key={index} sx={{ maxWidth: 345, margin: "2vh"}} onClick={() => window.open(`https://comeup.com${freelance[3]}`, '_blank')}>
             <CardMedia
               sx={{ height: 240 }}
-              image={`${freelance[4][0]}`}
+              image={`${freelance[4]}`}
               title="Profile picture"
             />
             <CardContent sx={{ height: 125 }}>
-              <Typography gutterBottom variant="h5" component="div">
-                {freelance[1]}
+            <Typography variant="body2" color="text.secondary">
+                {freelance[5]}
+              </Typography>
+              <Typography variant="h5" component="div">
+                {freelance[1] != null ? freelance[1] : `Infos sur Comeup.com`}
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                {freelance[2]}
+                {freelance[2] != null ? freelance[2].replace(/<span class="visually-hidden">(.*?)<\/span>/g, '') : `Développeur web`}
               </Typography>
             </CardContent>
-            <Typography variant="body1" color="text.secondary" marginLeft="2vh"> 
-              Prix: à partir de { 
-                freelance[0] != null ? freelance[0].replace(/&nbsp;|<sup>|<\/sup>/g, (match) => {
-                  if(match === '&nbsp;') return ' ';
-                  if(match === '<sup>') return ',';
-                  if(match === '</sup>') return '';
-                })
-                : ""
-              }
+            <Typography variant="body1" color="text.secondary" marginLeft="2vh">
+              Prix à partir de: {freelance[0] != null ? freelance[0].replace(/\D/g, "") : "Non communiqué"} €
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
-              <Button size="small" onClick={() => window.open(`https://www.Fiverr.com${freelance[3]}`, '_blank')}>Voir sur Fiverr.com</Button>
+              <Button size="small" onClick={() => window.open(`https://comeup.com${freelance[3]}`, '_blank')}>Voir sur Comeup.com</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -80,10 +78,10 @@ export const FiverrCards = observer(() => {
   return (
     <>
       <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white" }}>
-        {freelancesFiverr == null ? "Attente de résultats" : freelancesStore.freelancesFiverr[freelancesStore.freelancesFiverr.length - 1]} sur Fiverr.com
+        {comeupFormatNumber == null ? "Attente de résultats" : comeupFormatNumber} sur Comeup.com
       </Typography>
       <Grid container spacing={1}>
-        {getFiverrCards()}
+        {getComeupCards()}
       </Grid>
       {currentPage <= totalPages && currentPage >= 2 && 
         <Button onClick={() => setCurrentPage(currentPage - 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page précédente</Button>

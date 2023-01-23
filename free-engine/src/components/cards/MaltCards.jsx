@@ -10,10 +10,12 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
+import SendIcon from '@mui/icons-material/Send';
 
 export const MaltCards = observer(() => {
-  const freelancesStore = useFreelancesStore()
-  const [freelancesMalt, setFreelancesMalt] = useState(null)
+  const freelancesStore = useFreelancesStore();
+  const [freelancesMalt, setFreelancesMalt] = useState(null);
+  //const [searchedParams, setSearchedParams] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
@@ -22,6 +24,7 @@ export const MaltCards = observer(() => {
     if (freelancesStore.freelancesMalt.length > 0) {
       setFreelancesMalt(freelancesStore.freelancesMalt)
       setTotalPages(Math.ceil((freelancesStore.freelancesMalt.length - 1) / itemsPerPage))
+      //setSearchedParams(freelancesStore.maltSearchedFor)
     }
   }, [freelancesStore.freelancesMalt, currentPage])
 
@@ -46,21 +49,21 @@ export const MaltCards = observer(() => {
               image={`${freelance[4]}`}
               title="Profile picture"
             />
-            <CardContent sx={{ height: 100 }}>
+            <CardContent sx={{ height: 125 }}>
             <Typography variant="body2" color="text.secondary">
                 {freelance[5]}
               </Typography>
-              <Typography gutterBottom variant="h5" component="div">
-                {freelance[1] != null ? freelance[1] : `Infos sur malt.fr`}
+              <Typography variant="h5" component="div">
+                {freelance[1]}
               </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Prix à la journée: {freelance[0] != null ? freelance[0].replace(/\D/g, "") : ""} €
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {freelance[2] != null ? freelance[2] : `Développeur web`}
+              <Typography gutterBottom variant="h6" sx={{ color: 'blue' }}>
+                {freelance[2]}
               </Typography>
             </CardContent>
-            <CardActions>
+            <Typography variant="body1" color="text.secondary" marginLeft="2vh">
+              Prix à la journée: {freelance[0].replace(/\D/g, "")} €
+            </Typography>
+            <CardActions sx={{justifyContent: "center"}}>
               <Button size="small" onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>Voir sur Malt.fr</Button>
             </CardActions>
           </Card>
@@ -76,16 +79,37 @@ export const MaltCards = observer(() => {
   return (
     <>
       <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white" }}>
-        {freelancesStore.freelancesMalt == null ? "Attente de résultats" : freelancesStore.freelancesMalt[freelancesStore.freelancesMalt.length - 1]} sur Malt.fr
+        {freelancesMalt == null ? "Attente de résultats" : freelancesStore.freelancesMalt[freelancesStore.freelancesMalt.length - 1]} sur Malt.fr
       </Typography>
       <Grid container spacing={1}>
         {getMaltCards()}
       </Grid>
+      {freelancesMalt == null ? "" :
+        <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>
+          page {currentPage} sur {totalPages}
+
+          {freelancesMalt == null ? "" : currentPage >= totalPages && 
+            <Button variant="contained" 
+              endIcon={<SendIcon />}
+              sx={{
+                marginLeft: "2vh",
+                Width: "auto", 
+                minWidth: "120px",
+                minHeight:"37px",
+                backgroundColor: "rgba(73,115,255,1)"
+              }}
+              // onClick={() => openLink(searchedParams)}
+            >
+              Afficher plus...
+            </Button>
+          }
+        </Typography>
+      }
       {currentPage <= totalPages && currentPage >= 2 && 
-        <Button onClick={() => setCurrentPage(currentPage - 1)} sx={{ color: "white" }}>Page précédente</Button>
+        <Button onClick={() => setCurrentPage(currentPage - 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page précédente</Button>
       }
       {currentPage < totalPages && 
-        <Button onClick={() => setCurrentPage(currentPage + 1)} sx={{ color: "white" }}>Page suivante</Button>
+        <Button onClick={() => setCurrentPage(currentPage + 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page suivante</Button>
       }
     </>
   );
