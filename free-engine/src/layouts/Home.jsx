@@ -6,6 +6,7 @@ import { MaltCards } from '../components/cards/MaltCards'
 import { FreelanceComCards } from '../components/cards/FreelanceComCards'
 import { FiverrCards } from '../components/cards/FiverrCards'
 import { ComeupCards } from '../components/cards/ComeupCards'
+import SearchFilters from '../components/filters/searchFilters'
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Navbar/>
       <Banner />
       <SearchBar />
+      <SearchFilters />
       <MaltCards />
       <FreelanceComCards />
       <FiverrCards />

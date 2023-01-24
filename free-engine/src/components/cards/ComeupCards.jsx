@@ -42,9 +42,9 @@ export const ComeupCards = observer(() => {
       const currentItems = actualFreelances.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 345, margin: "2vh"}} onClick={() => window.open(`https://comeup.com${freelance[3]}`, '_blank')}>
+          <Card key={index} sx={{ maxWidth: 300, margin: "2vh"}} onClick={() => window.open(`https://comeup.com${freelance[3]}`, '_blank')}>
             <CardMedia
-              sx={{ height: 240 }}
+              sx={{ height: 200 }}
               image={`${freelance[4]}`}
               title="Profile picture"
             />
@@ -83,6 +83,9 @@ export const ComeupCards = observer(() => {
       <Grid container spacing={1}>
         {getComeupCards()}
       </Grid>
+      <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>
+        page {currentPage} sur {totalPages} 
+      </Typography>
       {currentPage <= totalPages && currentPage >= 2 && 
         <Button onClick={() => setCurrentPage(currentPage - 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page précédente</Button>
       }

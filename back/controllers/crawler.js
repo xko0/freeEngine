@@ -155,9 +155,7 @@ exports.scrapeMaltData = (req, res, next) => {
   }
   scrapeData()
 }
-//ul.grid-listServices:nth-child(1) > li:nth-child(1) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)
-//ul.grid-listServices:nth-child(1) > li:nth-child(6) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)
-//ul.grid-listServices:nth-child(3) > li:nth-child(1) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)
+
 exports.scrapeComeupData = (req, res, next) => {
   const baseSelector = 'ul.grid-listServices:nth-child';
   const childSelector = 'li:nth-child';
