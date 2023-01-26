@@ -10,8 +10,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
@@ -22,12 +20,7 @@ import "./searchbar.css"
 export const SearchBar = observer (() => {
   const freelancesStore = useFreelancesStore()
   const [specialty, setSpecialty] = useState("")
-  // const [location, setLocation] = useState("")
-  // const [marketplace, setMarketplace] = useState("")
-  const theme = useTheme();
   const [platforms, setPlatforms] = useState([]);
-  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-  const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
   function getFreelances(specialty, platforms) {
     let encodedSpecialty = encodeURI(specialty)
@@ -41,15 +34,6 @@ export const SearchBar = observer (() => {
     platforms.includes("Freelance.com") ? freelancesStore.getFreelanceCom(encodedSpecialty) : ""
     platforms.includes("Fiverr.com") ? freelancesStore.getFiverrFreelances(encodedSpecialty) : ""
     platforms.includes("Comeup.com") ? freelancesStore.getFreelancesComeup(encodedSpecialty) : ""
-  }
-
-  function getStyles(name, platforms, theme) {
-    return {
-      fontWeight:
-        platforms.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
   }
 
   const handleChange = (event) => {
@@ -75,10 +59,8 @@ export const SearchBar = observer (() => {
   return (
     <>
       <Container 
-        spacing={20} 
         sx={{ minWidth: "200px", 
           marginTop: "2%", 
-          marginBottom: "1%", 
           display: "flex", 
           alignItems: "center", 
           justifyContent: "center", 
@@ -89,7 +71,7 @@ export const SearchBar = observer (() => {
           sx={{
             width: "40%",
             backgroundColor: "whitesmoke",
-            borderRadius: "8px",
+            borderRadius: "5px",
             m: 2
           }}
         >
@@ -115,7 +97,7 @@ export const SearchBar = observer (() => {
                 input={<OutlinedInput label="Platformes" />}
                 renderValue={(selected) => selected.join(', ')}
                 MenuProps={MenuProps}
-                sx={{ borderRadius: "8px", backgroundColor: "white"}}
+                sx={{ borderRadius: "5px", backgroundColor: "white"}}
               >
                 {marketplaces.map((marketplace) => (
                   <MenuItem
@@ -138,7 +120,7 @@ export const SearchBar = observer (() => {
               minWidth: "120px",
               height: "40px", 
               backgroundColor: "rgba(73,115,255,1)",
-              borderRadius: "8px"
+              borderRadius: "5px"
             }}
             onClick={() => {getFreelances(specialty, platforms)}}
           >

@@ -22,10 +22,14 @@ export default (req, res, next) => {
   const getCity = ($, i) => {
     return $(`${baseSelector}(${i+1}) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > span:nth-child(2)`).html();
   }
+  const getResultNumber = ($) => {
+    return $(`.block`).html();
+  }
   async function scrapeData() {
     let html = await rp(`https://api.crawlbase.com/?token=${process.env.CRAWLER_API_KEY}&url=https%3A%2F%2Fplateforme.freelance.com%2Fs%3Fq%3D${req.query.argument}`);
     let $ = cheerio.load(html);
     let data = []
+    let resultNumber = getResultNumber($)
 
     for ( let i = 0; i < $('a.w-full').length; i++) {
       let childrenData = [];
@@ -41,6 +45,7 @@ export default (req, res, next) => {
       )
       data.push(childrenData)
     }
+    data.push(resultNumber)
     await res.setHeader("Access-Control-Allow-Origin", "https://free-engine.vercel.app").status(200).send(data)
     return data;
   }
