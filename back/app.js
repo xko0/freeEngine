@@ -37,9 +37,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/user", userRoutes);
-app.get("/api/crawler", crawlApi.crawler);
 app.get("/api/scrapeMaltData", crawlApi.scrapeMaltData);
 app.get("/api/scrapeFreelanceComData", crawlApi.scrapeFreelanceComData);
+app.get("/api/scrapeFiverrData", crawlApi.scrapeFiverrData)
+app.get("/api/scrapeComeupData", crawlApi.scrapeComeupData)
 app.post("/api/sendemail", sibApi.sendEmail);
 
 module.exports = app;

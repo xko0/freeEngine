@@ -5,15 +5,23 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function createFreelancesStore() {
   return {
-    loading: null,
+    loadingMalt: null,
+    loadingFiverr: null,
+    loadingFreelanceCom: null,
+    loadingComeup: null,
     hasErrors: null,
     freelancesMalt: JSON.parse(localStorage.getItem('freelancesMalt')) || [],
     freelancesFiverr: JSON.parse(localStorage.getItem('freelancesFiverr')) || [],
     freelanceCom: JSON.parse(localStorage.getItem('freelanceCom')) || [],
+    freelancesComeup: JSON.parse(localStorage.getItem('freelancesComeup')) || [],
+    maltSearchedFor: [],
+    fiverrSearchedFor: [],
+    freelanceComSearchedFor: [],
+    comeupSearchedFor: [],
 
     async getFreelances(infos) {
       runInAction(() => {
-        this.loading = true
+        this.loadingMalt = true
         this.hasErrors = false
       })
       try {
@@ -24,9 +32,10 @@ export function createFreelancesStore() {
         }) 
         if (response.data) {
           runInAction(() => {
-            this.loading = false
+            this.loadingMalt = false
             console.log("in progress...")
-            console.log(response.data)
+            console.log(response.data, response.resultNumber)
+            this.maltSearchedFor = infos
             this.freelancesMalt = response.data
             localStorage.setItem('freelancesMalt', JSON.stringify(response.data))
           })
@@ -38,7 +47,7 @@ export function createFreelancesStore() {
 
     async getFiverrFreelances(infos) {
       runInAction(() => {
-        this.loading = true
+        this.loadingFiverr = true
         this.hasErrors = false
       })
       try {
@@ -49,10 +58,12 @@ export function createFreelancesStore() {
         }) 
         if (response.data) {
           runInAction(() => {
-            this.loading = false
-            console.log("in progress...")
+            this.loadingFiverr = false
+            console.log("working...")
             console.log(response.data)
+            this.fiverrSearchedFor = infos
             this.freelancesFiverr = response.data
+            localStorage.setItem('freelancesFiverr', JSON.stringify(response.data))
           })
         }    
       } catch(error) {
@@ -62,7 +73,7 @@ export function createFreelancesStore() {
 
     async getFreelanceCom(infos) {
       runInAction(() => {
-        this.loading = true
+        this.loadingFreelanceCom = true
         this.hasErrors = false
       })
       try {
@@ -73,11 +84,38 @@ export function createFreelancesStore() {
         }) 
         if (response.data) {
           runInAction(() => {
-            this.loading = false
+            this.loadingFreelanceCom = false
             console.log("Calcul...")
             console.log(response.data)
+            this.freelanceComSearchedFor = infos
             this.freelanceCom = response.data
             localStorage.setItem('freelanceCom', JSON.stringify(response.data))
+          })
+        }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async getFreelancesComeup(infos) {
+      runInAction(() => {
+        this.loadingComeup = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.get(`${BASE_URL}/scrapeComeupData`,{
+          params: {
+              argument: infos
+          }
+        }) 
+        if (response.data) {
+          runInAction(() => {
+            this.loadingComeup = false
+            console.log("on progress...")
+            console.log(response.data)
+            this.comeupSearchedFor = infos
+            this.freelancesComeup = response.data
+            localStorage.setItem('freelancesComeup', JSON.stringify(response.data))
           })
         }    
       } catch(error) {

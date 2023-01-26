@@ -10,40 +10,39 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
-import SendIcon from '@mui/icons-material/Send';
 
-export const MaltCards = observer(() => {
-  const freelancesStore = useFreelancesStore();
-  const [freelancesMalt, setFreelancesMalt] = useState(null);
-  //const [searchedParams, setSearchedParams] = useState(null);
+export const ComeupCards = observer(() => {
+  const freelancesStore = useFreelancesStore()
+  const [freelancesComeup, setFreelancesComeup] = useState(null)
+  const [comeupFormatNumber, setComeupFormatNumber] = useState(null)
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
 
   useEffect(() => {
-    if (freelancesStore.freelancesMalt.length > 0) {
-      setFreelancesMalt(freelancesStore.freelancesMalt)
-      setTotalPages(Math.ceil((freelancesStore.freelancesMalt.length - 1) / itemsPerPage))
-      //setSearchedParams(freelancesStore.maltSearchedFor)
+    if (freelancesStore.freelancesComeup.length > 0) {
+      setFreelancesComeup(freelancesStore.freelancesComeup)
+      setComeupFormatNumber(freelancesStore.freelancesComeup[freelancesStore.freelancesComeup.length - 1].replace(/([&nbsp])\w+([;])/g, ""))
+      setTotalPages(Math.ceil((freelancesStore.freelancesComeup.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelancesMalt, currentPage])
+  }, [freelancesStore.freelancesComeup, currentPage])
 
-  function getMaltCards() {
-    if (freelancesStore.loadingMalt) {
+  function getComeupCards() {
+    if (freelancesStore.loadingComeup) {
       return (
         <Grid display='flex' height='10vh' marginLeft='45%' marginTop='2vh'>
           <BarLoader color="#e2e612" />
         </Grid>
       )
     }
-    if (freelancesMalt) {
+    if (freelancesComeup) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const actualFreelances = freelancesMalt.slice(0, -1)
+      const actualFreelances = freelancesComeup.slice(0, -1)
       const currentItems = actualFreelances.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 300, margin: "2vh"}} onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>
+          <Card key={index} sx={{ maxWidth: 300, margin: "2vh"}} onClick={() => window.open(`https://comeup.com${freelance[3]}`, '_blank')}>
             <CardMedia
               sx={{ height: 200 }}
               image={`${freelance[4]}`}
@@ -54,17 +53,17 @@ export const MaltCards = observer(() => {
                 {freelance[5]}
               </Typography>
               <Typography variant="h5" component="div">
-                {freelance[1]}
+                {freelance[1] != null ? freelance[1] : `Infos sur Comeup.com`}
               </Typography>
-              <Typography gutterBottom variant="h6" sx={{ color: 'blue' }}>
-                {freelance[2]}
+              <Typography variant="body1" color="text.secondary">
+                {freelance[2] != null ? freelance[2].replace(/<span class="visually-hidden">(.*?)<\/span>/g, '') : `Développeur web`}
               </Typography>
             </CardContent>
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-              Prix à la journée: {freelance[0].replace(/\D/g, "")} €
+              Prix à partir de: {freelance[0] != null ? freelance[0].replace(/\D/g, "") : "Non communiqué"} €
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
-              <Button size="small" onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>Voir sur Malt.fr</Button>
+              <Button size="small" onClick={() => window.open(`https://comeup.com${freelance[3]}`, '_blank')}>Voir sur Comeup.com</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -78,33 +77,15 @@ export const MaltCards = observer(() => {
 
   return (
     <>
-      <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white", marginTop: "5vh"}}>
-        {freelancesMalt == null ? "Attente de résultats" : freelancesStore.freelancesMalt[freelancesStore.freelancesMalt.length - 1]} sur Malt.fr
+      <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white" }}>
+        {comeupFormatNumber == null ? "Attente de résultats" : comeupFormatNumber} sur Comeup.com
       </Typography>
       <Grid container spacing={1}>
-        {getMaltCards()}
+        {getComeupCards()}
       </Grid>
-      {freelancesMalt == null ? "" :
-        <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>
-          page {currentPage} sur {totalPages}
-
-          {/* {freelancesMalt == null ? "" : currentPage >= totalPages && 
-            <Button variant="contained" 
-              endIcon={<SendIcon />}
-              sx={{
-                marginLeft: "2vh",
-                Width: "auto", 
-                minWidth: "120px",
-                minHeight:"37px",
-                backgroundColor: "rgba(73,115,255,1)"
-              }}
-              // onClick={() => openLink(searchedParams)}
-            >
-              Afficher plus...
-            </Button>
-          } */}
-        </Typography>
-      }
+      <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>
+        page {currentPage} sur {totalPages} 
+      </Typography>
       {currentPage <= totalPages && currentPage >= 2 && 
         <Button onClick={() => setCurrentPage(currentPage - 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page précédente</Button>
       }
