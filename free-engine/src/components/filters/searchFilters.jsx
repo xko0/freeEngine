@@ -61,7 +61,7 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
           height: "80px",
           display: "flex", 
           alignItems: "center",
-          ml: -2.5,
+          ml: -3.5,
           justifyContent: "flex-start", 
           flexDirection: "row"
         }}
