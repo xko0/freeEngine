@@ -55,8 +55,8 @@ export const FiverrCards = observer(() => {
               </Typography>
             </CardContent>
             <Typography variant="body1" color="text.secondary" marginLeft="2vh"> 
-              Prix: à partir de { 
-                freelance[0] != null ? freelance[0].replace(/&nbsp;|<sup>|<\/sup>/g, (match) => {
+              Prix: à partir de { freelance[0] != null ?
+              Number.isInteger(freelance[0]) ? freelance[0] : freelance[0].replace(/&nbsp;|<sup>|<\/sup>/g, (match) => {
                   if(match === '&nbsp;') return ' ';
                   if(match === '<sup>') return ',';
                   if(match === '</sup>') return '';

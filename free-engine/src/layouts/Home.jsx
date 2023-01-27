@@ -16,6 +16,7 @@ import "./home.css"
 
 export default function Home() {
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+  const [priceOrder, setPriceOrder] = useState("")
 
   useEffect(() => {
     console.log(selectedPlatforms)
@@ -79,6 +80,7 @@ export default function Home() {
               <ComeupCards /> 
             </>
           ) : ""}
+
         </div>
       </div>
     </>

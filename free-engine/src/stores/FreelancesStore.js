@@ -4,6 +4,7 @@ import axios from 'axios'
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function createFreelancesStore() {
+
   return {
     loadingMalt: null,
     loadingFiverr: null,
@@ -14,10 +15,64 @@ export function createFreelancesStore() {
     freelancesFiverr: JSON.parse(localStorage.getItem('freelancesFiverr')) || [],
     freelanceCom: JSON.parse(localStorage.getItem('freelanceCom')) || [],
     freelancesComeup: JSON.parse(localStorage.getItem('freelancesComeup')) || [],
-    maltSearchedFor: [],
-    fiverrSearchedFor: [],
-    freelanceComSearchedFor: [],
-    comeupSearchedFor: [],
+
+    removeLettersFromPrices(array) {
+      let lastItem = array.pop()
+      array.map(freelance => {
+        if (Number.isInteger(freelance[0])) {
+          return freelance;
+        } else if (Array.isArray(freelance) && freelance.length > 0 && freelance[0] != null) {
+          return freelance[0].replace(/\D/g, "");
+        }
+      });
+      array.push(lastItem)
+      return array
+    },
+  
+    changeStringToInteger(arrayWithStrings) {
+      let lastItem = arrayWithStrings.pop()
+      arrayWithStrings.map(string => {
+        if (Number.isInteger(string[0]) && string.length > 0) {
+          return string;
+        } else if (Array.isArray(string) && string.length > 0 && string[0] != null) {
+          return string[0] = parseInt(string[0]);
+        }
+      });
+      arrayWithStrings.push(lastItem)
+      return arrayWithStrings
+    },
+    
+    sortCroissantPrices(array) {
+      return array.sort((freelance1, freelance2) => freelance1[0] - freelance2[0]);
+    },
+    
+    sortDescendingPrices(array) {
+      return array.sort((freelance1, freelance2) => freelance2[0] - freelance1[0]);
+    },
+  
+    moveFirstItemToLast(array) {
+      array.filter(freelance => !freelance.includes(null))
+      let itemToMove = array.shift();
+      array.push(itemToMove);
+      return array;
+    },
+  
+    getCroissantPrices() {
+      let arrays = [this.freelancesMalt, this.freelanceCom, this.freelancesFiverr];
+      arrays = arrays.map(array => this.removeLettersFromPrices(array))
+      arrays = arrays.map(array => this.changeStringToInteger(array))
+      arrays = arrays.map(array => this.sortCroissantPrices(array))
+      arrays = arrays.map(array => this.moveFirstItemToLast(array))
+      return arrays
+    },
+
+    getDescendingPrices() {
+      let arrays = [this.freelancesMalt, this.freelanceCom, this.freelancesFiverr];
+      arrays = arrays.map(array => this.removeLettersFromPrices(array))
+      arrays = arrays.map(array => this.changeStringToInteger(array))
+      arrays = arrays.map(array => this.sortDescendingPrices(array))
+      return
+    },
 
     async getFreelances(infos) {
       runInAction(() => {
@@ -33,9 +88,6 @@ export function createFreelancesStore() {
         if (response.data) {
           runInAction(() => {
             this.loadingMalt = false
-            console.log("in progress...")
-            console.log(response.data, response.resultNumber)
-            this.maltSearchedFor = infos
             this.freelancesMalt = response.data
             localStorage.setItem('freelancesMalt', JSON.stringify(response.data))
           })
@@ -59,11 +111,9 @@ export function createFreelancesStore() {
         if (response.data) {
           runInAction(() => {
             this.loadingFiverr = false
-            console.log("working...")
-            console.log(response.data)
-            this.fiverrSearchedFor = infos
-            this.freelancesFiverr = response.data
-            localStorage.setItem('freelancesFiverr', JSON.stringify(response.data))
+            let datasToFilter = response.data
+            this.freelancesFiverr = datasToFilter.filter(freelance => !freelance.includes(null))
+            localStorage.setItem('freelancesFiverr', JSON.stringify(this.freelancesFiverr))
           })
         }    
       } catch(error) {
@@ -85,11 +135,9 @@ export function createFreelancesStore() {
         if (response.data) {
           runInAction(() => {
             this.loadingFreelanceCom = false
-            console.log("Calcul...")
-            console.log(response.data)
-            this.freelanceComSearchedFor = infos
-            this.freelanceCom = response.data
-            localStorage.setItem('freelanceCom', JSON.stringify(response.data))
+            let datasToFilter = response.data
+            this.freelanceCom = datasToFilter.filter(freelance => !freelance.includes(null))
+            localStorage.setItem('freelanceCom', JSON.stringify(this.freelanceCom))
           })
         }    
       } catch(error) {
@@ -111,11 +159,9 @@ export function createFreelancesStore() {
         if (response.data) {
           runInAction(() => {
             this.loadingComeup = false
-            console.log("on progress...")
-            console.log(response.data)
-            this.comeupSearchedFor = infos
-            this.freelancesComeup = response.data
-            localStorage.setItem('freelancesComeup', JSON.stringify(response.data))
+            let datasToFilter = response.data
+            this.freelancesComeup = datasToFilter.filter(freelance => !freelance.includes(null))
+            localStorage.setItem('freelancesComeup', JSON.stringify(this.freelancesComeup))
           })
         }    
       } catch(error) {
