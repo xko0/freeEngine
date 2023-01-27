@@ -10,12 +10,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
-import SendIcon from '@mui/icons-material/Send';
 
-export const MaltCards = observer(() => {
+export const MaltCards = observer(({maltCroissantPrice}) => {
   const freelancesStore = useFreelancesStore();
   const [freelancesMalt, setFreelancesMalt] = useState(null);
-  //const [searchedParams, setSearchedParams] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
@@ -24,7 +22,6 @@ export const MaltCards = observer(() => {
     if (freelancesStore.freelancesMalt.length > 0) {
       setFreelancesMalt(freelancesStore.freelancesMalt)
       setTotalPages(Math.ceil((freelancesStore.freelancesMalt.length - 1) / itemsPerPage))
-      //setSearchedParams(freelancesStore.maltSearchedFor)
     }
   }, [freelancesStore.freelancesMalt, currentPage])
 
@@ -57,11 +54,11 @@ export const MaltCards = observer(() => {
                 {freelance[1]}
               </Typography>
               <Typography gutterBottom variant="h6" sx={{ color: 'blue' }}>
-                {freelance[2]}
+                {freelance[2].replace(/&nbsp;/g, "")}
               </Typography>
             </CardContent>
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-              Prix à la journée: {freelance[0].replace(/\D/g, "")} €
+              Prix à la journée: {Number.isInteger(freelance[0]) ? freelance[0] : freelance[0].replace(/\D/g, "")} €
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
               <Button size="small" onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>Voir sur Malt.fr</Button>
@@ -87,22 +84,6 @@ export const MaltCards = observer(() => {
       {freelancesMalt == null ? "" :
         <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>
           page {currentPage} sur {totalPages}
-
-          {/* {freelancesMalt == null ? "" : currentPage >= totalPages && 
-            <Button variant="contained" 
-              endIcon={<SendIcon />}
-              sx={{
-                marginLeft: "2vh",
-                Width: "auto", 
-                minWidth: "120px",
-                minHeight:"37px",
-                backgroundColor: "rgba(73,115,255,1)"
-              }}
-              // onClick={() => openLink(searchedParams)}
-            >
-              Afficher plus...
-            </Button>
-          } */}
         </Typography>
       }
       {currentPage <= totalPages && currentPage >= 2 && 

@@ -15,16 +15,22 @@ import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
-
+import { useFreelancesStore } from '../../context/FreelancesContext';
 import "./searchFilters.css"
 
 export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms }) {
+  const freelancesStore = useFreelancesStore();
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const [priceOrder, setPriceOrder] = useState('');
   
   const handlePriceChange = (event) => {
     setPriceOrder(event.target.value)
+    if (event.target.value == "croissant") {
+      freelancesStore.getCroissantPrices()
+    } else if (event.target.value == "décroissant") {
+      freelancesStore.getDescendingPrices()
+    }
   };
 
   const handlePlatformSelect = (platform) => {
@@ -188,7 +194,7 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
                   id="demo-select-small"
                   value={priceOrder}
                   label="priceOrder"
-                  onSelect={handlePriceChange}
+                  onChange={handlePriceChange}
                 >
                   <MenuItem value="">
                     <em>Aucun</em>

@@ -60,7 +60,9 @@ export const ComeupCards = observer(() => {
               </Typography>
             </CardContent>
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-              Prix à partir de: {freelance[0] != null ? freelance[0].replace(/\D/g, "") : "Non communiqué"} €
+              Prix à partir de: {freelance[0] != null ? 
+                Number.isInteger(freelance[0]) ? freelance[0] : freelance[0].replace(/\D/g, "") 
+                : "Non communiqué"} €
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
               <Button size="small" onClick={() => window.open(`https://comeup.com${freelance[3]}`, '_blank')}>Voir sur Comeup.com</Button>

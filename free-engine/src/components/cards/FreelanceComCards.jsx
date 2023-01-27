@@ -14,7 +14,7 @@ import { BarLoader } from "react-spinners";
 export const FreelanceComCards = observer(() => {
   const freelancesStore = useFreelancesStore()
   const [freelanceCom, setFreelanceCom] = useState(JSON.parse(localStorage.getItem('freelanceCom')) || null)
-  const [filteredFreelanceCom, setFilteredFreelanceCom] = useState(null)
+  const [filteredFreelanceCom, setFilteredFreelanceCom] = useState(freelancesStore.freelanceCom)
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
@@ -22,20 +22,21 @@ export const FreelanceComCards = observer(() => {
   useEffect(() => {
     if (freelancesStore.freelanceCom.length > 0 ) {
       setFreelanceCom(freelancesStore.freelanceCom)
+      setTotalPages(Math.ceil((freelanceCom.length - 1) / itemsPerPage))
     }
   }, [freelancesStore.freelanceCom])
 
-  useEffect(() => {
-    if (freelancesStore.freelanceCom.length > 0 ) {
-      setFilteredFreelanceCom(freelanceCom.filter(freelance => !freelance.includes(null)))
-    }
-  },[freelanceCom])
+  // useEffect(() => {
+  //   if (freelancesStore.freelanceCom.length > 0 ) {
+  //     setFilteredFreelanceCom(freelanceCom.filter(freelance => !freelance.includes(null)))
+  //   }
+  // },[freelanceCom])
 
-  useEffect(() => {
-    if (filteredFreelanceCom) {
-      setTotalPages(Math.ceil((filteredFreelanceCom.length - 1) / itemsPerPage))
-    }
-  }, [filteredFreelanceCom, currentPage])
+  // useEffect(() => {
+  //   if (filteredFreelanceCom) {
+  //     setTotalPages(Math.ceil((filteredFreelanceCom.length - 1) / itemsPerPage))
+  //   }
+  // }, [filteredFreelanceCom, currentPage])
 
   function getFreelanceComCards() {
     if (freelancesStore.loadingFreelanceCom) {
@@ -45,10 +46,10 @@ export const FreelanceComCards = observer(() => {
         </Grid>
       )
     }
-    if (filteredFreelanceCom) {
+    if (freelanceCom) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const actualFreelances = filteredFreelanceCom.slice(0, -1)
+      const actualFreelances = freelanceCom.slice(0, -1)
       const currentItems = actualFreelances.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
@@ -70,7 +71,7 @@ export const FreelanceComCards = observer(() => {
               </Typography>
             </CardContent>
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-              Prix à la journée: {freelance[0] != null ? freelance[0].replace(/\D/g, "") : ""} €
+              Prix à la journée: {Number.isInteger(freelance[0]) ? freelance[0] : freelance[0].replace(/\D/g, "")} €
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
               <Button size="small" onClick={() => window.open(`https://plateforme.freelance.com${freelance[3]}`, '_blank')}>Voir sur Freelance.com</Button>
@@ -88,7 +89,7 @@ export const FreelanceComCards = observer(() => {
   return (
     <>
       <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white" }}>
-        {filteredFreelanceCom == null ? "Attente de résultats" : filteredFreelanceCom[filteredFreelanceCom.length - 1]} sur Freelance.com
+        {freelanceCom == null ? "Attente de résultats" : freelanceCom[freelanceCom.length - 1]} sur Freelance.com
       </Typography>
       <Grid container spacing={1}>
         {getFreelanceComCards()}
