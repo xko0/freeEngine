@@ -22,7 +22,7 @@ export function createFreelancesStore() {
         if (Number.isInteger(freelance[0])) {
           return freelance;
         } else if (Array.isArray(freelance) && freelance.length > 0 && freelance[0] != null) {
-          return freelance[0].replace(/\D/g, "");
+          return freelance[0].replace(/\D/g, ""); //removes all non-integers
         }
       });
       array.push(lastItem)
@@ -63,7 +63,7 @@ export function createFreelancesStore() {
       arrays = arrays.map(array => this.changeStringToInteger(array))
       arrays = arrays.map(array => this.sortCroissantPrices(array))
       arrays = arrays.map(array => this.moveFirstItemToLast(array))
-      return arrays
+      return
     },
 
     getDescendingPrices() {
@@ -73,6 +73,29 @@ export function createFreelancesStore() {
       arrays = arrays.map(array => this.sortDescendingPrices(array))
       return
     },
+
+    // cleanCityName(array) {
+    //   array.map(freelance => {
+    //     if (freelance.length > 0) {
+    //       freelance[5] = freelance[5].replace("Localisé(e) à ", "").trim();
+    //       console.log(freelance[5])
+    //     }
+    //     return freelance
+    //   })
+    //   return array
+    // },
+
+    // sortByCity(array, city) {
+    //  return array.filter((freelance) => freelance[5] == city)
+    // },
+
+
+    // getSortedByCity(city) {
+    //   this.cleanCityName(this.freelancesMalt)
+    //   let sortedArray = this.sortByCity(this.freelancesMalt, city)
+    //   this.freelancesMalt = sortedArray
+    //   return
+    // },
 
     async getFreelances(infos) {
       runInAction(() => {

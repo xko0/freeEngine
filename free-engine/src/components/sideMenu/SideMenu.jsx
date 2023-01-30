@@ -10,9 +10,17 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 
-export default function SideMenu({ selectedPlatforms, setSelectedPlatforms }) {
+export default function SideMenu({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) {
   const [priceOrder, setPriceOrder] = useState('');
   const freelancesStore = useFreelancesStore();
+
+  const handlePlatformSelect = (platform) => {
+    if (platform.checked) {
+       setSelectedPlatforms([...selectedPlatforms, platform.parentElement.title])
+    } else {
+       setSelectedPlatforms(selectedPlatforms.filter(p=>p !== platform.parentElement.title))
+    }
+  };
 
   const handlePriceChange = (event) => {
     setPriceOrder(event.target.value)
@@ -23,13 +31,13 @@ export default function SideMenu({ selectedPlatforms, setSelectedPlatforms }) {
     }
   };
 
-  const handlePlatformSelect = (platform) => {
-    if(platform.checked)
-       setSelectedPlatforms([...selectedPlatforms, platform.parentElement.title])
-    else{
-       setSelectedPlatforms(selectedPlatforms.filter(p=>p !== platform.parentElement.title))
+  const handleCitySelect = (city) => {
+    if (city.checked) {
+      setSelectedCities([...selectedCities, city.parentElement.title])
+    } else {
+      setSelectedCities(selectedCities.filter(p=>p !== city.parentElement.title))
     }
-  }
+  };
 
   return (
     <>
@@ -80,11 +88,23 @@ export default function SideMenu({ selectedPlatforms, setSelectedPlatforms }) {
         <FormControl sx={{ mb: 2 }} component="fieldset" variant="standard">
           <FormLabel component="legend">Afficher par ville</FormLabel>
           <FormGroup>
+          <FormControlLabel
+              control={
+                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Annecy" />
+              }
+              label="Annecy"
+            />
             <FormControlLabel
               control={
                 <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Bordeaux" />
               }
               label="Bordeaux"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Grenoble" />
+              }
+              label="Grenoble"
             />
             <FormControlLabel
               control={
@@ -130,6 +150,12 @@ export default function SideMenu({ selectedPlatforms, setSelectedPlatforms }) {
             />
             <FormControlLabel
               control={
+                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Rennes" />
+              }
+              label="Rennes"
+            />
+            <FormControlLabel
+              control={
                 <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Strasbourg" />
               }
               label="Strasbourg"
@@ -139,6 +165,12 @@ export default function SideMenu({ selectedPlatforms, setSelectedPlatforms }) {
                 <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Toulouse" />
               }
               label="Toulouse"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Tours" />
+              }
+              label="Tours"
             />
           </FormGroup>
         </FormControl>

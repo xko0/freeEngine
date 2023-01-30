@@ -37,20 +37,6 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
     setSelectedPlatforms(platform)
   }
 
-  // function displayFilters() {
-  //   var element = document.getElementById("filters")
-    
-  //   if (element.classList.contains("hiddenContainer")) {
-  //     element.classList.remove("hiddenContainer")
-  //     element.style.visibility = "hidden"
-  //     element.style.width = "20%"
-  //   } else {
-  //     element.classList.add("hiddenContainer")
-  //     element.style.width = "100%"
-  //     element.style.visibility = "visible"
-  //   }
-  // }
-
   return (
     <>
       <Typography 
@@ -72,30 +58,11 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
           flexDirection: "row"
         }}
       >
-        <Box>
-          {/* <Button variant="contained" 
-            endIcon={<SendIcon />}
-            sx={{ 
-              Width: "auto", 
-              minWidth: "120px",
-              height: "40px", 
-              backgroundColor: "rgba(73,115,255,1)",
-              borderRadius: "5px",
-              zIndex: 1
-            }}
-            onClick={() => {displayFilters()}}
-          >
-            Filtres
-          </Button> */}
-        </Box>
         <Container id="filters"
           sx={{ 
-            // Width: "0px",
             display: "flex", 
             alignItems: "center",
             justifyContent: "flex-start",
-            // transition: "all 0.3s ease",
-            // visibility: "hidden"
           }}
         >
           <Stack sx={{ width: "30%", maxWidth: "250px" }}>
