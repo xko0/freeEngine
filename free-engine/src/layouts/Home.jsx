@@ -6,35 +6,43 @@ import { MaltCards } from '../components/cards/MaltCards'
 import { FreelanceComCards } from '../components/cards/FreelanceComCards'
 import { FiverrCards } from '../components/cards/FiverrCards'
 import { ComeupCards } from '../components/cards/ComeupCards'
-import SearchFilters from '../components/filters/searchFilters'
+import { SearchFilters } from '../components/filters/searchFilters'
 import { useState, useEffect } from 'react'
-import SideMenu from '../components/sideMenu/SideMenu'
+import { SideMenu } from '../components/sideMenu/SideMenu'
 import Button from '@mui/material/Button';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useFreelancesStore } from '../context/FreelancesContext'
 import { MaltCardsFiltered } from '../components/cards/MaltCardsFiltered'
+import { FreelanceComCardsFiltered } from '../components/cards/FreelanceComCardsFiltered'
+import { observer } from 'mobx-react';
+
 import "./home.css"
 
-export default function Home() {
+export const Home = observer(() => {
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [selectedCities, setSelectedCities] = useState([])
+  const [displayFilteredCards, setDisplayFilteredCards] = useState(false)
   const freelancesStore = useFreelancesStore();
-  const filtered = []
-
-  useEffect(() => {
-    console.log(selectedPlatforms)
-  },[selectedPlatforms])
+  const [maltCardsFilter, setMaltCardsFilter] = useState(null)
+  const [freelanceComCardsFilter, setFreelanceComCardsFilter] = useState(null)
+  const filteredMalt = []
+  const filteredFreelanceCom = []
 
   useEffect(() => {
     var element = document.getElementById("platform-cards")
     if (selectedCities.length > 0) {
-      filterCards()
+      filterMaltCards()
+      filterFreelanceComCards()
+      setMaltCardsFilter(filteredMalt)
+      setFreelanceComCardsFilter(filteredFreelanceCom)
+      setDisplayFilteredCards(true)
       element.classList.add("hide")
     } else {
+      setDisplayFilteredCards(false)
       element.classList.remove("hide")
     }
-  },[selectedCities])
+  },[selectedCities, selectedPlatforms, freelancesStore.priceOrdered])
 
   function displaySideBar() {
     var element = document.getElementById("sidebar")
@@ -52,13 +60,20 @@ export default function Home() {
     }
   }
   
-  function filterCards() {
+  function filterMaltCards() {
     const mulitpleCitiesPatern = new RegExp(selectedCities.join('|'), 'i')
     const newFiltered = freelancesStore.freelancesMalt.filter(
       freelance => mulitpleCitiesPatern.test(freelance[5])
     )
-    filtered.push(filtered.concat(newFiltered))
-    localStorage.setItem('filteredMalt', JSON.stringify(filtered))
+    filteredMalt.push(filteredMalt.concat(newFiltered))
+  }
+
+  function filterFreelanceComCards() {
+    const mulitpleCitiesPatern = new RegExp(selectedCities.join('|'), 'i')
+    const newFiltered = freelancesStore.freelanceCom.filter(
+      freelance => mulitpleCitiesPatern.test(freelance[5])
+    )
+    filteredFreelanceCom.push(filteredFreelanceCom.concat(newFiltered))
   }
 
   return (
@@ -89,8 +104,10 @@ export default function Home() {
           </div>
           <div className="search-filters">
             <SearchFilters 
-                selectedPlatforms={selectedPlatforms} 
-                setSelectedPlatforms={setSelectedPlatforms}
+              selectedPlatforms={selectedPlatforms} 
+              setSelectedPlatforms={setSelectedPlatforms}
+              selectedCities={selectedCities}
+              setSelectedCities={setSelectedCities}
             />
           </div>
           <div id="platform-cards">
@@ -107,12 +124,14 @@ export default function Home() {
               </>
             ) : ""}
           </div>
-          {selectedCities.length ? 
-            <MaltCardsFiltered freelanceFiltered={filtered}/>
-           : ""}
+          {displayFilteredCards ?
+            <>
+              <MaltCardsFiltered freelanceFiltered={maltCardsFilter} />
+              <FreelanceComCardsFiltered freelanceFiltered={freelanceComCardsFilter} />
+            </>
+          : ""}
         </div>
       </div>
     </>
   )
-}
-
+})

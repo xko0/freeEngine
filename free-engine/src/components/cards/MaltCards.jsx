@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
 
-export const MaltCards = observer(({maltCroissantPrice}) => {
+export const MaltCards = observer(() => {
   const freelancesStore = useFreelancesStore();
   const [freelancesMalt, setFreelancesMalt] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);

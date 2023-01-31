@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -16,14 +16,17 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../context/FreelancesContext';
+import { observer } from 'mobx-react';
+
 import "./searchFilters.css"
 
-export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms }) {
+export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) => {
   const freelancesStore = useFreelancesStore();
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const [priceOrder, setPriceOrder] = useState('');
-  
+
+
   const handlePriceChange = (event) => {
     setPriceOrder(event.target.value)
     if (event.target.value == "croissant") {
@@ -36,6 +39,15 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
   const handlePlatformSelect = (platform) => {
     setSelectedPlatforms(platform)
   }
+
+  const handleCitySelect = (city) => {
+    setSelectedCities(city)
+  };
+
+  useEffect(() => {
+    setSelectedPlatforms(selectedPlatforms)
+    setSelectedCities(selectedCities)
+  }, [selectedPlatforms, selectedCities])
 
   return (
     <>
@@ -81,6 +93,7 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
                 options={cities}
                 disableCloseOnSelect
                 getOptionLabel={(option) => option.title}
+                onChange={(event, value) => handleCitySelect(value.map(e => e.title))}
                 renderOption={(props, option, { selected }) => (
                   <li {...props}>
                     <Checkbox
@@ -121,7 +134,7 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
                 options={MarketplaceFilters}
                 disableCloseOnSelect
                 getOptionLabel={(option) => option.title}
-                onChange={(event, value) => handlePlatformSelect(value.map(e => e.title))}
+                onChange={(value) => handlePlatformSelect(value.map(e => e.title))}
                 renderOption={(props, option, { selected }) => (
                   <li {...props}>
                     <Checkbox
@@ -163,9 +176,6 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
                   label="priceOrder"
                   onChange={handlePriceChange}
                 >
-                  <MenuItem value="">
-                    <em>Aucun</em>
-                  </MenuItem>
                   <MenuItem value={"croissant"}>Prix croissants</MenuItem>
                   <MenuItem value={"décroissant"}>Prix décroissants</MenuItem>
                 </Select>
@@ -193,9 +203,12 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
       </Container>
     </>
   );
-}
+});
+
 const cities = [
+  { title: 'Annecy'},
   { title: 'Bordeaux'},
+  { title: 'Grenoble'},
   { title: 'Lille'},
   { title: 'Lyon'},
   { title: 'Marseille'},
@@ -204,7 +217,9 @@ const cities = [
   { title: 'Nice'},
   { title: 'Paris'},
   { title: 'Strasbourg'},
-  { title: 'Toulouse'}
+  { title: 'Rennes'},
+  { title: 'Toulouse'},
+  { title: 'Tours'}
 ];
 
 const MarketplaceFilters = [

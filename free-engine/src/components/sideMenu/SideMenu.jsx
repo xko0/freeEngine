@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -9,8 +9,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useFreelancesStore } from '../../context/FreelancesContext';
+import { observer } from 'mobx-react';
 
-export default function SideMenu({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) {
+export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) => {
   const [priceOrder, setPriceOrder] = useState('');
   const freelancesStore = useFreelancesStore();
 
@@ -21,6 +22,11 @@ export default function SideMenu({ selectedPlatforms, setSelectedPlatforms, sele
        setSelectedPlatforms(selectedPlatforms.filter(p=>p !== platform.parentElement.title))
     }
   };
+
+  useEffect(() => {
+    setSelectedPlatforms(selectedPlatforms)
+    setSelectedCities(selectedCities)
+  }, [selectedPlatforms, selectedCities])
 
   const handlePriceChange = (event) => {
     setPriceOrder(event.target.value)
@@ -45,30 +51,15 @@ export default function SideMenu({ selectedPlatforms, setSelectedPlatforms, sele
         <FormControl sx={{ mb: 2 }} component="fieldset" variant="standard">
           <FormLabel component="legend">Afficher plateforme</FormLabel>
           <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handlePlatformSelect(e.target)} title="Malt.fr" />
-              }
-              label="Malt.fr"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handlePlatformSelect(e.target)} title="Freelance.com" />
-              }
-              label="Freelance.com"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handlePlatformSelect(e.target)} title="Fiverr.com" />
-              }
-              label="Fiverr.com"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handlePlatformSelect(e.target)} title="Comeup.com" />
-              }
-              label="Comeup.com"
-            />
+            {marketplaces.map(marketplace => (
+              <FormControlLabel
+                key={marketplace}
+                control={
+                  <Checkbox onChange={(e) => handlePlatformSelect(e.target)} title={marketplace} />
+                }
+                label={marketplace}
+              />
+            ))}
           </FormGroup>
         </FormControl>
       </Box>
@@ -88,93 +79,42 @@ export default function SideMenu({ selectedPlatforms, setSelectedPlatforms, sele
         <FormControl sx={{ mb: 2 }} component="fieldset" variant="standard">
           <FormLabel component="legend">Afficher par ville</FormLabel>
           <FormGroup>
-          <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Annecy" />
-              }
-              label="Annecy"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Bordeaux" />
-              }
-              label="Bordeaux"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Grenoble" />
-              }
-              label="Grenoble"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Lille" />
-              }
-              label="Lille"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Lyon" />
-              }
-              label="Lyon"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Marseille" />
-              }
-              label="Marseille"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Montpellier" />
-              }
-              label="Montpellier"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Nantes" />
-              }
-              label="Nantes"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Nice" />
-              }
-              label="Nice"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Paris" />
-              }
-              label="Paris"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Rennes" />
-              }
-              label="Rennes"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Strasbourg" />
-              }
-              label="Strasbourg"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Toulouse" />
-              }
-              label="Toulouse"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox onChange={(e) => handleCitySelect(e.target)} title="Tours" />
-              }
-              label="Tours"
-            />
+            {cities.map(city => (
+              <FormControlLabel
+                key={city}
+                control={
+                  <Checkbox onChange={(e) => handleCitySelect(e.target)} title={city} />
+                }
+                label={city}
+              />
+            ))}
           </FormGroup>
         </FormControl>
       </Box>      
     </>
   );
-}
+});
+
+const cities = [
+  "Annecy",
+  "Bordeaux",
+  "Grenoble",
+  "Lille",
+  "Lyon",
+  "Marseille",
+  "Montpellier",
+  "Nantes",
+  "Nice",
+  "Paris",
+  "Rennes",
+  "Strasbourg",
+  "Toulouse",
+  "Tours"
+];
+
+const marketplaces = [
+  "Malt.fr",
+  "Freelance.com",
+  "Fiverr.com",
+  "Comeup.com"
+]

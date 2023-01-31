@@ -14,7 +14,6 @@ import { BarLoader } from "react-spinners";
 export const FreelanceComCards = observer(() => {
   const freelancesStore = useFreelancesStore()
   const [freelanceCom, setFreelanceCom] = useState(JSON.parse(localStorage.getItem('freelanceCom')) || null)
-  const [filteredFreelanceCom, setFilteredFreelanceCom] = useState(freelancesStore.freelanceCom)
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
@@ -25,18 +24,6 @@ export const FreelanceComCards = observer(() => {
       setTotalPages(Math.ceil((freelanceCom.length - 1) / itemsPerPage))
     }
   }, [freelancesStore.freelanceCom])
-
-  // useEffect(() => {
-  //   if (freelancesStore.freelanceCom.length > 0 ) {
-  //     setFilteredFreelanceCom(freelanceCom.filter(freelance => !freelance.includes(null)))
-  //   }
-  // },[freelanceCom])
-
-  // useEffect(() => {
-  //   if (filteredFreelanceCom) {
-  //     setTotalPages(Math.ceil((filteredFreelanceCom.length - 1) / itemsPerPage))
-  //   }
-  // }, [filteredFreelanceCom, currentPage])
 
   function getFreelanceComCards() {
     if (freelancesStore.loadingFreelanceCom) {

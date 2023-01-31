@@ -15,6 +15,7 @@ export function createFreelancesStore() {
     freelancesFiverr: JSON.parse(localStorage.getItem('freelancesFiverr')) || [],
     freelanceCom: JSON.parse(localStorage.getItem('freelanceCom')) || [],
     freelancesComeup: JSON.parse(localStorage.getItem('freelancesComeup')) || [],
+    priceOrdered: false,
 
     removeLettersFromPrices(array) {
       let lastItem = array.pop()
@@ -63,6 +64,7 @@ export function createFreelancesStore() {
       arrays = arrays.map(array => this.changeStringToInteger(array))
       arrays = arrays.map(array => this.sortCroissantPrices(array))
       arrays = arrays.map(array => this.moveFirstItemToLast(array))
+      this.priceOrdered = !this.priceOrdered
       return
     },
 
@@ -71,31 +73,9 @@ export function createFreelancesStore() {
       arrays = arrays.map(array => this.removeLettersFromPrices(array))
       arrays = arrays.map(array => this.changeStringToInteger(array))
       arrays = arrays.map(array => this.sortDescendingPrices(array))
+      this.priceOrdered = !this.priceOrdered
       return
     },
-
-    // cleanCityName(array) {
-    //   array.map(freelance => {
-    //     if (freelance.length > 0) {
-    //       freelance[5] = freelance[5].replace("Localisé(e) à ", "").trim();
-    //       console.log(freelance[5])
-    //     }
-    //     return freelance
-    //   })
-    //   return array
-    // },
-
-    // sortByCity(array, city) {
-    //  return array.filter((freelance) => freelance[5] == city)
-    // },
-
-
-    // getSortedByCity(city) {
-    //   this.cleanCityName(this.freelancesMalt)
-    //   let sortedArray = this.sortByCity(this.freelancesMalt, city)
-    //   this.freelancesMalt = sortedArray
-    //   return
-    // },
 
     async getFreelances(infos) {
       runInAction(() => {
