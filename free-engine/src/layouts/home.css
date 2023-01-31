@@ -6,6 +6,10 @@
   position: relative;
 }
 
+#platform-cards.hide {
+  display: none;
+}
+
 .search-filters-container{
   position: relative;
 }

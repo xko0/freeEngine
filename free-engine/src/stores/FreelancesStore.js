@@ -15,6 +15,7 @@ export function createFreelancesStore() {
     freelancesFiverr: JSON.parse(localStorage.getItem('freelancesFiverr')) || [],
     freelanceCom: JSON.parse(localStorage.getItem('freelanceCom')) || [],
     freelancesComeup: JSON.parse(localStorage.getItem('freelancesComeup')) || [],
+    priceOrdered: false,
 
     removeLettersFromPrices(array) {
       let lastItem = array.pop()
@@ -22,7 +23,7 @@ export function createFreelancesStore() {
         if (Number.isInteger(freelance[0])) {
           return freelance;
         } else if (Array.isArray(freelance) && freelance.length > 0 && freelance[0] != null) {
-          return freelance[0].replace(/\D/g, "");
+          return freelance[0].replace(/\D/g, ""); //removes all non-integers
         }
       });
       array.push(lastItem)
@@ -63,7 +64,8 @@ export function createFreelancesStore() {
       arrays = arrays.map(array => this.changeStringToInteger(array))
       arrays = arrays.map(array => this.sortCroissantPrices(array))
       arrays = arrays.map(array => this.moveFirstItemToLast(array))
-      return arrays
+      this.priceOrdered = !this.priceOrdered
+      return
     },
 
     getDescendingPrices() {
@@ -71,6 +73,7 @@ export function createFreelancesStore() {
       arrays = arrays.map(array => this.removeLettersFromPrices(array))
       arrays = arrays.map(array => this.changeStringToInteger(array))
       arrays = arrays.map(array => this.sortDescendingPrices(array))
+      this.priceOrdered = !this.priceOrdered
       return
     },
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -16,14 +16,17 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../context/FreelancesContext';
+import { observer } from 'mobx-react';
+
 import "./searchFilters.css"
 
-export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms }) {
+export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) => {
   const freelancesStore = useFreelancesStore();
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const [priceOrder, setPriceOrder] = useState('');
-  
+
+
   const handlePriceChange = (event) => {
     setPriceOrder(event.target.value)
     if (event.target.value == "croissant") {
@@ -37,19 +40,14 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
     setSelectedPlatforms(platform)
   }
 
-  // function displayFilters() {
-  //   var element = document.getElementById("filters")
-    
-  //   if (element.classList.contains("hiddenContainer")) {
-  //     element.classList.remove("hiddenContainer")
-  //     element.style.visibility = "hidden"
-  //     element.style.width = "20%"
-  //   } else {
-  //     element.classList.add("hiddenContainer")
-  //     element.style.width = "100%"
-  //     element.style.visibility = "visible"
-  //   }
-  // }
+  const handleCitySelect = (city) => {
+    setSelectedCities(city)
+  };
+
+  useEffect(() => {
+    setSelectedPlatforms(selectedPlatforms)
+    setSelectedCities(selectedCities)
+  }, [selectedPlatforms, selectedCities])
 
   return (
     <>
@@ -72,30 +70,11 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
           flexDirection: "row"
         }}
       >
-        <Box>
-          {/* <Button variant="contained" 
-            endIcon={<SendIcon />}
-            sx={{ 
-              Width: "auto", 
-              minWidth: "120px",
-              height: "40px", 
-              backgroundColor: "rgba(73,115,255,1)",
-              borderRadius: "5px",
-              zIndex: 1
-            }}
-            onClick={() => {displayFilters()}}
-          >
-            Filtres
-          </Button> */}
-        </Box>
         <Container id="filters"
           sx={{ 
-            // Width: "0px",
             display: "flex", 
             alignItems: "center",
             justifyContent: "flex-start",
-            // transition: "all 0.3s ease",
-            // visibility: "hidden"
           }}
         >
           <Stack sx={{ width: "30%", maxWidth: "250px" }}>
@@ -114,6 +93,7 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
                 options={cities}
                 disableCloseOnSelect
                 getOptionLabel={(option) => option.title}
+                onChange={(event, value) => handleCitySelect(value.map(e => e.title))}
                 renderOption={(props, option, { selected }) => (
                   <li {...props}>
                     <Checkbox
@@ -154,7 +134,7 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
                 options={MarketplaceFilters}
                 disableCloseOnSelect
                 getOptionLabel={(option) => option.title}
-                onChange={(event, value) => handlePlatformSelect(value.map(e => e.title))}
+                onChange={(value) => handlePlatformSelect(value.map(e => e.title))}
                 renderOption={(props, option, { selected }) => (
                   <li {...props}>
                     <Checkbox
@@ -196,9 +176,6 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
                   label="priceOrder"
                   onChange={handlePriceChange}
                 >
-                  <MenuItem value="">
-                    <em>Aucun</em>
-                  </MenuItem>
                   <MenuItem value={"croissant"}>Prix croissants</MenuItem>
                   <MenuItem value={"décroissant"}>Prix décroissants</MenuItem>
                 </Select>
@@ -226,9 +203,12 @@ export default function SearchFilters({ selectedPlatforms, setSelectedPlatforms 
       </Container>
     </>
   );
-}
+});
+
 const cities = [
+  { title: 'Annecy'},
   { title: 'Bordeaux'},
+  { title: 'Grenoble'},
   { title: 'Lille'},
   { title: 'Lyon'},
   { title: 'Marseille'},
@@ -237,7 +217,9 @@ const cities = [
   { title: 'Nice'},
   { title: 'Paris'},
   { title: 'Strasbourg'},
-  { title: 'Toulouse'}
+  { title: 'Rennes'},
+  { title: 'Toulouse'},
+  { title: 'Tours'}
 ];
 
 const MarketplaceFilters = [

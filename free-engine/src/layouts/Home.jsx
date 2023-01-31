@@ -6,21 +6,43 @@ import { MaltCards } from '../components/cards/MaltCards'
 import { FreelanceComCards } from '../components/cards/FreelanceComCards'
 import { FiverrCards } from '../components/cards/FiverrCards'
 import { ComeupCards } from '../components/cards/ComeupCards'
-import SearchFilters from '../components/filters/searchFilters'
+import { SearchFilters } from '../components/filters/searchFilters'
 import { useState, useEffect } from 'react'
-import SideMenu from '../components/sideMenu/SideMenu'
+import { SideMenu } from '../components/sideMenu/SideMenu'
 import Button from '@mui/material/Button';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { useFreelancesStore } from '../context/FreelancesContext'
+import { MaltCardsFiltered } from '../components/cards/MaltCardsFiltered'
+import { FreelanceComCardsFiltered } from '../components/cards/FreelanceComCardsFiltered'
+import { observer } from 'mobx-react';
+
 import "./home.css"
 
-export default function Home() {
+export const Home = observer(() => {
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-  const [priceOrder, setPriceOrder] = useState("")
+  const [selectedCities, setSelectedCities] = useState([])
+  const [displayFilteredCards, setDisplayFilteredCards] = useState(false)
+  const freelancesStore = useFreelancesStore();
+  const [maltCardsFilter, setMaltCardsFilter] = useState(null)
+  const [freelanceComCardsFilter, setFreelanceComCardsFilter] = useState(null)
+  const filteredMalt = []
+  const filteredFreelanceCom = []
 
   useEffect(() => {
-    console.log(selectedPlatforms)
-  },[selectedPlatforms])
+    var element = document.getElementById("platform-cards")
+    if (selectedCities.length > 0) {
+      filterMaltCards()
+      filterFreelanceComCards()
+      setMaltCardsFilter(filteredMalt)
+      setFreelanceComCardsFilter(filteredFreelanceCom)
+      setDisplayFilteredCards(true)
+      element.classList.add("hide")
+    } else {
+      setDisplayFilteredCards(false)
+      element.classList.remove("hide")
+    }
+  },[selectedCities, selectedPlatforms, freelancesStore.priceOrdered])
 
   function displaySideBar() {
     var element = document.getElementById("sidebar")
@@ -37,6 +59,22 @@ export default function Home() {
       pageElement.style.transition = "margin-left 0.2s ease-in-out";
     }
   }
+  
+  function filterMaltCards() {
+    const mulitpleCitiesPatern = new RegExp(selectedCities.join('|'), 'i')
+    const newFiltered = freelancesStore.freelancesMalt.filter(
+      freelance => mulitpleCitiesPatern.test(freelance[5])
+    )
+    filteredMalt.push(filteredMalt.concat(newFiltered))
+  }
+
+  function filterFreelanceComCards() {
+    const mulitpleCitiesPatern = new RegExp(selectedCities.join('|'), 'i')
+    const newFiltered = freelancesStore.freelanceCom.filter(
+      freelance => mulitpleCitiesPatern.test(freelance[5])
+    )
+    filteredFreelanceCom.push(filteredFreelanceCom.concat(newFiltered))
+  }
 
   return (
     <>
@@ -48,6 +86,8 @@ export default function Home() {
           <SideMenu 
             selectedPlatforms={selectedPlatforms} 
             setSelectedPlatforms={setSelectedPlatforms}
+            selectedCities={selectedCities}
+            setSelectedCities={setSelectedCities}
           />
         </div>
         <div className="main-content" id="main-content">
@@ -64,26 +104,34 @@ export default function Home() {
           </div>
           <div className="search-filters">
             <SearchFilters 
-                selectedPlatforms={selectedPlatforms} 
-                setSelectedPlatforms={setSelectedPlatforms}
+              selectedPlatforms={selectedPlatforms} 
+              setSelectedPlatforms={setSelectedPlatforms}
+              selectedCities={selectedCities}
+              setSelectedCities={setSelectedCities}
             />
           </div>
-          {selectedPlatforms.includes("Malt.fr") ? <MaltCards /> : ""}
-          {selectedPlatforms.includes("Freelance.com") ? <FreelanceComCards /> : ""}
-          {selectedPlatforms.includes("Fiverr.com") ? <FiverrCards /> : ""}
-          {selectedPlatforms.includes("Comeup.com") ? <ComeupCards /> : ""}
-          {selectedPlatforms.length === 0 ? (
-            <> 
-              <MaltCards /> 
-              <FreelanceComCards />
-              <FiverrCards />
-              <ComeupCards /> 
+          <div id="platform-cards">
+            {selectedPlatforms.includes("Malt.fr") ? <MaltCards /> : ""}
+            {selectedPlatforms.includes("Freelance.com") ? <FreelanceComCards /> : ""}
+            {selectedPlatforms.includes("Fiverr.com") ? <FiverrCards /> : ""}
+            {selectedPlatforms.includes("Comeup.com") ? <ComeupCards /> : ""}
+            {selectedPlatforms.length === 0 ? (
+              <> 
+                <MaltCards /> 
+                <FreelanceComCards />
+                <FiverrCards />
+                <ComeupCards /> 
+              </>
+            ) : ""}
+          </div>
+          {displayFilteredCards ?
+            <>
+              <MaltCardsFiltered freelanceFiltered={maltCardsFilter} />
+              <FreelanceComCardsFiltered freelanceFiltered={freelanceComCardsFilter} />
             </>
-          ) : ""}
-
+          : ""}
         </div>
       </div>
     </>
   )
-}
-
+})
