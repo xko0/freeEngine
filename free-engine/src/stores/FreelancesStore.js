@@ -4,7 +4,6 @@ import axios from 'axios'
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function createFreelancesStore() {
-
   return {
     loadingMalt: null,
     loadingFiverr: null,

@@ -8,6 +8,10 @@
   color: grey;
 }
 
+#menu-item {
+  width: 120%;
+}
+
 @media screen and (max-width: 470px) {
   .MuiInputBase-adornedEnd {
     text-overflow: ellipsis;

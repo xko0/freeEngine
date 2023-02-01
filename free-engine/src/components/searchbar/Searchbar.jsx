@@ -20,28 +20,51 @@ export const SearchBar = observer (() => {
   const freelancesStore = useFreelancesStore()
   const [specialty, setSpecialty] = useState("")
   const [platforms, setPlatforms] = useState([]);
+  const [category, setCategory] = useState("")
+  const [marketplaces, setMarketplaces] = useState(["Choisir catégorie"])
 
   function getFreelances(specialty, platforms) {
-    let encodedSpecialty = encodeURI(specialty)
-    if (platforms.length == 0) {
-      freelancesStore.getFreelances(encodedSpecialty)
-      freelancesStore.getFreelanceCom(encodedSpecialty)
-      freelancesStore.getFiverrFreelances(encodedSpecialty)
-      freelancesStore.getFreelancesComeup(encodedSpecialty)
-    }
-    platforms.includes("Malt.fr") ? freelancesStore.getFreelances(encodedSpecialty) : ""
-    platforms.includes("Freelance.com") ? freelancesStore.getFreelanceCom(encodedSpecialty) : ""
-    platforms.includes("Fiverr.com") ? freelancesStore.getFiverrFreelances(encodedSpecialty) : ""
-    platforms.includes("Comeup.com") ? freelancesStore.getFreelancesComeup(encodedSpecialty) : ""
+    const freelancesPlatforms = {
+      "Malt.fr": freelancesStore.getFreelances,
+      "Freelance.com": freelancesStore.getFreelanceCom,
+      "Fiverr.com": freelancesStore.getFiverrFreelances,
+      "Comeup.com": freelancesStore.getFreelancesComeup
+    };
+  
+    let encodedSpecialty = encodeURI(specialty);
+    let requestedPlatforms = platforms.length === 0 ? Object.keys(freelancesPlatforms) : platforms;
+    
+    requestedPlatforms.forEach(platform => {
+      if (freelancesPlatforms[platform]) {
+        freelancesPlatforms[platform](encodedSpecialty);
+      }
+    });
   }
 
-  const handleChange = (event) => {
+  const handlePlatformChange = (event) => {
     const {
       target: { value },
     } = event;
     setPlatforms(
       typeof value === 'string' ? value.split(',') : value,
     );
+  };
+
+  const marketplacesByCategory = {
+    "Avocats": lawyersMarket,
+    "Comptables": accountantMarket,
+    "Entreprises de l'hôtellerie": hotelCompanies,
+    "Fournisseurs logistique industriels": industrialSuppliersMarket,
+    "Freelances IT": freelancesMarket,
+    "Services numeriques": numericServicesMarket,
+    "Services secteur ferroviaire": railwaySectorMarket,
+    "Dépanneurs, bricoleurs et travaux": workersMarket
+  }
+  
+  const handleCategoryChange = (event) => {
+    const { value } = event.target;
+    setMarketplaces(marketplacesByCategory[value] || []);
+    setCategory(typeof value === 'string' ? value.split(',') : value)
   };
 
   const ITEM_HEIGHT = 48;
@@ -66,6 +89,35 @@ export const SearchBar = observer (() => {
           flexDirection: "row"
         }}
       >
+        <Box 
+          sx={{ m: 2, width: "40%"}}
+        >
+          <div>
+            <FormControl sx={{ width: "100%"}}>
+              <InputLabel id="demo-multiple-name-label">Catégorie de recherche...</InputLabel>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                value={category}
+                onChange={handleCategoryChange}
+                input={<OutlinedInput label="Platformes" />}
+                renderValue={(selected) => selected.join(', ')}
+                MenuProps={MenuProps}
+                sx={{ borderRadius: "5px", backgroundColor: "white"}}
+              >
+                {marketplaceCategories.map((marketplaceCategory) => (
+                  <MenuItem
+                    key={marketplaceCategory}
+                    value={marketplaceCategory}
+                  >
+                    <Checkbox checked={category.indexOf(marketplaceCategory) > -1} />
+                    <ListItemText primary={marketplaceCategory} />
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+        </Box>
         <Box
           sx={{
             width: "40%",
@@ -75,7 +127,7 @@ export const SearchBar = observer (() => {
           }}
         >
           <TextField 
-            fullWidth label="Recherchez un freelance par spécialité" 
+            fullWidth label="Recherchez par spécialité..." 
             id="fullWidth"
             value={specialty}
             onChange={(e) => {setSpecialty(e.target.value)}}
@@ -86,13 +138,13 @@ export const SearchBar = observer (() => {
         >
           <div>
             <FormControl sx={{ width: "100%"}}>
-              <InputLabel id="demo-multiple-name-label">Plateforme (Par defaut: Toutes)</InputLabel>
+              <InputLabel id="demo-multiple-name-label">Plateformes... (défaut: toutes)</InputLabel>
               <Select
                 labelId="demo-multiple-checkbox-label"
                 id="demo-multiple-checkbox"
                 multiple
                 value={platforms}
-                onChange={handleChange}
+                onChange={handlePlatformChange}
                 input={<OutlinedInput label="Platformes" />}
                 renderValue={(selected) => selected.join(', ')}
                 MenuProps={MenuProps}
@@ -131,7 +183,55 @@ export const SearchBar = observer (() => {
   );
 });
 
-const marketplaces = [
+const marketplaceCategories = [
+  "Avocats",
+  "Comptables",
+  "Entreprises de l'hôtellerie",
+  "Fournisseurs logistique industriels",
+  "Freelances IT",
+  "Services numeriques",
+  "Services secteur ferroviaire",
+  "Dépanneurs, bricoleurs et travaux"
+]
+
+const lawyersMarket = [
+  "Consultation.avocat.fr",
+  "Avvo.com",
+  "Callalawyer.fr",
+  "Meetlaw.fr",
+  "Justifit.fr"
+]
+
+const accountantMarket = [
+  "Leboncomptable.com",
+  "Bbigger.fr"
+]
+
+const industrialSuppliersMarket = [
+  "Usinenouvelle.com",
+  "Directindustry.fr"
+]
+
+const hotelCompanies = [
+  "Foodhoteltech.com"
+]
+
+const workersMarket = [
+  "Izi-by-edf.fr",
+  "Yoojo.fr",
+  "Jemepropose.com",
+  "Aladom.fr"
+]
+
+const numericServicesMarket = [
+  "Ccistore.fr"
+]
+
+const railwaySectorMarket = [
+  "Station-one.com"
+]
+
+const freelancesMarket = [
   'Malt.fr',
   'Freelance.com',
   'Fiverr.com',

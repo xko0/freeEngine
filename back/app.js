@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const userRoutes = require("./router/user");
 const sibApi = require("./controllers/sib")
-const crawlApi = require("./controllers/crawler")
+const freelancesCrawlApi = require("./controllers/freelancesCrawler")
 
 require('dotenv').config()
 
@@ -37,10 +37,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/user", userRoutes);
-app.get("/api/scrapeMaltData", crawlApi.scrapeMaltData);
-app.get("/api/scrapeFreelanceComData", crawlApi.scrapeFreelanceComData);
-app.get("/api/scrapeFiverrData", crawlApi.scrapeFiverrData)
-app.get("/api/scrapeComeupData", crawlApi.scrapeComeupData)
+app.get("/api/scrapeMaltData", freelancesCrawlApi.scrapeMaltData);
+app.get("/api/scrapeFreelanceComData", freelancesCrawlApi.scrapeFreelanceComData);
+app.get("/api/scrapeFiverrData", freelancesCrawlApi.scrapeFiverrData)
+app.get("/api/scrapeComeupData", freelancesCrawlApi.scrapeComeupData)
 app.post("/api/sendemail", sibApi.sendEmail);
 
 module.exports = app;

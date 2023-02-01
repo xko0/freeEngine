@@ -73,6 +73,7 @@ exports.scrapeFiverrData = (req, res, next) => {
   const getResultNumber = ($) => {
     return $(`.m-r-4`).html();
   }
+  
   async function scrapeData() {
     let encodedSearch = req.query.argument
     let reEncodeSearch = encodeURIComponent(encodedSearch)
