@@ -14,21 +14,24 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import Container from '@mui/material/Container';
 import { useFreelancesStore } from '../../context/FreelancesContext';
+import { useLawyersStore } from '../../context/LawyersContext';
 import "./searchbar.css"
 
 export const SearchBar = observer (() => {
-  const freelancesStore = useFreelancesStore()
-  const [specialty, setSpecialty] = useState("")
+  const freelancesStore = useFreelancesStore();
+  const laywersStore = useLawyersStore();
+  const [specialty, setSpecialty] = useState("");
   const [platforms, setPlatforms] = useState([]);
-  const [category, setCategory] = useState("")
-  const [marketplaces, setMarketplaces] = useState(["Choisir catégorie"])
+  const [category, setCategory] = useState("");
+  const [marketplaces, setMarketplaces] = useState(["Choisir catégorie"]);
 
   function getFreelances(specialty, platforms) {
     const freelancesPlatforms = {
       "Malt.fr": freelancesStore.getFreelances,
       "Freelance.com": freelancesStore.getFreelanceCom,
       "Fiverr.com": freelancesStore.getFiverrFreelances,
-      "Comeup.com": freelancesStore.getFreelancesComeup
+      "Comeup.com": freelancesStore.getFreelancesComeup,
+      "Consultation.avocat.fr": laywersStore.getConsultationAvocat,
     };
   
     let encodedSpecialty = encodeURI(specialty);

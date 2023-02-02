@@ -31,6 +31,7 @@ export function createLawyersStore() {
         if (response.data) {
           runInAction(() => {
             this.loadingConsultationAvocat = false
+            console.log(response.data)
             this.consultationAvocat = response.data
             localStorage.setItem('consultationAvocat', JSON.stringify(response.data))
           })

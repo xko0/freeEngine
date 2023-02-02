@@ -8,61 +8,67 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useFreelancesStore } from '../../context/FreelancesContext';
+import { useLawyersStore } from '../../../../context/LawyersContext';
 import { BarLoader } from "react-spinners";
 
-export const MaltCards = observer(() => {
-  const freelancesStore = useFreelancesStore();
-  const [freelancesMalt, setFreelancesMalt] = useState(null);
+export const ConsultationAvocatCards = observer(() => {
+  const lawyersStore = useLawyersStore();
+  const [consultationAvocat, setConsultationAvocat] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
 
   useEffect(() => {
-    if (freelancesStore.freelancesMalt.length > 0) {
-      setFreelancesMalt(freelancesStore.freelancesMalt)
-      setTotalPages(Math.ceil((freelancesStore.freelancesMalt.length - 1) / itemsPerPage))
+    if (lawyersStore.consultationAvocat.length > 0) {
+      setConsultationAvocat(lawyersStore.consultationAvocat)
+      setTotalPages(Math.ceil((lawyersStore.consultationAvocat.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelancesMalt, currentPage])
+  }, [lawyersStore.consultationAvocat, currentPage])
 
-  function getMaltCards() {
-    if (freelancesStore.loadingMalt) {
+  function geConsultationAvocatCards() {
+    if (lawyersStore.loadingConsultationAvocat) {
       return (
         <Grid display='flex' height='10vh' marginLeft='45%' marginTop='2vh'>
           <BarLoader color="#e2e612" />
         </Grid>
       )
     }
-    if (freelancesMalt) {
+    if (consultationAvocat) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const actualFreelances = freelancesMalt.slice(0, -1)
-      const currentItems = actualFreelances.filter((_, i) => i >= startIndex && i < endIndex);
-      return currentItems.map((freelance, index ) => (
+      const actualLawyers = consultationAvocat.slice(0, -1)
+      const currentItems = actualLawyers.filter((_, i) => i >= startIndex && i < endIndex);
+      return currentItems.map((lawyer, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>
-            <CardMedia
+          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`${lawyer[3]}`, '_blank')}>
+            {/* <CardMedia
               sx={{ height: 200 }}
-              image={`${freelance[4]}`}
+              image={`${lawyer[4]}`}
               title="Profile picture"
-            />
+            /> */}
             <CardContent sx={{ height: 125 }}>
             <Typography variant="body2" color="text.secondary">
-                {freelance[5]}
+                {lawyer[0]}
+                {lawyer[1]}
+                {lawyer[2]}
+                {lawyer[3]}
+                {lawyer[4]}
+                {lawyer[5]}
+                {lawyer[6]}
               </Typography>
-              <Typography variant="h5" component="div">
-                {freelance[1]}
+              {/* <Typography variant="h5" component="div">
+                {lawyer[1]}
               </Typography>
               <Typography gutterBottom variant="h6" sx={{ color: 'blue' }}>
-                {freelance[2].replace(/&nbsp;/g, "")}
-              </Typography>
+                {lawyer[2].replace(/&nbsp;/g, "")}
+              </Typography> */}
             </CardContent>
-            <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-              Prix à la journée: {Number.isInteger(freelance[0]) ? freelance[0] : freelance[0].replace(/\D/g, "")} €
-            </Typography>
-            <CardActions sx={{justifyContent: "center"}}>
-              <Button size="small" onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>Voir sur Malt.fr</Button>
-            </CardActions>
+            {/* <Typography variant="body1" color="text.secondary" marginLeft="2vh">
+              Prix à la journée: {Number.isInteger(lawyer[0]) ? lawyer[0] : lawyer[0].replace(/\D/g, "")} €
+            </Typography> */}
+            {/* <CardActions sx={{justifyContent: "center"}}>
+              <Button size="small" onClick={() => window.open(`${lawyer[3]}`, '_blank')}>Voir sur Malt.fr</Button>
+            </CardActions> */}
           </Card>
         </Grid>
       ));
@@ -76,12 +82,12 @@ export const MaltCards = observer(() => {
   return (
     <>
       <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white", marginTop: "1vh"}}>
-        {freelancesMalt == null ? "Attente de résultats" : freelancesStore.freelancesMalt[freelancesStore.freelancesMalt.length - 1]} sur Malt.fr
+        {consultationAvocat == null ? "Attente de résultats" : lawyersStore.consultationAvocat[lawyersStore.consultationAvocat.length - 1]} sur Malt.fr
       </Typography>
       <Grid container spacing={1}>
-        {getMaltCards()}
+        {geConsultationAvocatCards()}
       </Grid>
-      {freelancesMalt == null ? "" :
+      {consultationAvocat == null ? "" :
         <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>
           page {currentPage} sur {totalPages}
         </Typography>
