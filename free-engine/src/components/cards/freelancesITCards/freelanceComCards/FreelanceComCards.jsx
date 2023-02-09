@@ -46,7 +46,7 @@ export const FreelanceComCards = observer(() => {
               image={`${freelance[4]}`}
               title="Profile picture"
             />
-            <CardContent sx={{ height: 125 }}>
+            <CardContent sx={{ height: "25vh" }}>
             <Typography variant="body2" color="text.secondary">
                 {freelance[5]}
               </Typography>

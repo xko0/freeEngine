@@ -6,9 +6,9 @@ import { MaltCards } from '../components/cards/freelancesITCards/maltCards/MaltC
 import { MaltCardsFiltered } from '../components/cards/freelancesITCards/maltCards/MaltCardsFiltered'
 import { FreelanceComCards } from '../components/cards/freelancesITCards/freelanceComCards/FreelanceComCards'
 import { FreelanceComCardsFiltered } from '../components/cards/freelancesITCards/freelanceComCards/FreelanceComCardsFiltered'
+import { UpworkCards } from '../components/cards/freelancesITCards/upworkCards/UpworkCards'
 import { FiverrCards } from '../components/cards/freelancesITCards/fiverCards/FiverrCards'
 import { ComeupCards } from '../components/cards/freelancesITCards/comeupCards/ComeupCards'
-import { MeetlawCards } from '../components/cards/lawyersCards/meetlawCards/MeetlawCards'
 import { SearchFilters } from '../components/filters/searchFilters'
 import { useState, useEffect } from 'react'
 import { SideMenu } from '../components/sideMenu/SideMenu'
@@ -114,15 +114,16 @@ export const Home = observer(() => {
           <div id="platform-cards">
             {selectedPlatforms.includes("Malt.fr") ? <MaltCards /> : ""}
             {selectedPlatforms.includes("Freelance.com") ? <FreelanceComCards /> : ""}
-            {selectedPlatforms.includes("Fiverr.com") ? <FiverrCards /> : ""}
-            {selectedPlatforms.includes("Comeup.com") ? <ComeupCards /> : ""}
+            {selectedPlatforms.includes("Upwork.com") ? <UpworkCards /> : ""}
+            {/* {selectedPlatforms.includes("Fiverr.com") ? <FiverrCards /> : ""}
+            {selectedPlatforms.includes("Comeup.com") ? <ComeupCards /> : ""} */}
             {selectedPlatforms.length === 0 ? (
               <> 
                 <MaltCards /> 
                 <FreelanceComCards />
-                <FiverrCards />
-                <ComeupCards /> 
-                {/* <MeetlawCards /> */}
+                <UpworkCards />
+                {/* <FiverrCards />
+                <ComeupCards /> */}
               </>
             ) : ""}
           </div>

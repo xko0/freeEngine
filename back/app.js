@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const userRoutes = require("./router/user");
 const sibApi = require("./controllers/sib")
 const freelancesCrawlApi = require("./controllers/freelancesCrawler")
-const lawyersCrawlerApi = require("./controllers/lawyersCrawler")
 
 require('dotenv').config()
 
@@ -40,9 +39,9 @@ app.use(express.json());
 app.use("/api/user", userRoutes);
 app.get("/api/scrapeMaltData", freelancesCrawlApi.scrapeMaltData);
 app.get("/api/scrapeFreelanceComData", freelancesCrawlApi.scrapeFreelanceComData);
+app.get("/api/scrapeUpworkData", freelancesCrawlApi.scrapeUpworkData)
 app.get("/api/scrapeFiverrData", freelancesCrawlApi.scrapeFiverrData)
 app.get("/api/scrapeComeupData", freelancesCrawlApi.scrapeComeupData)
-app.get("/api/scrapeMeetlawData", lawyersCrawlerApi.scrapeMeetlawData)
 app.post("/api/sendemail", sibApi.sendEmail);
 
 module.exports = app;
