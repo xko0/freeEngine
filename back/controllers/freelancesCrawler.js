@@ -241,7 +241,6 @@ exports.scrapeUpworkData = (req, res, next) => {
     return $(`${baseSelector}(${i+1}) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > p:nth-child(2) > strong:nth-child(1)`).html();
   }
   const getDetails = ($, i, j) => {
-    //#up-line-clamp-v2-73665
     let skills = [];
     $(`${baseSelector}(${i+1})  > div:nth-child(2) > div:nth-child(1) > div:nth-child(4)`).each((index, element) => {
       skills.push($(element).text().trim());
@@ -252,11 +251,9 @@ exports.scrapeUpworkData = (req, res, next) => {
     return $(`${baseSelector}(${i+1}) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)`).attr('data-qa-freelancer-ciphertext');
   }
   const getImage = ($, i) => {
-    //div.up-card-section:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1)
     return $(`${baseSelector}(${i+1})`).find('img').map((i, el) => $(el).attr('src')).get();
   }
   const getCity = ($, i) => {
-    //div.up-card-section:nth-child(2) )
     return $(`${baseSelector}(${i+1}) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > span:nth-child(2)`).html();
   }
 
