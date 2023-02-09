@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { observer } from "mobx-react-lite"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -23,23 +23,25 @@ export const SearchBar = observer (() => {
   const [specialty, setSpecialty] = useState("");
   const [platforms, setPlatforms] = useState([]);
   const [category, setCategory] = useState("");
+  const [city, setCity] = useState("");
   const [marketplaces, setMarketplaces] = useState(["Choisir catégorie"]);
 
-  function getFreelances(specialty, platforms) {
+  function getFreelances(specialty, city, platforms) {
     const freelancesPlatforms = {
       "Malt.fr": freelancesStore.getFreelances,
       "Freelance.com": freelancesStore.getFreelanceCom,
       "Fiverr.com": freelancesStore.getFiverrFreelances,
       "Comeup.com": freelancesStore.getFreelancesComeup,
-      "Consultation.avocat.fr": laywersStore.getConsultationAvocat,
+      "Meetlaw.fr": laywersStore.getMeetlaw,
     };
   
     let encodedSpecialty = encodeURI(specialty);
+    let encodedCity = encodeURI(city)
     let requestedPlatforms = platforms.length === 0 ? Object.keys(freelancesPlatforms) : platforms;
     
     requestedPlatforms.forEach(platform => {
       if (freelancesPlatforms[platform]) {
-        freelancesPlatforms[platform](encodedSpecialty);
+        freelancesPlatforms[platform](encodedSpecialty, encodedCity);
       }
     });
   }
@@ -69,6 +71,15 @@ export const SearchBar = observer (() => {
     setMarketplaces(marketplacesByCategory[value] || []);
     setCategory(typeof value === 'string' ? value.split(',') : value)
   };
+
+  useEffect(() => {
+    let element = document.getElementById("cities-field")
+    if (marketplaces == lawyersMarket) {
+      element.classList.remove("hide")
+    } else {
+      element.classList.add("hide")
+    }
+  }, [marketplaces])
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -166,6 +177,22 @@ export const SearchBar = observer (() => {
             </FormControl>
           </div>
         </Box>
+        <Box id='cities-field'
+          sx={{
+            width: "30%",
+            backgroundColor: "whitesmoke",
+            borderRadius: "5px",
+            m: 2
+          }}
+        >
+          <TextField 
+            fullWidth label="ville..." 
+            id="fullWidth"
+            value={city}
+            required
+            onChange={(e) => {setCity(e.target.value)}}
+          />
+        </Box>
         <Box sx={{m: 2}}>
           <Button variant="contained" 
             endIcon={<SendIcon />}
@@ -176,7 +203,7 @@ export const SearchBar = observer (() => {
               backgroundColor: "rgba(73,115,255,1)",
               borderRadius: "5px"
             }}
-            onClick={() => {getFreelances(specialty, platforms)}}
+            onClick={() => {getFreelances(specialty, city, platforms)}}
           >
             Chercher
           </Button>
@@ -198,9 +225,6 @@ const marketplaceCategories = [
 ]
 
 const lawyersMarket = [
-  "Consultation.avocat.fr",
-  "Avvo.com",
-  "Callalawyer.fr",
   "Meetlaw.fr",
   "Justifit.fr"
 ]

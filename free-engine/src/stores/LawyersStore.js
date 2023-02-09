@@ -5,89 +5,14 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function createLawyersStore() {
   return {
-    loadingConsultationAvocat: null,
-    loadingAvvo: null,
-    loadingCallalawyer: null,
     loadingMeetlaw: null,
     loadingJustifit: null,
     hasErrors: null,
-    consultationAvocat: JSON.parse(localStorage.getItem('consultationAvocat')) || [],
-    avvo: JSON.parse(localStorage.getItem('avvo')) || [],
-    callalawyer: JSON.parse(localStorage.getItem('callalawyer')) || [],
     meetlaw: JSON.parse(localStorage.getItem('meetlaw')) || [],
     justifit: JSON.parse(localStorage.getItem('justifit')) || [],
 
-    async getConsultationAvocat(infos) {
-      runInAction(() => {
-        this.loadingConsultationAvocat = true
-        this.hasErrors = false
-      })
-      try {
-        let response = await axios.get(`${BASE_URL}/scrapeConsultationAvocatData`,{
-          params: {
-              argument: infos
-          }
-        }) 
-        if (response.data) {
-          runInAction(() => {
-            this.loadingConsultationAvocat = false
-            console.log(response.data)
-            this.consultationAvocat = response.data
-            localStorage.setItem('consultationAvocat', JSON.stringify(response.data))
-          })
-        }    
-      } catch(error) {
-        console.error(error)
-      }
-    },
 
-    async getAvvo(infos) {
-      runInAction(() => {
-        this.loadingAvvo = true
-        this.hasErrors = false
-      })
-      try {
-        let response = await axios.get(`${BASE_URL}/scrapeAvvoData`,{
-          params: {
-              argument: infos
-          }
-        }) 
-        if (response.data) {
-          runInAction(() => {
-            this.loadingAvvo = false
-            this.avvo = response.data
-            localStorage.setItem('avvo', JSON.stringify(response.data))
-          })
-        }    
-      } catch(error) {
-        console.error(error)
-      }
-    },
-
-    async getCallalawyer(infos) {
-      runInAction(() => {
-        this.loadingCallalawyer = true
-        this.hasErrors = false
-      })
-      try {
-        let response = await axios.get(`${BASE_URL}/scrapeCallalawyerData`,{
-          params: {
-              argument: infos
-          }
-        }) 
-        if (response.data) {
-          runInAction(() => {
-            this.loadingCallalawyer = false
-            this.callalawyer = response.data
-            localStorage.setItem('callalawyer', JSON.stringify(response.data))
-          })
-        }    
-      } catch(error) {
-        console.error(error)
-      }
-    },
-
-    async getMeetlaw(infos) {
+    async getMeetlaw(infos, cityInfos) {
       runInAction(() => {
         this.loadingMeetlaw = true
         this.hasErrors = false
@@ -95,7 +20,8 @@ export function createLawyersStore() {
       try {
         let response = await axios.get(`${BASE_URL}/scrapeMeetlawData`,{
           params: {
-              argument: infos
+              argument: infos,
+              city: cityInfos
           }
         }) 
         if (response.data) {

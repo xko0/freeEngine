@@ -42,7 +42,7 @@ app.get("/api/scrapeMaltData", freelancesCrawlApi.scrapeMaltData);
 app.get("/api/scrapeFreelanceComData", freelancesCrawlApi.scrapeFreelanceComData);
 app.get("/api/scrapeFiverrData", freelancesCrawlApi.scrapeFiverrData)
 app.get("/api/scrapeComeupData", freelancesCrawlApi.scrapeComeupData)
-app.get("/api/scrapeConsultationAvocatData", lawyersCrawlerApi.scrapeConsultationAvocatData)
+app.get("/api/scrapeMeetlawData", lawyersCrawlerApi.scrapeMeetlawData)
 app.post("/api/sendemail", sibApi.sendEmail);
 
 module.exports = app;
