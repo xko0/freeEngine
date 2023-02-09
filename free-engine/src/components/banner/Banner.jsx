@@ -10,7 +10,7 @@ export default function Banner() {
         Free Engine
       </Typography>
       <Typography variant="body2" sx={{fontFamily: 'monospace'}}>
-        Trouvez des freelances parmis toutes les marketplaces disponnibles. Facilement et au même endroit.
+        Trouvez des freelances et services parmis toutes les catégories de marketplaces. Facilement et au même endroit.
       </Typography>
       </div>
       <div className="waves"></div>

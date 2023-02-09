@@ -2,10 +2,13 @@ import React from 'react'
 import Navbar from '../components/navbar/Navbar'
 import Banner from '../components/banner/Banner'
 import { SearchBar } from '../components/searchbar/Searchbar'
-import { MaltCards } from '../components/cards/MaltCards'
-import { FreelanceComCards } from '../components/cards/FreelanceComCards'
-import { FiverrCards } from '../components/cards/FiverrCards'
-import { ComeupCards } from '../components/cards/ComeupCards'
+import { MaltCards } from '../components/cards/freelancesITCards/maltCards/MaltCards'
+import { MaltCardsFiltered } from '../components/cards/freelancesITCards/maltCards/MaltCardsFiltered'
+import { FreelanceComCards } from '../components/cards/freelancesITCards/freelanceComCards/FreelanceComCards'
+import { FreelanceComCardsFiltered } from '../components/cards/freelancesITCards/freelanceComCards/FreelanceComCardsFiltered'
+import { UpworkCards } from '../components/cards/freelancesITCards/upworkCards/UpworkCards'
+import { FiverrCards } from '../components/cards/freelancesITCards/fiverCards/FiverrCards'
+import { ComeupCards } from '../components/cards/freelancesITCards/comeupCards/ComeupCards'
 import { SearchFilters } from '../components/filters/searchFilters'
 import { useState, useEffect } from 'react'
 import { SideMenu } from '../components/sideMenu/SideMenu'
@@ -13,8 +16,6 @@ import Button from '@mui/material/Button';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useFreelancesStore } from '../context/FreelancesContext'
-import { MaltCardsFiltered } from '../components/cards/MaltCardsFiltered'
-import { FreelanceComCardsFiltered } from '../components/cards/FreelanceComCardsFiltered'
 import { observer } from 'mobx-react';
 
 import "./home.css"
@@ -113,14 +114,16 @@ export const Home = observer(() => {
           <div id="platform-cards">
             {selectedPlatforms.includes("Malt.fr") ? <MaltCards /> : ""}
             {selectedPlatforms.includes("Freelance.com") ? <FreelanceComCards /> : ""}
-            {selectedPlatforms.includes("Fiverr.com") ? <FiverrCards /> : ""}
-            {selectedPlatforms.includes("Comeup.com") ? <ComeupCards /> : ""}
+            {selectedPlatforms.includes("Upwork.com") ? <UpworkCards /> : ""}
+            {/* {selectedPlatforms.includes("Fiverr.com") ? <FiverrCards /> : ""}
+            {selectedPlatforms.includes("Comeup.com") ? <ComeupCards /> : ""} */}
             {selectedPlatforms.length === 0 ? (
               <> 
                 <MaltCards /> 
                 <FreelanceComCards />
-                <FiverrCards />
-                <ComeupCards /> 
+                <UpworkCards />
+                {/* <FiverrCards />
+                <ComeupCards /> */}
               </>
             ) : ""}
           </div>

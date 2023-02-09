@@ -28,11 +28,13 @@ export const SearchBar = observer (() => {
       freelancesStore.getFreelanceCom(encodedSpecialty)
       freelancesStore.getFiverrFreelances(encodedSpecialty)
       freelancesStore.getFreelancesComeup(encodedSpecialty)
+      freelancesStore.getFreelancesUpwork(encodedSpecialty)
     }
     platforms.includes("Malt.fr") ? freelancesStore.getFreelances(encodedSpecialty) : ""
     platforms.includes("Freelance.com") ? freelancesStore.getFreelanceCom(encodedSpecialty) : ""
     platforms.includes("Fiverr.com") ? freelancesStore.getFiverrFreelances(encodedSpecialty) : ""
     platforms.includes("Comeup.com") ? freelancesStore.getFreelancesComeup(encodedSpecialty) : ""
+    platforms.includes("Upwork.com") ? freelancesStore.getFreelancesUpwork(encodedSpecialty) : ""
   }
 
   const handleChange = (event) => {
@@ -134,6 +136,7 @@ export const SearchBar = observer (() => {
 const marketplaces = [
   'Malt.fr',
   'Freelance.com',
-  'Fiverr.com',
-  'Comeup.com'
+  'Upwork.com',
+//   'Fiverr.com',
+//   'Comeup.com'
 ]

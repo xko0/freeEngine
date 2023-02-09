@@ -77,7 +77,7 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
       </FormControl>
       <Box sx={{ display: 'flex' }}>
         <FormControl sx={{ mb: 2 }} component="fieldset" variant="standard">
-          <FormLabel component="legend">Afficher par ville</FormLabel>
+          <FormLabel component="legend">Afficher par ville (Malt et Freelance.com)</FormLabel>
           <FormGroup>
             {cities.map(city => (
               <FormControlLabel
@@ -115,6 +115,7 @@ const cities = [
 const marketplaces = [
   "Malt.fr",
   "Freelance.com",
-  "Fiverr.com",
-  "Comeup.com"
+  "Upwork.com",
+  // "Fiverr.com",
+  // "Comeup.com"
 ]

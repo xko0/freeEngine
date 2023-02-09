@@ -8,6 +8,14 @@
   color: grey;
 }
 
+#menu-item {
+  width: 120%;
+}
+
+#cities-field.hide {
+  display: none;
+}
+
 @media screen and (max-width: 470px) {
   .MuiInputBase-adornedEnd {
     text-overflow: ellipsis;

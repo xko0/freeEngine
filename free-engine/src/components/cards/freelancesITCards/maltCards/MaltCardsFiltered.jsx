@@ -7,17 +7,16 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useFreelancesStore } from '../../context/FreelancesContext';
+import { useFreelancesStore } from '../../../../context/FreelancesContext';
 import { observer } from 'mobx-react';
 
-export const FreelanceComCardsFiltered = observer(({freelanceFiltered}) => {
+export const MaltCardsFiltered = observer(({freelanceFiltered}) => {
   const freelancesStore = useFreelancesStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
   const [filteredFreelances, setFilteredFreelances] = useState(null)
 
-  
   useEffect(() => {
     setFilteredFreelances(freelanceFiltered)
   }, [freelanceFiltered])
@@ -27,14 +26,14 @@ export const FreelanceComCardsFiltered = observer(({freelanceFiltered}) => {
       setTotalPages(Math.ceil((filteredFreelances.map(freelance => freelance.length)) / itemsPerPage))
   }, [filteredFreelances])
 
-  function getFreelanceComCards() {
+  function getMaltCards() {
     if (filteredFreelances[0].length > 0) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
       const currentItems = filteredFreelances[0].filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://plateforme.freelance.com${freelance[3]}`, '_blank')}>
+          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>
             <CardMedia
               sx={{ height: 200 }}
               image={`${freelance[4]}`}
@@ -55,7 +54,7 @@ export const FreelanceComCardsFiltered = observer(({freelanceFiltered}) => {
               Prix à la journée: {Number.isInteger(freelance[0]) ? freelance[0] : freelance[0].replace(/\D/g, "")} €
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
-              <Button size="small" onClick={() => window.open(`https://plateforme.freelance.com${freelance[3]}`, '_blank')}>Voir sur Malt.fr</Button>
+              <Button size="small" onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>Voir sur Malt.fr</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -66,15 +65,14 @@ export const FreelanceComCardsFiltered = observer(({freelanceFiltered}) => {
       </Typography>
     }
   }
-
-  if (filteredFreelances) {
+  if (filteredFreelances != null) {
     return (
       <>
         <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white", marginTop: "1vh"}}>
-          {freelancesStore.freelanceCom == null ? "Attente de résultats" : freelancesStore.freelanceCom[freelancesStore.freelanceCom.length - 1]} sur Freelance.com
+          {freelancesStore.freelancesMalt == null ? "Attente de résultats" : freelancesStore.freelancesMalt[freelancesStore.freelancesMalt.length - 1]} sur Malt.fr
         </Typography>
         <Grid container spacing={1}>
-          {getFreelanceComCards()}
+          {getMaltCards()}
         </Grid>
         {filteredFreelances == null ? "" :
           <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>

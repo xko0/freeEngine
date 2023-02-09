@@ -109,7 +109,7 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
                 renderInput={(params) => (
                   <TextField 
                     {...params} 
-                    label="Trier par villes" 
+                    label="Trier par villes (Malt et freelance.com)" 
                     placeholder="Choisir dans la liste" 
                     sx={{ borderRadius: "5px", backgroundColor: "white"}}
                   />
@@ -225,6 +225,7 @@ const cities = [
 const MarketplaceFilters = [
   {title: "Malt.fr"},
   {title: "Freelance.com"},
-  {title: "Fiverr.com"},
-  {title: "Comeup.com"}
+  {title: "Upwork.com"},
+  // {title: "Fiverr.com"},
+  // {title: "Comeup.com"}
 ];
