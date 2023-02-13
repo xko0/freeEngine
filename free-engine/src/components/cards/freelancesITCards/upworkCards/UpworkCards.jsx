@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 export const UpworkCards = observer(() => {
   const freelancesStore = useFreelancesStore();
@@ -77,23 +79,50 @@ export const UpworkCards = observer(() => {
 
   return (
     <>
-      <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white", marginTop: "1vh"}}>
+      <Typography gutterBottom variant="body" component="div" sx={{ color: "white", mt: "3vh", ml: "2vh" }}>
         {freelancesUpwork == null ? "Attente de résultats" : freelancesStore.freelancesUpwork.length} profils par page sur Upwork.com
       </Typography>
-      <Grid container spacing={1}>
-        {getUpworkCards()}
-      </Grid>
       {freelancesUpwork == null ? "" :
-        <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>
+        <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"1vh"} sx={{ color: "white" }}>
           page {currentPage} sur {totalPages}
         </Typography>
       }
+      <Grid container spacing={1}
+        sx={{ mb: "1vh" }}
+      >
+        {getUpworkCards()}
+      </Grid>
       {currentPage <= totalPages && currentPage >= 2 && 
-        <Button onClick={() => setCurrentPage(currentPage - 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page précédente</Button>
-      }
-      {currentPage < totalPages && 
-        <Button onClick={() => setCurrentPage(currentPage + 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page suivante</Button>
-      }
+          <Button 
+            className="btn btn-one" 
+            onClick={() => setCurrentPage(currentPage - 1)} 
+            sx={{ 
+              color: "white", 
+              marginLeft: "1vh",
+              fontFamily: 'monospace',
+              fontWeight: 700,
+            }}
+            startIcon={<ArrowBackIosNewIcon/>}
+          >
+            Précédente
+          </Button>
+        }
+        {currentPage < totalPages && 
+          <Button 
+            className="btn btn-one" 
+            onClick={() => setCurrentPage(currentPage + 1)} 
+            sx={{ 
+              width: "130px",
+              color: "white", 
+              marginLeft: "1vh",
+              fontFamily: 'monospace',
+              fontWeight: 700, 
+            }}
+            endIcon={<ArrowForwardIosIcon/>}
+          >
+            Suivante
+          </Button>
+        }
     </>
   );
 });

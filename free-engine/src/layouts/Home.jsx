@@ -17,7 +17,6 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useFreelancesStore } from '../context/FreelancesContext'
 import { observer } from 'mobx-react';
-
 import "./home.css"
 
 export const Home = observer(() => {
@@ -94,11 +93,16 @@ export const Home = observer(() => {
         <div className="main-content" id="main-content">
           <div className="filter-button">
             <Button 
-              variant="contained"
+              className="btn btn-one-home"
               startIcon={<ArrowLeftIcon/>}
               endIcon={<ArrowRightIcon />}
               onClick={displaySideBar}            
-              sx={{ml: "1%"}}
+              sx={{ml: "2vh", 
+                width: "10vw", 
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                color: 'white'
+              }}
             > 
               Filtres 
             </Button>

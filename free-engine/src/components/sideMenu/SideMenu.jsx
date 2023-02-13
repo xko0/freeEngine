@@ -10,10 +10,22 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { observer } from 'mobx-react';
+import Slider from '@mui/material/Slider';
+import Typography from '@mui/material/Typography';
+
+function valuetext(value) {
+  return `${value}°C`;
+}
 
 export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) => {
   const [priceOrder, setPriceOrder] = useState('');
   const freelancesStore = useFreelancesStore();
+  const [value, setValue] = React.useState([100, 600]);
+
+  const handlePriceRangeChange = (event, newValue) => {
+    setValue(newValue);
+    freelancesStore.getPricesRange(value)
+  };
 
   const handlePlatformSelect = (platform) => {
     if (platform.checked) {
@@ -75,6 +87,18 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
           <FormControlLabel value="décroissant" control={<Radio />} label="décroissant" />
         </RadioGroup>
       </FormControl>
+      <Typography id="price-range" variant= "body1">Prix min-max à la journée</Typography>
+      <Box sx={{ mb: "2vh", mx: "1vh" }}>
+        <Slider
+          getAriaLabel={() => 'Temperature range'}
+          value={value}
+          onChange={handlePriceRangeChange}
+          valueLabelDisplay="auto"
+          getAriaValueText={valuetext}
+          min={0}
+          max={2000}
+        />
+      </Box>
       <Box sx={{ display: 'flex' }}>
         <FormControl sx={{ mb: 2 }} component="fieldset" variant="standard">
           <FormLabel component="legend">Afficher par ville (Malt et Freelance.com)</FormLabel>

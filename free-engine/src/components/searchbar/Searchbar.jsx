@@ -23,18 +23,23 @@ export const SearchBar = observer (() => {
 
   function getFreelances(specialty, platforms) {
     let encodedSpecialty = encodeURI(specialty)
-    if (platforms.length == 0) {
-      freelancesStore.getFreelances(encodedSpecialty)
-      freelancesStore.getFreelanceCom(encodedSpecialty)
-      freelancesStore.getFiverrFreelances(encodedSpecialty)
-      freelancesStore.getFreelancesComeup(encodedSpecialty)
-      freelancesStore.getFreelancesUpwork(encodedSpecialty)
+    let platformsData = {
+      "Malt.fr": freelancesStore.getFreelances,
+      "Freelance.com": freelancesStore.getFreelanceCom,
+      "Upwork.com": freelancesStore.getFreelancesUpwork,
+      "Fiverr.com": freelancesStore.getFiverrFreelances,
+      "Comeup.com": freelancesStore.getFreelancesComeup
     }
-    platforms.includes("Malt.fr") ? freelancesStore.getFreelances(encodedSpecialty) : ""
-    platforms.includes("Freelance.com") ? freelancesStore.getFreelanceCom(encodedSpecialty) : ""
-    platforms.includes("Fiverr.com") ? freelancesStore.getFiverrFreelances(encodedSpecialty) : ""
-    platforms.includes("Comeup.com") ? freelancesStore.getFreelancesComeup(encodedSpecialty) : ""
-    platforms.includes("Upwork.com") ? freelancesStore.getFreelancesUpwork(encodedSpecialty) : ""
+
+    if (platforms.length == 0) {
+      Object.values(platformsData).forEach(platform => platform(encodedSpecialty))
+    } else {
+      platforms.forEach(platform => {
+        if (platform in platformsData) {
+          platformsData[platform](encodedSpecialty);
+        }
+      });
+    }
   }
 
   const handleChange = (event) => {
@@ -61,11 +66,11 @@ export const SearchBar = observer (() => {
     <>
       <Container 
         sx={{ minWidth: "200px", 
-          marginTop: "2%", 
+          marginTop: "1%", 
           display: "flex", 
           alignItems: "center", 
           justifyContent: "center", 
-          flexDirection: "row"
+          flexDirection: "row",
         }}
       >
         <Box
@@ -76,7 +81,8 @@ export const SearchBar = observer (() => {
             m: 2
           }}
         >
-          <TextField 
+          <TextField
+            size="small"
             fullWidth label="Recherchez un freelance par spécialité" 
             id="fullWidth"
             value={specialty}
@@ -88,10 +94,11 @@ export const SearchBar = observer (() => {
         >
           <div>
             <FormControl sx={{ width: "100%"}}>
-              <InputLabel id="demo-multiple-name-label">Plateforme (Par defaut: Toutes)</InputLabel>
+              <InputLabel id="demo-multiple-name-label" sx={{marginTop:"-5px"}}>Plateforme (Par defaut: Toutes)</InputLabel>
               <Select
                 labelId="demo-multiple-checkbox-label"
                 id="demo-multiple-checkbox"
+                size="small"
                 multiple
                 value={platforms}
                 onChange={handleChange}
@@ -114,14 +121,16 @@ export const SearchBar = observer (() => {
           </div>
         </Box>
         <Box sx={{m: 2}}>
-          <Button variant="contained" 
+          <Button variant="contained"
             endIcon={<SendIcon />}
             sx={{ 
               Width: "auto", 
               minWidth: "120px",
               height: "40px", 
               backgroundColor: "rgba(73,115,255,1)",
-              borderRadius: "5px"
+              borderRadius: "5px",
+              fontFamily: 'monospace',
+              fontWeight: 700,
             }}
             onClick={() => {getFreelances(specialty, platforms)}}
           >
