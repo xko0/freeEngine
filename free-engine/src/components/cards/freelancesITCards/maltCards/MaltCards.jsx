@@ -10,6 +10,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
+import WestTwoToneIcon from '@mui/icons-material/WestTwoTone';
+import EastTwoToneIcon from '@mui/icons-material/EastTwoTone';
+import "./../cards.css"
 
 export const MaltCards = observer(() => {
   const freelancesStore = useFreelancesStore();
@@ -75,22 +78,44 @@ export const MaltCards = observer(() => {
 
   return (
     <>
-      <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} sx={{ color: "white", marginTop: "1vh"}}>
+      <Typography gutterBottom variant="body" component="div" sx={{ color: "white", ml: "2vh", mt: "3vh"}}>
         {freelancesMalt == null ? "Attente de résultats" : freelancesStore.freelancesMalt[freelancesStore.freelancesMalt.length - 1]} sur Malt.fr
       </Typography>
-      <Grid container spacing={1}>
-        {getMaltCards()}
-      </Grid>
       {freelancesMalt == null ? "" :
-        <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"2vh"} sx={{ color: "white" }}>
+        <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"1vh"} sx={{ color: "white" }}>
           page {currentPage} sur {totalPages}
         </Typography>
       }
+      <Grid container spacing={1}
+        sx={{ mb: "1vh" }}
+      >
+        {getMaltCards()}
+      </Grid>
       {currentPage <= totalPages && currentPage >= 2 && 
-        <Button onClick={() => setCurrentPage(currentPage - 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page précédente</Button>
+        <Button 
+          className="btn btn-one" 
+          onClick={() => setCurrentPage(currentPage - 1)} 
+          sx={{ 
+            color: "white", 
+            marginLeft: "1vh",
+          }}
+        >
+          {<WestTwoToneIcon/>}
+        </Button>
       }
       {currentPage < totalPages && 
-        <Button onClick={() => setCurrentPage(currentPage + 1)} sx={{ color: "white", marginLeft: "1vh" }}>Page suivante</Button>
+        <Button 
+          className="btn btn-one" 
+          onClick={() => setCurrentPage(currentPage + 1)} 
+          sx={{
+            color: "white", 
+            marginLeft: "1vh",
+            fontFamily: 'monospace',
+            fontWeight: 700,
+          }}
+        >
+          {<EastTwoToneIcon/>}
+        </Button>
       }
     </>
   );

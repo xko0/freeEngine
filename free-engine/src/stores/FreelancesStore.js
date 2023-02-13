@@ -54,7 +54,6 @@ export function createFreelancesStore() {
       });
       return arrayWithStrings
     },
-    
   
     changeStringToInteger(arrayWithStrings) {
       let lastItem = arrayWithStrings.pop()
