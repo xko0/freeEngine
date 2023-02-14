@@ -25,7 +25,7 @@ export const UpworkCards = observer(() => {
       setFreelancesUpwork(freelancesStore.freelancesUpwork)
       setTotalPages(Math.ceil((freelancesStore.freelancesUpwork.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelancesUpwork, currentPage])
+  }, [freelancesStore.freelancesUpwork, currentPage, freelancesStore.minPricesRange])
 
   function getUpworkCards() {
     if (freelancesStore.loadingUpwork) {

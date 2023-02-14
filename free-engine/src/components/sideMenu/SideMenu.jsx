@@ -10,21 +10,37 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { observer } from 'mobx-react';
-import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-function valuetext(value) {
-  return `${value}°C`;
-}
+import "./sideMenu.css"
 
 export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) => {
   const [priceOrder, setPriceOrder] = useState('');
   const freelancesStore = useFreelancesStore();
-  const [value, setValue] = React.useState([100, 600]);
+  const [minValue, setMinValue] = useState(null);
+  const [maxValue, setMaxValue] = useState(null);
 
-  const handlePriceRangeChange = (event, newValue) => {
-    setValue(newValue);
-    freelancesStore.getPricesRange(value)
+  const updateMinValue = () => {
+    const min = parseInt(document.getElementById("minTextField").value);
+    if (!isNaN(min)) {
+      setMinValue(min);
+    }
+  };
+  
+  const updateMaxValue = () => {
+    const max = parseInt(document.getElementById("maxTextField").value);
+    if (!isNaN(max)) {
+      setMaxValue(max);
+    }
+  };
+  
+  const handlePriceRangeChange = (event) => {
+    updateMinValue();
+    updateMaxValue();
+    console.log(minValue)
+    freelancesStore.getMinPricesRange(minValue);
   };
 
   const handlePlatformSelect = (platform) => {
@@ -87,17 +103,38 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
           <FormControlLabel value="décroissant" control={<Radio />} label="décroissant" />
         </RadioGroup>
       </FormControl>
-      <Typography id="price-range" variant= "body1">Prix min-max à la journée</Typography>
-      <Box sx={{ mb: "2vh", mx: "1vh" }}>
-        <Slider
-          getAriaLabel={() => 'Temperature range'}
-          value={value}
-          onChange={handlePriceRangeChange}
-          valueLabelDisplay="auto"
-          getAriaValueText={valuetext}
-          min={0}
-          max={2000}
+      <Typography id="price-range" variant= "body1">Prix à la journée</Typography>
+      <Box sx={{ mb: "2vh"}}>
+        <TextField
+          label="Minimum"
+          id="minTextField"
+          defaultValue=""
+          size="small"
+          variant="standard"
+          sx={{width: "40%", mr: "5%", mb: "2vh"}}
         />
+        <TextField
+          label="Maximum"
+          id="maxTextField"
+          defaultValue=""
+          size="small"
+          variant="standard"
+          sx={{width: "40%", ml: "5%", mb: "2vh"}}
+        />
+        <Button 
+          className="btn btn-one-sideMenu" 
+          onClick={handlePriceRangeChange} 
+          sx={{ 
+            width: "110px",
+            height: "20px",
+            color: "black", 
+            fontFamily: 'monospace',
+            fontWeight: 600,
+            mb: "2vh"
+          }}
+        >
+          - Trier -
+        </Button>
       </Box>
       <Box sx={{ display: 'flex' }}>
         <FormControl sx={{ mb: 2 }} component="fieldset" variant="standard">
