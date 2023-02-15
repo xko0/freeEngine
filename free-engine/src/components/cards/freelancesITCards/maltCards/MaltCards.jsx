@@ -26,7 +26,7 @@ export const MaltCards = observer(() => {
       setFreelancesMalt(freelancesStore.freelancesMalt)
       setTotalPages(Math.ceil((freelancesStore.freelancesMalt.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelancesMalt, currentPage])
+  }, [freelancesStore.freelancesMalt, currentPage, freelancesStore.pricesRange])
 
   function getMaltCards() {
     if (freelancesStore.loadingMalt) {

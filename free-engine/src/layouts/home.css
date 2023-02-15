@@ -15,12 +15,11 @@
 }
 
 .sideBar {
-  position: absolute;
+  position: fixed;
   left: -100%;
-  top: 80px;
+  top: 64px;
   width: 12.7%;
-  height: 100%;
-  /* background: rgba(52, 52, 156, 0); */
+  height: 90%;
   background: white;
   padding: 20px;
   overflow: auto;

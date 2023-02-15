@@ -22,7 +22,7 @@ export const FreelanceComCardsFiltered = observer(({freelanceFiltered}) => {
   
   useEffect(() => {
     setFilteredFreelances(freelanceFiltered)
-  }, [freelanceFiltered])
+  }, [freelanceFiltered, freelancesStore.pricesRange])
 
   useEffect(() => {
     if (filteredFreelances)

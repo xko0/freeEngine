@@ -17,21 +17,7 @@ export function createFreelancesStore() {
     freelanceCom: JSON.parse(localStorage.getItem('freelanceCom')) || [],
     freelancesComeup: JSON.parse(localStorage.getItem('freelancesComeup')) || [],
     priceOrdered: false,
-    minPricesRange: false,
-    maxPricesRange: false,
-
-    // removeLettersFromPricesForUpwork(array) {
-    //   array.map(freelance => {
-    //     if (Number.isInteger(freelance[0])) {
-    //       return freelance;
-    //     } else if (Array.isArray(freelance) && freelance.length > 0 && freelance[0] != null) {
-    //       console.log("test from .map :", freelance[0])
-    //       return parseInt(freelance[0].replace(/\D/g, "")); //removes all non-integers
-    //     }
-    //   });
-    //   console.log("testing array int:", array)
-    //   return array
-    // },
+    pricesRange: false,
 
     removeLettersFromPrices(array) {
       let lastItem = array.pop()
@@ -45,17 +31,6 @@ export function createFreelancesStore() {
       array.push(lastItem)
       return array
     },
-
-    // changeStringToIntegerForUpwork(arrayWithStrings) {
-    //   arrayWithStrings.map(string => {
-    //     if (Number.isInteger(string[0]) && string.length > 0) {
-    //       return string;
-    //     } else if (Array.isArray(string) && string.length > 0 && string[0] != null) {
-    //       return string[0] = parseInt(string[0]);
-    //     }
-    //   });
-    //   return arrayWithStrings
-    // },
   
     changeStringToInteger(arrayWithStrings) {
       let lastItem = arrayWithStrings.pop()
@@ -110,29 +85,51 @@ export function createFreelancesStore() {
       return
     },
 
-    underMinPricesRemoveUpwork(array, minValue) {
-      const oldArray = array
-      if (minValue == null) {
-        this.freelancesUpwork = JSON.parse(localStorage.getItem('freelancesUpwork'))
-        return
-      } else {
-        const newArray = array.filter(innerArray => innerArray[0] >= minValue);
-        array = newArray
-        this.freelancesUpwork = newArray
-        console.log(array, minValue)
-        return array
-      }
+    pricesRangeRemoveMalt(array, minValue, maxValue) {
+      let lastItem = array.pop()
+      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      array = newArray
+      array.push(lastItem)
+      this.freelancesMalt = array
+      return array
     },
 
-    getMinPricesRange(minValue) {
-      // let arrays = [this.freelancesMalt, this.freelanceCom, this.freelancesFiverr];
+    pricesRangeRemoveFreelanceCom(array, minValue, maxValue) {
+      let lastItem = array.pop()
+      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      array = newArray
+      array.push(lastItem)
+      this.freelanceCom = array
+      return array
+    },
 
-      // arrays = arrays.map(array => this.removeLettersFromPrices(array))
-      // arrays = arrays.map(array => this.changeStringToInteger(array))
-      // arrays = arrays.map(array => this.underMinPricesRemove(array, minValue))
-      // arrays = arrays.map(array => this.moveFirstItemToLast(array))
-      this.underMinPricesRemoveUpwork(this.freelancesUpwork, (minValue * 100))
-      this.minPricesRange = !this.minPricesRange
+    pricesRangeRemoveUpwork(array, minValue, maxValue) {
+      array = JSON.parse(localStorage.getItem('freelancesUpwork'))
+      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      array = newArray
+      this.freelancesUpwork = newArray
+      return array
+    },
+
+    getDayPricesRanges(minValue, maxValue) {
+      this.freelancesMalt = JSON.parse(localStorage.getItem('freelancesMalt'))
+      this.freelanceCom = JSON.parse(localStorage.getItem('freelanceCom'))
+
+      this.removeLettersFromPrices(this.freelancesMalt)
+      this.removeLettersFromPrices(this.freelanceCom)
+
+      this.changeStringToInteger(this.freelancesMalt)
+      this.changeStringToInteger(this.freelanceCom)
+
+      this.pricesRangeRemoveMalt(this.freelancesMalt, minValue, maxValue)
+      this.pricesRangeRemoveFreelanceCom(this.freelanceCom, minValue, maxValue)
+      this.pricesRange = !this.pricesRange
+      return
+    },
+
+    getHourPricesRange(minValue, maxValue) {
+      this.pricesRangeRemoveUpwork(this.freelancesUpwork, (minValue * 100), (maxValue * 100))
+      this.pricesRange = !this.pricesRange
       return
     },
 

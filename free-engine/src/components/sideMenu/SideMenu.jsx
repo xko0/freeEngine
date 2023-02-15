@@ -22,25 +22,68 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
   const [minValue, setMinValue] = useState(null);
   const [maxValue, setMaxValue] = useState(null);
 
-  const updateMinValue = () => {
-    const min = parseInt(document.getElementById("minTextField").value);
+  const handleHourPriceRangeChange = () => {
+    const minTextField = document.getElementById("hourMinTextField");
+    const maxTextField = document.getElementById("hourMaxTextField");
+  
+    const min = parseInt(minTextField.value);
+    const max = parseInt(maxTextField.value);
+  
+    let newMinValue = minValue;
+    let newMaxValue = maxValue;
+
+    if (isNaN(min) && isNaN(max)) {
+      newMinValue = 0;
+      newMaxValue = 500;
+    }
+  
     if (!isNaN(min)) {
-      setMinValue(min);
+      newMinValue = min;
     }
-  };
   
-  const updateMaxValue = () => {
-    const max = parseInt(document.getElementById("maxTextField").value);
     if (!isNaN(max)) {
-      setMaxValue(max);
+      newMaxValue = max;
     }
-  };
   
-  const handlePriceRangeChange = (event) => {
-    updateMinValue();
-    updateMaxValue();
-    console.log(minValue)
-    freelancesStore.getMinPricesRange(minValue);
+    setMinValue(newMinValue);
+    setMaxValue(newMaxValue);
+
+    freelancesStore.getHourPricesRange(newMinValue, newMaxValue);
+  
+    minTextField.value = "";
+    maxTextField.value = "";
+  };
+
+  const handleDayPriceRangeChange = () => {
+    const minTextField = document.getElementById("dayMinTextField");
+    const maxTextField = document.getElementById("dayMaxTextField");
+  
+    const min = parseInt(minTextField.value);
+    const max = parseInt(maxTextField.value);
+
+    let newMinValue = minValue;
+    let newMaxValue = maxValue;
+  
+    if (isNaN(min) && isNaN(max)) {
+      newMinValue = 0;
+      newMaxValue = 5000;
+    }
+  
+    if (!isNaN(min)) {
+      newMinValue = min;
+    }
+  
+    if (!isNaN(max)) {
+      newMaxValue = max;
+    }
+  
+    setMinValue(newMinValue);
+    setMaxValue(newMaxValue);
+
+    freelancesStore.getDayPricesRanges(newMinValue, newMaxValue);
+  
+    minTextField.value = "";
+    maxTextField.value = "";
   };
 
   const handlePlatformSelect = (platform) => {
@@ -107,7 +150,7 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
       <Box sx={{ mb: "2vh"}}>
         <TextField
           label="Minimum"
-          id="minTextField"
+          id="dayMinTextField"
           defaultValue=""
           size="small"
           variant="standard"
@@ -115,7 +158,7 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
         />
         <TextField
           label="Maximum"
-          id="maxTextField"
+          id="dayMaxTextField"
           defaultValue=""
           size="small"
           variant="standard"
@@ -123,7 +166,40 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
         />
         <Button 
           className="btn btn-one-sideMenu" 
-          onClick={handlePriceRangeChange} 
+          onClick={handleDayPriceRangeChange} 
+          sx={{ 
+            width: "110px",
+            height: "20px",
+            color: "black", 
+            fontFamily: 'monospace',
+            fontWeight: 600,
+            mb: "2vh"
+          }}
+        >
+          - Trier -
+        </Button>
+      </Box>
+      <Typography id="price-range" variant= "body1">Prix à l'heure</Typography>
+      <Box sx={{ mb: "2vh"}}>
+        <TextField
+          label="Minimum"
+          id="hourMinTextField"
+          defaultValue=""
+          size="small"
+          variant="standard"
+          sx={{width: "40%", mr: "5%", mb: "2vh"}}
+        />
+        <TextField
+          label="Maximum"
+          id="hourMaxTextField"
+          defaultValue=""
+          size="small"
+          variant="standard"
+          sx={{width: "40%", ml: "5%", mb: "2vh"}}
+        />
+        <Button 
+          className="btn btn-one-sideMenu" 
+          onClick={handleHourPriceRangeChange} 
           sx={{ 
             width: "110px",
             height: "20px",
