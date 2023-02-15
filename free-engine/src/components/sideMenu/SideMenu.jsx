@@ -10,21 +10,80 @@ import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { observer } from 'mobx-react';
-import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-function valuetext(value) {
-  return `${value}°C`;
-}
+import "./sideMenu.css"
 
 export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) => {
   const [priceOrder, setPriceOrder] = useState('');
   const freelancesStore = useFreelancesStore();
-  const [value, setValue] = React.useState([100, 600]);
+  const [minValue, setMinValue] = useState(null);
+  const [maxValue, setMaxValue] = useState(null);
 
-  const handlePriceRangeChange = (event, newValue) => {
-    setValue(newValue);
-    freelancesStore.getPricesRange(value)
+  const handleHourPriceRangeChange = () => {
+    const minTextField = document.getElementById("hourMinTextField");
+    const maxTextField = document.getElementById("hourMaxTextField");
+  
+    const min = parseInt(minTextField.value);
+    const max = parseInt(maxTextField.value);
+  
+    let newMinValue = minValue;
+    let newMaxValue = maxValue;
+
+    if (isNaN(min) && isNaN(max)) {
+      newMinValue = 0;
+      newMaxValue = 500;
+    }
+  
+    if (!isNaN(min)) {
+      newMinValue = min;
+    }
+  
+    if (!isNaN(max)) {
+      newMaxValue = max;
+    }
+  
+    setMinValue(newMinValue);
+    setMaxValue(newMaxValue);
+
+    freelancesStore.getHourPricesRange(newMinValue, newMaxValue);
+  
+    minTextField.value = "";
+    maxTextField.value = "";
+  };
+
+  const handleDayPriceRangeChange = () => {
+    const minTextField = document.getElementById("dayMinTextField");
+    const maxTextField = document.getElementById("dayMaxTextField");
+  
+    const min = parseInt(minTextField.value);
+    const max = parseInt(maxTextField.value);
+
+    let newMinValue = minValue;
+    let newMaxValue = maxValue;
+  
+    if (isNaN(min) && isNaN(max)) {
+      newMinValue = 0;
+      newMaxValue = 5000;
+    }
+  
+    if (!isNaN(min)) {
+      newMinValue = min;
+    }
+  
+    if (!isNaN(max)) {
+      newMaxValue = max;
+    }
+  
+    setMinValue(newMinValue);
+    setMaxValue(newMaxValue);
+
+    freelancesStore.getDayPricesRanges(newMinValue, newMaxValue);
+  
+    minTextField.value = "";
+    maxTextField.value = "";
   };
 
   const handlePlatformSelect = (platform) => {
@@ -87,17 +146,71 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
           <FormControlLabel value="décroissant" control={<Radio />} label="décroissant" />
         </RadioGroup>
       </FormControl>
-      <Typography id="price-range" variant= "body1">Prix min-max à la journée</Typography>
-      <Box sx={{ mb: "2vh", mx: "1vh" }}>
-        <Slider
-          getAriaLabel={() => 'Temperature range'}
-          value={value}
-          onChange={handlePriceRangeChange}
-          valueLabelDisplay="auto"
-          getAriaValueText={valuetext}
-          min={0}
-          max={2000}
+      <Typography id="price-range" variant= "body1">Prix à la journée</Typography>
+      <Box sx={{ mb: "2vh"}}>
+        <TextField
+          label="Minimum"
+          id="dayMinTextField"
+          defaultValue=""
+          size="small"
+          variant="standard"
+          sx={{width: "40%", mr: "5%", mb: "2vh"}}
         />
+        <TextField
+          label="Maximum"
+          id="dayMaxTextField"
+          defaultValue=""
+          size="small"
+          variant="standard"
+          sx={{width: "40%", ml: "5%", mb: "2vh"}}
+        />
+        <Button 
+          className="btn btn-one-sideMenu" 
+          onClick={handleDayPriceRangeChange} 
+          sx={{ 
+            width: "110px",
+            height: "20px",
+            color: "black", 
+            fontFamily: 'monospace',
+            fontWeight: 600,
+            mb: "2vh"
+          }}
+        >
+          - Trier -
+        </Button>
+      </Box>
+      <Typography id="price-range" variant= "body1">Prix à l'heure</Typography>
+      <Box sx={{ mb: "2vh"}}>
+        <TextField
+          label="Minimum"
+          id="hourMinTextField"
+          defaultValue=""
+          size="small"
+          variant="standard"
+          sx={{width: "40%", mr: "5%", mb: "2vh"}}
+        />
+        <TextField
+          label="Maximum"
+          id="hourMaxTextField"
+          defaultValue=""
+          size="small"
+          variant="standard"
+          sx={{width: "40%", ml: "5%", mb: "2vh"}}
+        />
+        <Button 
+          className="btn btn-one-sideMenu" 
+          onClick={handleHourPriceRangeChange} 
+          sx={{ 
+            width: "110px",
+            height: "20px",
+            color: "black", 
+            fontFamily: 'monospace',
+            fontWeight: 600,
+            mb: "2vh"
+          }}
+        >
+          - Trier -
+        </Button>
       </Box>
       <Box sx={{ display: 'flex' }}>
         <FormControl sx={{ mb: 2 }} component="fieldset" variant="standard">

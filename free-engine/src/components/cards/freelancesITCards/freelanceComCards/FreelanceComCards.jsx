@@ -25,7 +25,7 @@ export const FreelanceComCards = observer(() => {
       setFreelanceCom(freelancesStore.freelanceCom)
       setTotalPages(Math.ceil((freelanceCom.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelanceCom])
+  }, [freelancesStore.freelanceCom, freelancesStore.pricesRange])
 
   function getFreelanceComCards() {
     if (freelancesStore.loadingFreelanceCom) {
