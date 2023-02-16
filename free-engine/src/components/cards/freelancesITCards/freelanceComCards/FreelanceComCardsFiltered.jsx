@@ -97,7 +97,7 @@ export const FreelanceComCardsFiltered = observer(({freelanceFiltered}) => {
             }}
             startIcon={<ArrowBackIosNewIcon/>}
           >
-            Précédente
+            Précédent
           </Button>
         }
         {currentPage < totalPages && 
@@ -113,7 +113,7 @@ export const FreelanceComCardsFiltered = observer(({freelanceFiltered}) => {
             }}
             endIcon={<ArrowForwardIosIcon/>}
           >
-            Suivante
+            Suivant
           </Button>
         }
       </>

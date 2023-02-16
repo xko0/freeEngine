@@ -93,36 +93,36 @@ export const UpworkCards = observer(() => {
         {getUpworkCards()}
       </Grid>
       {currentPage <= totalPages && currentPage >= 2 && 
-          <Button 
-            className="btn btn-one" 
-            onClick={() => setCurrentPage(currentPage - 1)} 
-            sx={{ 
-              color: "white", 
-              marginLeft: "1vh",
-              fontFamily: 'monospace',
-              fontWeight: 700,
-            }}
-            startIcon={<ArrowBackIosNewIcon/>}
-          >
-            Précédente
-          </Button>
-        }
-        {currentPage < totalPages && 
-          <Button 
-            className="btn btn-one" 
-            onClick={() => setCurrentPage(currentPage + 1)} 
-            sx={{ 
-              width: "130px",
-              color: "white", 
-              marginLeft: "1vh",
-              fontFamily: 'monospace',
-              fontWeight: 700, 
-            }}
-            endIcon={<ArrowForwardIosIcon/>}
-          >
-            Suivante
-          </Button>
-        }
+        <Button 
+          className="btn btn-one" 
+          onClick={() => setCurrentPage(currentPage - 1)} 
+          sx={{ 
+            color: "white", 
+            marginLeft: "1vh",
+            fontFamily: 'monospace',
+            fontWeight: 700,
+          }}
+          startIcon={<ArrowBackIosNewIcon/>}
+        >
+          Précédent
+        </Button>
+      }
+      {currentPage < totalPages && 
+        <Button 
+          className="btn btn-one" 
+          onClick={() => setCurrentPage(currentPage + 1)} 
+          sx={{ 
+            width: "130px",
+            color: "white", 
+            marginLeft: "1vh",
+            fontFamily: 'monospace',
+            fontWeight: 700, 
+          }}
+          endIcon={<ArrowForwardIosIcon/>}
+        >
+          Suivant
+        </Button>
+      }
     </>
   );
 });

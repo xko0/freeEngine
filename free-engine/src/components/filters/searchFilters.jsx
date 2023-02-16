@@ -238,9 +238,9 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
           </Box>
         </Container>
       </Container>
-      <Container sx={{display: "flex"}}>
-        <Typography id="price-range" variant= "body1" sx={{mr: "20%"}}>Prix à la journée</Typography>
-        <Typography id="price-range" variant= "body1" sx={{ml: "20%"}}>Prix à l'heure</Typography>
+      <Container sx={{display: "flex", mb: "2vh"}}>
+        <Typography variant= "body" sx={{color: "white"}}>Prix à la journée</Typography>
+        <Typography variant= "body" sx={{ml: "31%", color: "white"}}>Prix à l'heure</Typography>
       </Container>
       <Box sx={{ ml: "2%", mb: "2vh"}}>
         <TextField
@@ -248,27 +248,25 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
           id="dayMinTextField"
           defaultValue=""
           size="small"
-          variant="standard"
-          sx={{width: "10%", mr: "1%", mb: "2vh"}}
+          sx={{width: "10%", mr: "1%", mb: "2vh", backgroundColor: "white", borderRadius: "5px"}}
         />
         <TextField
           label="Maximum"
           id="dayMaxTextField"
           defaultValue=""
           size="small"
-          variant="standard"
-          sx={{width: "10%", ml: "1%", mb: "2vh"}}
+          sx={{width: "10%", ml: "1%", mb: "2vh", backgroundColor: "white", borderRadius: "5px"}}
         />
         <Button 
           className="btn btn-one-filters" 
           onClick={() => handlePriceRangeChange("day")} 
           sx={{ 
             width: "110px",
-            height: "20px",
-            color: "black", 
+            height: "30px",
+            color: "white", 
             fontFamily: 'monospace',
             fontWeight: 600,
-            mb: "2vh"
+            m: "2vh"
           }}
         >
           - Trier -
@@ -278,27 +276,25 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
           id="hourMinTextField"
           defaultValue=""
           size="small"
-          variant="standard"
-          sx={{width: "10%", mr: "1%", mb: "2vh", ml: "18%"}}
+          sx={{width: "10%", mr: "1%", mb: "2vh", ml: "8%", backgroundColor: "white", borderRadius: "5px"}}
         />
         <TextField
           label="Maximum"
           id="hourMaxTextField"
           defaultValue=""
           size="small"
-          variant="standard"
-          sx={{width: "10%", ml: "1%", mb: "2vh"}}
+          sx={{width: "10%", ml: "1%", mb: "2vh", backgroundColor: "white", borderRadius: "5px"}}
         />
         <Button 
           className="btn btn-one-filters"
           onClick={() => handlePriceRangeChange("hour")} 
           sx={{ 
             width: "110px",
-            height: "20px",
-            color: "black", 
+            height: "30px",
+            color: "white", 
             fontFamily: 'monospace',
             fontWeight: 600,
-            mb: "2vh"
+            m: "2vh"
           }}
         >
           - Trier -

@@ -95,7 +95,7 @@ export const MaltCardsFiltered = observer(({freelanceFiltered}) => {
             }}
             startIcon={<ArrowBackIosNewIcon/>}
           >
-            Précédente
+            Précédent
           </Button>
         }
         {currentPage < totalPages && 
@@ -111,7 +111,7 @@ export const MaltCardsFiltered = observer(({freelanceFiltered}) => {
             }}
             endIcon={<ArrowForwardIosIcon/>}
           >
-            Suivante
+            Suivant
           </Button>
         }
       </>

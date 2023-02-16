@@ -10,8 +10,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
-import WestTwoToneIcon from '@mui/icons-material/WestTwoTone';
-import EastTwoToneIcon from '@mui/icons-material/EastTwoTone';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import "./../cards.css"
 
 export const MaltCards = observer(() => {
@@ -98,23 +98,28 @@ export const MaltCards = observer(() => {
           sx={{ 
             color: "white", 
             marginLeft: "1vh",
+            fontFamily: 'monospace',
+            fontWeight: 700,
           }}
+          startIcon={<ArrowBackIosNewIcon/>}
         >
-          {<WestTwoToneIcon/>}
+          Précédent
         </Button>
       }
       {currentPage < totalPages && 
         <Button 
           className="btn btn-one" 
           onClick={() => setCurrentPage(currentPage + 1)} 
-          sx={{
+          sx={{ 
+            width: "130px",
             color: "white", 
             marginLeft: "1vh",
             fontFamily: 'monospace',
-            fontWeight: 700,
+            fontWeight: 700, 
           }}
+          endIcon={<ArrowForwardIosIcon/>}
         >
-          {<EastTwoToneIcon/>}
+          Suivant
         </Button>
       }
     </>
