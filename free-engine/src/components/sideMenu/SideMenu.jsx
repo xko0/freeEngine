@@ -13,7 +13,6 @@ import { observer } from 'mobx-react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
 import "./sideMenu.css"
 
 export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) => {
@@ -22,19 +21,19 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
   const [minValue, setMinValue] = useState(null);
   const [maxValue, setMaxValue] = useState(null);
 
-  const handleHourPriceRangeChange = () => {
-    const minTextField = document.getElementById("hourMinTextField");
-    const maxTextField = document.getElementById("hourMaxTextField");
+  const handlePriceRangeChange = (type) => {
+    const minTextField = document.getElementById(`${type}MinTextField`);
+    const maxTextField = document.getElementById(`${type}MaxTextField`);
   
     const min = parseInt(minTextField.value);
     const max = parseInt(maxTextField.value);
   
     let newMinValue = minValue;
     let newMaxValue = maxValue;
-
+  
     if (isNaN(min) && isNaN(max)) {
-      newMinValue = 0;
-      newMaxValue = 500;
+      newMinValue = 0
+      newMaxValue = type === 'hour' ? 500 : 5000;
     }
   
     if (!isNaN(min)) {
@@ -47,40 +46,12 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
   
     setMinValue(newMinValue);
     setMaxValue(newMaxValue);
-
-    freelancesStore.getHourPricesRange(newMinValue, newMaxValue);
   
-    minTextField.value = "";
-    maxTextField.value = "";
-  };
-
-  const handleDayPriceRangeChange = () => {
-    const minTextField = document.getElementById("dayMinTextField");
-    const maxTextField = document.getElementById("dayMaxTextField");
-  
-    const min = parseInt(minTextField.value);
-    const max = parseInt(maxTextField.value);
-
-    let newMinValue = minValue;
-    let newMaxValue = maxValue;
-  
-    if (isNaN(min) && isNaN(max)) {
-      newMinValue = 0;
-      newMaxValue = 5000;
+    if (type === 'hour') {
+      freelancesStore.getHourPricesRange(newMinValue, newMaxValue);
+    } else if (type === 'day') {
+      freelancesStore.getDayPricesRanges(newMinValue, newMaxValue);
     }
-  
-    if (!isNaN(min)) {
-      newMinValue = min;
-    }
-  
-    if (!isNaN(max)) {
-      newMaxValue = max;
-    }
-  
-    setMinValue(newMinValue);
-    setMaxValue(newMaxValue);
-
-    freelancesStore.getDayPricesRanges(newMinValue, newMaxValue);
   
     minTextField.value = "";
     maxTextField.value = "";
@@ -166,7 +137,7 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
         />
         <Button 
           className="btn btn-one-sideMenu" 
-          onClick={handleDayPriceRangeChange} 
+          onClick={() => handlePriceRangeChange("day")} 
           sx={{ 
             width: "110px",
             height: "20px",
@@ -198,8 +169,8 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
           sx={{width: "40%", ml: "5%", mb: "2vh"}}
         />
         <Button 
-          className="btn btn-one-sideMenu" 
-          onClick={handleHourPriceRangeChange} 
+          className="btn btn-one-sideMenu"
+          onClick={() => handlePriceRangeChange("hour")} 
           sx={{ 
             width: "110px",
             height: "20px",
@@ -253,6 +224,6 @@ const marketplaces = [
   "Malt.fr",
   "Freelance.com",
   "Upwork.com",
-  // "Fiverr.com",
-  // "Comeup.com"
+  "Fixnhour.com",
+  "Lehibou.com"
 ]

@@ -6,16 +6,16 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 export function createFreelancesStore() {
   return {
     loadingMalt: null,
-    loadingFiverr: null,
     loadingUpwork: null,
     loadingFreelanceCom: null,
-    loadingComeup: null,
+    loadingFixnhour: null,
+    loadingLehibou: null,
     hasErrors: null,
     freelancesMalt: JSON.parse(localStorage.getItem('freelancesMalt')) || [],
-    freelancesFiverr: JSON.parse(localStorage.getItem('freelancesFiverr')) || [],
     freelancesUpwork: JSON.parse(localStorage.getItem('freelancesUpwork')) || [],
     freelanceCom: JSON.parse(localStorage.getItem('freelanceCom')) || [],
-    freelancesComeup: JSON.parse(localStorage.getItem('freelancesComeup')) || [],
+    freelancesFixnhour: JSON.parse(localStorage.getItem('freelancesFixnhour')) || [],
+    freelancesLehibou: JSON.parse(localStorage.getItem('freelancesLehibou')) || [],
     priceOrdered: false,
     pricesRange: false,
 
@@ -61,25 +61,26 @@ export function createFreelancesStore() {
     },
   
     getCroissantPrices() {
-      let arrays = [this.freelancesMalt, this.freelanceCom, this.freelancesFiverr];
+      let arrays = [this.freelancesMalt, this.freelanceCom];
 
       arrays = arrays.map(array => this.removeLettersFromPrices(array))
       arrays = arrays.map(array => this.changeStringToInteger(array))
       arrays = arrays.map(array => this.sortCroissantPrices(array))
       arrays = arrays.map(array => this.moveFirstItemToLast(array))
       this.sortCroissantPrices(this.freelancesUpwork)
-
+      this.sortCroissantPrices(this.freelancesFixnhour)
       this.priceOrdered = !this.priceOrdered
       return
     },
 
     getDescendingPrices() {
-      let arrays = [this.freelancesMalt, this.freelanceCom, this.freelancesFiverr];
+      let arrays = [this.freelancesMalt, this.freelanceCom];
 
       arrays = arrays.map(array => this.removeLettersFromPrices(array))
       arrays = arrays.map(array => this.changeStringToInteger(array))
       arrays = arrays.map(array => this.sortDescendingPrices(array))
       this.sortDescendingPrices(this.freelancesUpwork)
+      this.sortDescendingPrices(this.freelancesFixnhour)
 
       this.priceOrdered = !this.priceOrdered
       return
@@ -111,6 +112,14 @@ export function createFreelancesStore() {
       return array
     },
 
+    pricesRangeRemoveFixnhour(array, minValue, maxValue) {
+      array = JSON.parse(localStorage.getItem('freelancesFixnhour'))
+      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      array = newArray
+      this.freelancesFixnhour = newArray
+      return array
+    },
+
     getDayPricesRanges(minValue, maxValue) {
       this.freelancesMalt = JSON.parse(localStorage.getItem('freelancesMalt'))
       this.freelanceCom = JSON.parse(localStorage.getItem('freelanceCom'))
@@ -129,6 +138,7 @@ export function createFreelancesStore() {
 
     getHourPricesRange(minValue, maxValue) {
       this.pricesRangeRemoveUpwork(this.freelancesUpwork, (minValue * 100), (maxValue * 100))
+      this.pricesRangeRemoveFixnhour(this.freelancesFixnhour, (minValue * 100), (maxValue * 100))
       this.pricesRange = !this.pricesRange
       return
     },
@@ -156,30 +166,6 @@ export function createFreelancesStore() {
       }
     },
 
-    async getFiverrFreelances(infos) {
-      runInAction(() => {
-        this.loadingFiverr = true
-        this.hasErrors = false
-      })
-      try {
-        let response = await axios.get(`${BASE_URL}/scrapeFiverrData`,{
-          params: {
-              argument: infos
-          }
-        }) 
-        if (response.data) {
-          runInAction(() => {
-            this.loadingFiverr = false
-            let datasToFilter = response.data
-            this.freelancesFiverr = datasToFilter.filter(freelance => !freelance.includes(null))
-            localStorage.setItem('freelancesFiverr', JSON.stringify(this.freelancesFiverr))
-          })
-        }    
-      } catch(error) {
-        console.error(error)
-      }
-    },
-
     async getFreelanceCom(infos) {
       runInAction(() => {
         this.loadingFreelanceCom = true
@@ -197,30 +183,6 @@ export function createFreelancesStore() {
             let datasToFilter = response.data
             this.freelanceCom = datasToFilter.filter(freelance => !freelance.includes(null))
             localStorage.setItem('freelanceCom', JSON.stringify(this.freelanceCom))
-          })
-        }    
-      } catch(error) {
-        console.error(error)
-      }
-    },
-
-    async getFreelancesComeup(infos) {
-      runInAction(() => {
-        this.loadingComeup = true
-        this.hasErrors = false
-      })
-      try {
-        let response = await axios.get(`${BASE_URL}/scrapeComeupData`,{
-          params: {
-              argument: infos
-          }
-        }) 
-        if (response.data) {
-          runInAction(() => {
-            this.loadingComeup = false
-            let datasToFilter = response.data
-            this.freelancesComeup = datasToFilter.filter(freelance => !freelance.includes(null))
-            localStorage.setItem('freelancesComeup', JSON.stringify(this.freelancesComeup))
           })
         }    
       } catch(error) {
@@ -256,6 +218,62 @@ export function createFreelancesStore() {
             localStorage.setItem('freelancesUpwork', JSON.stringify(this.freelancesUpwork))
           })
         }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async getFreelancesFixnhour(infos) {
+      runInAction(() => {
+        this.loadingFixnhour = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.get(`${BASE_URL}/scrapeFixnhourData`,{
+          params: {
+              argument: infos
+          }
+        }) 
+        if (response.data) {
+          runInAction(() => {
+            this.loadingFixnhour = false
+            let datasToFilter = response.data
+            let firstItem = datasToFilter.shift()
+            let priceFiltered = datasToFilter.map(freelance => {
+              if (typeof freelance[0] === "string") {
+                freelance[0] = parseInt(freelance[0].replace(/\D/g, "")); 
+              }
+              return freelance
+            });
+            console.log(priceFiltered)
+            this.freelancesFixnhour = priceFiltered
+            console.log(this.freelancesFixnhour)
+            localStorage.setItem('freelancesFixnhour', JSON.stringify(this.freelancesFixnhour))
+          })
+        }    
+      } catch(error) {
+        console.error(error)
+      }
+    },
+    
+    async getFreelancesLehibou(infos) {
+      runInAction(() => {
+        this.loadingLehibou = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.get(`${BASE_URL}/scrapeLehibouData`,{
+          params: {
+              argument: infos
+          }
+        }) 
+        
+          runInAction(() => {
+            this.loadingLehibou = false
+            this.freelancesLehibou = response.data
+            localStorage.setItem('freelancesLehibou', JSON.stringify(this.freelancesLehibou))
+          })
+          
       } catch(error) {
         console.error(error)
       }

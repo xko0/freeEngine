@@ -17,7 +17,6 @@ import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import { useFreelancesStore } from '../../context/FreelancesContext';
 import { observer } from 'mobx-react';
-
 import "./searchFilters.css"
 
 export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms, selectedCities, setSelectedCities }) => {
@@ -34,6 +33,42 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
     } else if (event.target.value == "décroissant") {
       freelancesStore.getDescendingPrices()
     }
+  };
+
+  const handlePriceRangeChange = (type) => {
+    const minTextField = document.getElementById(`${type}MinTextField`);
+    const maxTextField = document.getElementById(`${type}MaxTextField`);
+  
+    const min = parseInt(minTextField.value);
+    const max = parseInt(maxTextField.value);
+  
+    let newMinValue = minValue;
+    let newMaxValue = maxValue;
+  
+    if (isNaN(min) && isNaN(max)) {
+      newMinValue = 0
+      newMaxValue = type === 'hour' ? 500 : 5000;
+    }
+  
+    if (!isNaN(min)) {
+      newMinValue = min;
+    }
+  
+    if (!isNaN(max)) {
+      newMaxValue = max;
+    }
+  
+    setMinValue(newMinValue);
+    setMaxValue(newMaxValue);
+  
+    if (type === 'hour') {
+      freelancesStore.getHourPricesRange(newMinValue, newMaxValue);
+    } else if (type === 'day') {
+      freelancesStore.getDayPricesRanges(newMinValue, newMaxValue);
+    }
+  
+    minTextField.value = "";
+    maxTextField.value = "";
   };
 
   const handlePlatformSelect = (platform) => {
@@ -192,6 +227,8 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
                 height: "40px", 
                 backgroundColor: "rgba(73,115,255,1)",
                 borderRadius: "5px",
+                fontFamily: "monospace",
+                fontWeight: 600,
                 zIndex: 1
               }}
               onClick={() => {}}
@@ -201,6 +238,68 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
           </Box>
         </Container>
       </Container>
+      <Container sx={{display: "flex", mb: "2vh"}}>
+        <Typography variant= "body" sx={{color: "white"}}>Prix à la journée</Typography>
+        <Typography variant= "body" sx={{ml: "31%", color: "white"}}>Prix à l'heure</Typography>
+      </Container>
+      <Box sx={{ ml: "2%", mb: "2vh"}}>
+        <TextField
+          label="Minimum"
+          id="dayMinTextField"
+          defaultValue=""
+          size="small"
+          sx={{width: "10%", mr: "1%", mb: "2vh", backgroundColor: "white", borderRadius: "5px"}}
+        />
+        <TextField
+          label="Maximum"
+          id="dayMaxTextField"
+          defaultValue=""
+          size="small"
+          sx={{width: "10%", ml: "1%", mb: "2vh", backgroundColor: "white", borderRadius: "5px"}}
+        />
+        <Button 
+          className="btn btn-one-filters" 
+          onClick={() => handlePriceRangeChange("day")} 
+          sx={{ 
+            width: "110px",
+            height: "30px",
+            color: "white", 
+            fontFamily: 'monospace',
+            fontWeight: 600,
+            m: "2vh"
+          }}
+        >
+          - Trier -
+        </Button>
+        <TextField
+          label="Minimum"
+          id="hourMinTextField"
+          defaultValue=""
+          size="small"
+          sx={{width: "10%", mr: "1%", mb: "2vh", ml: "8%", backgroundColor: "white", borderRadius: "5px"}}
+        />
+        <TextField
+          label="Maximum"
+          id="hourMaxTextField"
+          defaultValue=""
+          size="small"
+          sx={{width: "10%", ml: "1%", mb: "2vh", backgroundColor: "white", borderRadius: "5px"}}
+        />
+        <Button 
+          className="btn btn-one-filters"
+          onClick={() => handlePriceRangeChange("hour")} 
+          sx={{ 
+            width: "110px",
+            height: "30px",
+            color: "white", 
+            fontFamily: 'monospace',
+            fontWeight: 600,
+            m: "2vh"
+          }}
+        >
+          - Trier -
+        </Button>
+      </Box>
     </>
   );
 });
@@ -226,6 +325,6 @@ const MarketplaceFilters = [
   {title: "Malt.fr"},
   {title: "Freelance.com"},
   {title: "Upwork.com"},
-  // {title: "Fiverr.com"},
-  // {title: "Comeup.com"}
+  {title: "Fixnhour.com"},
+  {title: "Lehibou.com"}
 ];
