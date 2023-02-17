@@ -12,60 +12,59 @@ import { useFreelancesStore } from '../../../../context/FreelancesContext';
 import { BarLoader } from "react-spinners";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import "./../cards.css"
 
-export const UpworkCards = observer(() => {
+export const LehibouCards = observer(() => {
   const freelancesStore = useFreelancesStore();
-  const [freelancesUpwork, setFreelancesUpwork] = useState(null);
+  const [freelancesLehibou, setFreelancesLehibou] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
 
   useEffect(() => {
-    if (freelancesStore.freelancesUpwork.length > 0) {
-      setFreelancesUpwork(freelancesStore.freelancesUpwork)
-      setTotalPages(Math.ceil((freelancesStore.freelancesUpwork.length - 1) / itemsPerPage))
+    if (freelancesStore.freelancesLehibou.length > 0) {
+      setFreelancesLehibou(freelancesStore.freelancesLehibou)
+      setTotalPages(Math.ceil((freelancesStore.freelancesLehibou.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelancesUpwork, currentPage, freelancesStore.pricesRange])
+  }, [freelancesStore.freelancesLehibou, currentPage, freelancesStore.pricesRange])
 
-  function getUpworkCards() {
-    if (freelancesStore.loadingUpwork) {
+  function getLehibouCards() {
+    if (freelancesStore.loadingLehibou) {
       return (
         <Grid display='flex' height='10vh' marginLeft='45%' marginTop='2vh'>
           <BarLoader color="#e2e612" />
         </Grid>
       )
     }
-    if (freelancesUpwork) {
+    if (freelancesLehibou) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const currentItems = freelancesUpwork.filter((_, i) => i >= startIndex && i < endIndex);
+      const currentItems = freelancesLehibou.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.upwork.com/freelancers/${freelance[3]}`, '_blank')}>
+          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.Lehibou.com${freelance[2]}`, '_blank')}>
             <CardMedia
               sx={{ height: 200 }}
-              image={`${freelance[4][0]}`}
+              image={`${freelance[3]}`}
               title="Profile picture"
             />
-            <CardContent sx={{ height: "270px" }}>
+            <CardContent sx={{ height: "150px" }}>
             <Typography variant="body2" color="text.secondary">
-                {freelance[5]}
+                {freelance[4]}
               </Typography>
               <Typography variant="h5" component="div">
-                {freelance[1]}
+                {freelance[0]}
               </Typography>
               <Typography gutterBottom variant="h6" sx={{ color: 'blue' }}>
-                {freelance[2].replace(/&nbsp;/g, "")}
-              </Typography>
-              <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-                {freelance[6][0].split(/\s+/).slice(0, 10).join(" ")}
+                {freelance[1]}
               </Typography>
             </CardContent>
+
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-              Prix à l'heure: ${(freelance[0] / 100).toFixed(2)}
+              Prix disponnibles sur lehibou.com
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
-              <Button size="small" onClick={() => window.open(`https://www.upwork.com/freelancers/${freelance[3]}`, '_blank')}>Voir sur Upwork.com</Button>
+              <Button size="small" onClick={() => window.open(`https://www.Lehibou.com${freelance[2]}`, '_blank')}>Voir sur Lehibou.fr</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -79,10 +78,10 @@ export const UpworkCards = observer(() => {
 
   return (
     <>
-      <Typography gutterBottom variant="body" component="div" sx={{ color: "white", mt: "3vh", ml: "2vh" }}>
-        {freelancesUpwork == null ? "Attente de résultats" : freelancesStore.freelancesUpwork.length} profils par page sur Upwork.com
+      <Typography gutterBottom variant="body" component="div" sx={{ color: "white", ml: "2vh", mt: "3vh"}}>
+        {freelancesLehibou == null ? "Attente de résultats" : freelancesStore.freelancesLehibou.length } par page sur Lehibou.fr
       </Typography>
-      {freelancesUpwork == null ? "" :
+      {freelancesLehibou == null ? "" :
         <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"1vh"} sx={{ color: "white" }}>
           page {currentPage} sur {totalPages}
         </Typography>
@@ -90,7 +89,7 @@ export const UpworkCards = observer(() => {
       <Grid container spacing={1}
         sx={{ mb: "1vh" }}
       >
-        {getUpworkCards()}
+        {getLehibouCards()}
       </Grid>
       {currentPage <= totalPages && currentPage >= 2 && 
         <Button 

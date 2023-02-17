@@ -7,8 +7,8 @@ import { MaltCardsFiltered } from '../components/cards/freelancesITCards/maltCar
 import { FreelanceComCards } from '../components/cards/freelancesITCards/freelanceComCards/FreelanceComCards'
 import { FreelanceComCardsFiltered } from '../components/cards/freelancesITCards/freelanceComCards/FreelanceComCardsFiltered'
 import { UpworkCards } from '../components/cards/freelancesITCards/upworkCards/UpworkCards'
-import { FiverrCards } from '../components/cards/freelancesITCards/fiverCards/FiverrCards'
-import { ComeupCards } from '../components/cards/freelancesITCards/comeupCards/ComeupCards'
+import { FixnhourCards } from '../components/cards/freelancesITCards/fixnhourCards/FixnhourCards'
+import { LehibouCards } from '../components/cards/freelancesITCards/lehibouCards/LehibouCards'
 import { SearchFilters } from '../components/filters/searchFilters'
 import { useState, useEffect } from 'react'
 import { SideMenu } from '../components/sideMenu/SideMenu'
@@ -119,15 +119,15 @@ export const Home = observer(() => {
             {selectedPlatforms.includes("Malt.fr") ? <MaltCards /> : ""}
             {selectedPlatforms.includes("Freelance.com") ? <FreelanceComCards /> : ""}
             {selectedPlatforms.includes("Upwork.com") ? <UpworkCards /> : ""}
-            {/* {selectedPlatforms.includes("Fiverr.com") ? <FiverrCards /> : ""}
-            {selectedPlatforms.includes("Comeup.com") ? <ComeupCards /> : ""} */}
+            {selectedPlatforms.includes("Fixnhour.com") ? <FixnhourCards /> : ""}
+            {selectedPlatforms.includes("Lehibou.com") ? <LehibouCards /> : ""}
             {selectedPlatforms.length === 0 ? (
               <> 
                 <MaltCards /> 
                 <FreelanceComCards />
                 <UpworkCards />
-                {/* <FiverrCards />
-                <ComeupCards /> */}
+                <LehibouCards />
+                <FixnhourCards />
               </>
             ) : ""}
           </div>

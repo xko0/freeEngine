@@ -224,6 +224,6 @@ const marketplaces = [
   "Malt.fr",
   "Freelance.com",
   "Upwork.com",
-  // "Fiverr.com",
-  // "Comeup.com"
+  "Fixnhour.com",
+  "Lehibou.com"
 ]
