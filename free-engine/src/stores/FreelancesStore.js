@@ -212,9 +212,7 @@ export function createFreelancesStore() {
               }
               return freelance
             });
-            console.log(priceFiltered)
             this.freelancesUpwork = priceFiltered
-            console.log(this.freelancesUpwork)
             localStorage.setItem('freelancesUpwork', JSON.stringify(this.freelancesUpwork))
           })
         }    
@@ -245,9 +243,7 @@ export function createFreelancesStore() {
               }
               return freelance
             });
-            console.log(priceFiltered)
             this.freelancesFixnhour = priceFiltered
-            console.log(this.freelancesFixnhour)
             localStorage.setItem('freelancesFixnhour', JSON.stringify(this.freelancesFixnhour))
           })
         }    
