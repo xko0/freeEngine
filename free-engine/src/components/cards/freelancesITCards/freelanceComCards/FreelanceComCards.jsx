@@ -23,7 +23,7 @@ export const FreelanceComCards = observer(() => {
   useEffect(() => {
     if (freelancesStore.freelanceCom.length > 0 ) {
       setFreelanceCom(freelancesStore.freelanceCom)
-      setTotalPages(Math.ceil((freelanceCom.length - 1) / itemsPerPage))
+      setTotalPages(Math.ceil((freelancesStore.freelanceCom.length - 1) / itemsPerPage))
     }
   }, [freelancesStore.freelanceCom, freelancesStore.pricesRange])
 
