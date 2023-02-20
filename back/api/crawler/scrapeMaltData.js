@@ -50,7 +50,7 @@ export default (req, res, next) => {
       data.push(childrenData);
     }
     data.push(resultNumber)
-    await res.setHeader("Access-Control-Allow-Origin", "https://free-engine.vercel.app").status(200).send(data)
+    await res.setHeader("Access-Control-Allow-Origin", "https://free-engine-front.vercel.app").status(200).send(data)
     return data;
   }
   scrapeData()
