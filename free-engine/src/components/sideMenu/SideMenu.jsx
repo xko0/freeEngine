@@ -61,7 +61,7 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
     if (platform.checked) {
        setSelectedPlatforms([...selectedPlatforms, platform.parentElement.title])
     } else {
-       setSelectedPlatforms(selectedPlatforms.filter(p=>p !== platform.parentElement.title))
+       setSelectedPlatforms(Array.isArray(selectedPlatforms.filter(p=>p !== platform.parentElement.title)))
     }
   };
 
@@ -83,7 +83,7 @@ export const SideMenu = observer(({ selectedPlatforms, setSelectedPlatforms, sel
     if (city.checked) {
       setSelectedCities([...selectedCities, city.parentElement.title])
     } else {
-      setSelectedCities(selectedCities.filter(p=>p !== city.parentElement.title))
+      setSelectedCities(Array.isArray(selectedCities.filter(p=>p !== city.parentElement.title)))
     }
   };
 

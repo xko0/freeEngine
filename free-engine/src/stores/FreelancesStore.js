@@ -54,7 +54,7 @@ export function createFreelancesStore() {
     },
   
     moveFirstItemToLast(array) {
-      array.filter(freelance => !freelance.includes(null))
+      Array.isArray(array.filter(freelance => !freelance.includes(null)))
       let itemToMove = array.shift();
       array.push(itemToMove);
       return array;
@@ -88,7 +88,7 @@ export function createFreelancesStore() {
 
     pricesRangeRemoveMalt(array, minValue, maxValue) {
       let lastItem = array.pop()
-      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      const newArray = Array.isArray(array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue));
       array = newArray
       array.push(lastItem)
       this.freelancesMalt = array
@@ -97,7 +97,7 @@ export function createFreelancesStore() {
 
     pricesRangeRemoveFreelanceCom(array, minValue, maxValue) {
       let lastItem = array.pop()
-      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      const newArray = Array.isArray(array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue));
       array = newArray
       array.push(lastItem)
       this.freelanceCom = array
@@ -106,7 +106,7 @@ export function createFreelancesStore() {
 
     pricesRangeRemoveUpwork(array, minValue, maxValue) {
       array = JSON.parse(localStorage.getItem('freelancesUpwork'))
-      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      const newArray = Array.isArray(array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue));
       array = newArray
       this.freelancesUpwork = newArray
       return array
@@ -114,7 +114,7 @@ export function createFreelancesStore() {
 
     pricesRangeRemoveFixnhour(array, minValue, maxValue) {
       array = JSON.parse(localStorage.getItem('freelancesFixnhour'))
-      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      const newArray = Array.isArray(array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue));
       array = newArray
       this.freelancesFixnhour = newArray
       return array
@@ -181,7 +181,7 @@ export function createFreelancesStore() {
           runInAction(() => {
             this.loadingFreelanceCom = false
             let datasToFilter = response.data
-            this.freelanceCom = datasToFilter.filter(freelance => !freelance.includes(null))
+            this.freelanceCom = Array.isArray(datasToFilter.filter(freelance => !freelance.includes(null)))
             localStorage.setItem('freelanceCom', JSON.stringify(this.freelanceCom))
           })
         }    
