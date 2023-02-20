@@ -158,7 +158,7 @@ export function createFreelancesStore() {
           runInAction(() => {
             this.loadingMalt = false
             this.freelancesMalt = response.data
-            localStorage.setItem('freelancesMalt', JSON.stringify(response.data))
+            //localStorage.setItem('freelancesMalt', JSON.stringify(response.data))
           })
         }    
       } catch(error) {
@@ -267,7 +267,7 @@ export function createFreelancesStore() {
           runInAction(() => {
             this.loadingLehibou = false
             this.freelancesLehibou = response.data
-            localStorage.setItem('freelancesLehibou', JSON.stringify(this.freelancesLehibou))
+            //localStorage.setItem('freelancesLehibou', JSON.stringify(this.freelancesLehibou))
           })
           
       } catch(error) {
