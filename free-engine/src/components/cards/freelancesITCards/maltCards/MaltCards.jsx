@@ -39,8 +39,8 @@ export const MaltCards = observer(() => {
     if (freelancesMalt) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const actualFreelances = Array.isArray(freelancesMalt.slice(0, -1))
-      const currentItems = Array.isArray(actualFreelances.filter((_, i) => i >= startIndex && i < endIndex));
+      const actualFreelances = freelancesMalt.slice(0, -1)
+      const currentItems = actualFreelances.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
           <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.malt.fr${freelance[3]}`, '_blank')}>
