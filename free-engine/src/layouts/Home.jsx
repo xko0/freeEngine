@@ -62,17 +62,17 @@ export const Home = observer(() => {
   
   function filterMaltCards() {
     const mulitpleCitiesPatern = new RegExp(selectedCities.join('|'), 'i')
-    const newFiltered = Array.isArray(freelancesStore.freelancesMalt.filter(
+    const newFiltered = freelancesStore.freelancesMalt.filter(
       freelance => mulitpleCitiesPatern.test(freelance[5])
-    ))
+    )
     filteredMalt.push(filteredMalt.concat(newFiltered))
   }
 
   function filterFreelanceComCards() {
     const mulitpleCitiesPatern = new RegExp(selectedCities.join('|'), 'i')
-    const newFiltered = Array.isArray(freelancesStore.freelanceCom.filter(
+    const newFiltered = freelancesStore.freelanceCom.filter(
       freelance => mulitpleCitiesPatern.test(freelance[5])
-    ))
+    )
     filteredFreelanceCom.push(filteredFreelanceCom.concat(newFiltered))
   }
 

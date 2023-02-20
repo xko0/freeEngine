@@ -38,7 +38,7 @@ export const UpworkCards = observer(() => {
     if (freelancesUpwork) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const currentItems = Array.isArray(freelancesUpwork.filter((_, i) => i >= startIndex && i < endIndex));
+      const currentItems = freelancesUpwork.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
           <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.upwork.com/freelancers/${freelance[3]}`, '_blank')}>
