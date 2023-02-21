@@ -325,6 +325,7 @@ const MarketplaceFilters = [
   {title: "Malt.fr"},
   {title: "Freelance.com"},
   {title: "Upwork.com"},
-  {title: "Fixnhour.com"},
-  {title: "Lehibou.com"}
+  {title: "Lehibou.com"},
+  {title: "Arc.dev"},
+  {title: "Fixnhour.com"}
 ];

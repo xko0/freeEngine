@@ -6,6 +6,7 @@ const sibApi = require("./controllers/sib")
 const freelancesCrawlApi = require("./controllers/freelancesCrawler")
 const freelancesFixnhourApi = require("./controllers/freelancesFixnhourScraper")
 const freelancesLehibouApi = require("./controllers/freelancesLehibouScraper")
+const freelancesArcdevApi = require("./controllers/freelancesArcdevScraper")
 
 require('dotenv').config()
 
@@ -44,6 +45,7 @@ app.get("/api/scrapeFreelanceComData", freelancesCrawlApi.scrapeFreelanceComData
 app.get("/api/scrapeUpworkData", freelancesCrawlApi.scrapeUpworkData);
 app.get("/api/scrapeFixnhourData", freelancesFixnhourApi.scrapeFixnhourData);
 app.get("/api/scrapeLehibouData", freelancesLehibouApi.scrapeLehibouData)
+app.get("/api/scrapeArcdevData", freelancesArcdevApi.scrapeArcdevData)
 app.post("/api/sendemail", sibApi.sendEmail);
 
 module.exports = app;

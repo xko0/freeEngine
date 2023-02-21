@@ -14,43 +14,43 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import "./../cards.css"
 
-export const LehibouCards = observer(() => {
+export const ArcdevCards = observer(() => {
   const freelancesStore = useFreelancesStore();
-  const [freelancesLehibou, setFreelancesLehibou] = useState(null);
+  const [freelancesArcdev, setFreelancesArcdev] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
 
   useEffect(() => {
-    if (freelancesStore.freelancesLehibou.length > 0) {
-      setFreelancesLehibou(freelancesStore.freelancesLehibou)
-      setTotalPages(Math.ceil((freelancesStore.freelancesLehibou.length - 1) / itemsPerPage))
+    if (freelancesStore.freelancesArcdev.length > 0) {
+      setFreelancesArcdev(freelancesStore.freelancesArcdev)
+      setTotalPages(Math.ceil((freelancesStore.freelancesArcdev.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelancesLehibou, currentPage, freelancesStore.pricesRange])
+  }, [freelancesStore.freelancesArcdev, currentPage, freelancesStore.pricesRange])
 
-  function getLehibouCards() {
-    if (freelancesStore.loadingLehibou) {
+  function getArcdevCards() {
+    if (freelancesStore.loadingArcdev) {
       return (
         <Grid display='flex' height='10vh' marginLeft='45%' marginTop='2vh'>
           <BarLoader color="#e2e612" />
         </Grid>
       )
     }
-    if (freelancesLehibou) {
+    if (freelancesArcdev) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const currentItems = freelancesLehibou.filter((_, i) => i >= startIndex && i < endIndex);
+      const currentItems = freelancesArcdev.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.Lehibou.com${freelance[2]}`, '_blank')}>
+          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://arc.dev${freelance[4]}`, '_blank')}>
             <CardMedia
               sx={{ height: 200 }}
-              image={`${freelance[3]}`}
+              image={`${freelance[5]}`}
               title="Profile picture"
             />
-            <CardContent sx={{ height: "150px" }}>
+            <CardContent sx={{ height: "240px" }}>
             <Typography variant="body2" color="text.secondary">
-                {freelance[4]}
+                {freelance[6]}
               </Typography>
               <Typography variant="h5" component="div">
                 {freelance[0]}
@@ -58,13 +58,15 @@ export const LehibouCards = observer(() => {
               <Typography gutterBottom variant="h6" sx={{ color: 'blue' }}>
                 {freelance[1]}
               </Typography>
+              <Typography variant="body1" color="text.secondary" marginLeft="2vh">
+               {freelance[3].join(', ').slice(0, 134)}
+              </Typography>
             </CardContent>
-
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-              Prix disponnibles sur lehibou.com
+              Prix: voir sur Arc.dev
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
-              <Button size="small" onClick={() => window.open(`https://www.Lehibou.com${freelance[2]}`, '_blank')}>Voir sur Lehibou.fr</Button>
+              <Button size="small" onClick={() => window.open(`https://arc.dev${freelance[4]}`, '_blank')}>Voir sur Arc.dev</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -79,9 +81,9 @@ export const LehibouCards = observer(() => {
   return (
     <>
       <Typography gutterBottom variant="body" component="div" sx={{ color: "white", ml: "2vh", mt: "3vh"}}>
-        {freelancesLehibou == null ? "Attente de résultats" : freelancesStore.freelancesLehibou.length } profils par page sur Lehibou.fr
+        {freelancesArcdev == null ? "Attente de résultats" : freelancesStore.freelancesArcdev.length } profils sur arc.dev
       </Typography>
-      {freelancesLehibou == null ? "" :
+      {freelancesArcdev == null ? "" :
         <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"1vh"} sx={{ color: "white" }}>
           page {currentPage} sur {totalPages}
         </Typography>
@@ -89,7 +91,7 @@ export const LehibouCards = observer(() => {
       <Grid container spacing={1}
         sx={{ mb: "1vh" }}
       >
-        {getLehibouCards()}
+        {getArcdevCards()}
       </Grid>
       {currentPage <= totalPages && currentPage >= 2 && 
         <Button 

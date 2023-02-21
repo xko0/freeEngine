@@ -27,8 +27,9 @@ export const SearchBar = observer (() => {
       "Malt.fr": freelancesStore.getFreelances,
       "Freelance.com": freelancesStore.getFreelanceCom,
       "Upwork.com": freelancesStore.getFreelancesUpwork,
-      "Fixnhour.com": freelancesStore.getFreelancesFixnhour,
-      "Lehibou.com": freelancesStore.getFreelancesLehibou
+      "Lehibou.com": freelancesStore.getFreelancesLehibou,
+      "Arc.dev": freelancesStore.getFreelancesArcdev,
+      "Fixnhour.com": freelancesStore.getFreelancesFixnhour
     }
 
     if (platforms.length == 0) {
@@ -146,6 +147,7 @@ const marketplaces = [
   'Malt.fr',
   'Freelance.com',
   'Upwork.com',
-  'Fixnhour.com',
-  'Lehibou.com'
+  'Lehibou.com',
+  'Arc.dev',
+  'Fixnhour.com'
 ]

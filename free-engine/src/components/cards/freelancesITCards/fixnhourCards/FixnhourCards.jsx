@@ -48,7 +48,7 @@ export const FixnhourCards = observer(() => {
               image={`https://www.fixnhour.com${freelance[5][0]}`}
               title="Profile picture"
             />
-            <CardContent sx={{ height: "160px" }}>
+            <CardContent sx={{ height: "140px" }}>
             <Typography variant="body2" color="text.secondary">
                 {freelance[6].split('</span>')[1].trim()}
               </Typography>
@@ -78,7 +78,7 @@ export const FixnhourCards = observer(() => {
   return (
     <>
       <Typography gutterBottom variant="body" component="div" sx={{ color: "white", ml: "2vh", mt: "3vh"}}>
-        {freelancesFixnhour == null ? "Attente de résultats" : freelancesStore.freelancesFixnhour.length } sur Fixnhour.fr
+        {freelancesFixnhour == null ? "Attente de résultats" : freelancesStore.freelancesFixnhour.length } profils sur Fixnhour.fr
       </Typography>
       {freelancesFixnhour == null ? "" :
         <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"1vh"} sx={{ color: "white" }}>
