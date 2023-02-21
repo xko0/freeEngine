@@ -47,7 +47,7 @@ export const UpworkCards = observer(() => {
               image={`${freelance[4][0]}`}
               title="Profile picture"
             />
-            <CardContent sx={{ height: "270px" }}>
+            <CardContent sx={{ height: "250px" }}>
             <Typography variant="body2" color="text.secondary">
                 {freelance[5]}
               </Typography>
@@ -58,7 +58,7 @@ export const UpworkCards = observer(() => {
                 {freelance[2].replace(/&nbsp;/g, "")}
               </Typography>
               <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-                {Array.isArray(freelance[6][0].split(/\s+/).slice(0, 10).join(" "))}
+                {freelance[6][0].split(/\s+/).slice(0, 10).join(" ")}
               </Typography>
             </CardContent>
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">

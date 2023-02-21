@@ -10,12 +10,14 @@ export function createFreelancesStore() {
     loadingFreelanceCom: null,
     loadingFixnhour: null,
     loadingLehibou: null,
+    loadingArcdev: null,
     hasErrors: null,
     freelancesMalt: JSON.parse(localStorage.getItem('freelancesMalt')) || [],
     freelancesUpwork: JSON.parse(localStorage.getItem('freelancesUpwork')) || [],
     freelanceCom: JSON.parse(localStorage.getItem('freelanceCom')) || [],
     freelancesFixnhour: JSON.parse(localStorage.getItem('freelancesFixnhour')) || [],
     freelancesLehibou: JSON.parse(localStorage.getItem('freelancesLehibou')) || [],
+    freelancesArcdev: JSON.parse(localStorage.getItem('freelancesArcdev')) || [],
     priceOrdered: false,
     pricesRange: false,
 
@@ -268,6 +270,30 @@ export function createFreelancesStore() {
             this.loadingLehibou = false
             this.freelancesLehibou = response.data
             localStorage.setItem('freelancesLehibou', JSON.stringify(this.freelancesLehibou))
+          })
+          
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async getFreelancesArcdev(infos) {
+      runInAction(() => {
+        this.loadingArcdev = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.get(`${BASE_URL}/scrapeArcdevData`,{
+          params: {
+              argument: infos
+          }
+        }) 
+        
+          runInAction(() => {
+            this.loadingArcdev = false
+            console.log(response.data)
+            this.freelancesArcdev = response.data
+            localStorage.setItem('freelancesArcdev', JSON.stringify(this.freelancesArcdev))
           })
           
       } catch(error) {

@@ -1,7 +1,7 @@
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-exports.scrapeArcdevData = (req, res, next) => {
+export default (req, res, next) => {
   const baseSelector = 'div.sc-22c23639-0:nth-child';
 
   const getName = ($, i) => {
@@ -54,7 +54,7 @@ exports.scrapeArcdevData = (req, res, next) => {
       )
       data.push(childrenData);
     }
-    await res.status(200).send(data)
+    await res.setHeader("Access-Control-Allow-Origin", "https://free-engine-front.vercel.app").status(200).send(data)
     return data;
   }
   scrapeData()
