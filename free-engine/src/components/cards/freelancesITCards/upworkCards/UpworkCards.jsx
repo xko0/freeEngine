@@ -58,7 +58,7 @@ export const UpworkCards = observer(() => {
                 {freelance[2].replace(/&nbsp;/g, "")}
               </Typography>
               <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-                {freelance[6][0].split(/\s+/).slice(0, 10).join(" ")}
+                {freelance[6][0] ? freelance[6][0].split(/\s+/).slice(0, 10).join(" ") : ""}
               </Typography>
             </CardContent>
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">
