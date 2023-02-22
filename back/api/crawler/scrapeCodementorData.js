@@ -1,7 +1,7 @@
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-exports.scrapeCodementorData = (req, res, next) => {
+export default (req, res, next) => {
   const baseSelector = 'html > body > div > div > main > section > div:nth-child(2) > div:nth-child';
 
   const getName = ($, i) => {
@@ -54,7 +54,7 @@ exports.scrapeCodementorData = (req, res, next) => {
       )
       data.push(childrenData);
     }
-    await res.status(200).send(data)
+    await res.setHeader("Access-Control-Allow-Origin", "https://free-engine-front.vercel.app").status(200).send(data)
     return data;
   }
   scrapeData()

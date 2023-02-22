@@ -29,6 +29,8 @@ export const SearchBar = observer (() => {
       "Upwork.com": freelancesStore.getFreelancesUpwork,
       "Lehibou.com": freelancesStore.getFreelancesLehibou,
       "Arc.dev": freelancesStore.getFreelancesArcdev,
+      "Codementor.io": freelancesStore.getFreelancesCodementor,
+      "Truelancer.com": freelancesStore.getFreelancesTruelancer,
       "Fixnhour.com": freelancesStore.getFreelancesFixnhour
     }
 
@@ -149,5 +151,7 @@ const marketplaces = [
   'Upwork.com',
   'Lehibou.com',
   'Arc.dev',
+  'Codementor.io',
+  'Truelancer.com',
   'Fixnhour.com'
 ]

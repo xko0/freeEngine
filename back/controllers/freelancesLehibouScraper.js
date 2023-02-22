@@ -31,7 +31,10 @@ exports.scrapeLehibouData = (req, res, next) => {
   }
   
   async function scrapeData() {
-    let html = await rp(`https://api.crawlbase.com/?token=${process.env.CRAWLER_API_KEY_JS}&url=https%3A%2F%2Fwww.lehibou.com%2Frecherche%3Fage_max%3D100%26age_min%3D0%26availability%3Dfalse%26availabilityMonth%3Dfalse%26city%3D%26country%3DFrance%26keyword%3D${req.query.argument}%26langue%3D%26latitude%3D%26longitude%3D%26price_max%3D100000%26price_min%3D0%26relocation%3Dtrue`);
+    let argument = decodeURIComponent(req.query.argument)
+    let formatedArgument = argument.replaceAll(" ", "+")
+    let encodedArgument = encodeURI(formatedArgument)
+    let html = await rp(`https://api.crawlbase.com/?token=${process.env.CRAWLER_API_KEY_JS}&url=https%3A%2F%2Fwww.lehibou.com%2Frecherche%3Fage_max%3D100%26age_min%3D0%26availability%3Dfalse%26availabilityMonth%3Dfalse%26city%3D%26country%3DFrance%26keyword%3D${encodedArgument}%26langue%3D%26latitude%3D%26longitude%3D%26price_max%3D100000%26price_min%3D0%26relocation%3Dtrue`);
     let $ = cheerio.load(html);
     let data = []
 

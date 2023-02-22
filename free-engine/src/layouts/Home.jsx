@@ -10,6 +10,7 @@ import { UpworkCards } from '../components/cards/freelancesITCards/upworkCards/U
 import { FixnhourCards } from '../components/cards/freelancesITCards/fixnhourCards/FixnhourCards'
 import { LehibouCards } from '../components/cards/freelancesITCards/lehibouCards/LehibouCards'
 import { ArcdevCards } from '../components/cards/freelancesITCards/arcdevCards/ArcdevCards'
+import { CodementorCards } from '../components/cards/freelancesITCards/codementorCards.jsx/CodementorCards'
 import { SearchFilters } from '../components/filters/searchFilters'
 import { useState, useEffect } from 'react'
 import { SideMenu } from '../components/sideMenu/SideMenu'
@@ -122,6 +123,7 @@ export const Home = observer(() => {
             {selectedPlatforms.includes("Upwork.com") ? <UpworkCards /> : ""}
             {selectedPlatforms.includes("Lehibou.com") ? <LehibouCards /> : ""}
             {selectedPlatforms.includes("Arc.dev") ? <ArcdevCards /> : ""}
+            {selectedPlatforms.includes("Codementor.io") ? <CodementorCards /> : ""}
             {selectedPlatforms.includes("Fixnhour.com") ? <FixnhourCards /> : ""}
             {selectedPlatforms.length === 0 ? (
               <> 
@@ -130,6 +132,7 @@ export const Home = observer(() => {
                 <UpworkCards />
                 <LehibouCards />
                 <ArcdevCards />
+                <CodementorCards />
                 <FixnhourCards />
               </>
             ) : ""}

@@ -7,6 +7,8 @@ const freelancesCrawlApi = require("./controllers/freelancesCrawler")
 const freelancesFixnhourApi = require("./controllers/freelancesFixnhourScraper")
 const freelancesLehibouApi = require("./controllers/freelancesLehibouScraper")
 const freelancesArcdevApi = require("./controllers/freelancesArcdevScraper")
+const freelancesCodementorApi = require("./controllers/freelancesCodementorScraper")
+const freelancesTruelancerApi = require("./controllers/freelancesTruelancerScraper")
 
 require('dotenv').config()
 
@@ -44,8 +46,10 @@ app.get("/api/scrapeMaltData", freelancesCrawlApi.scrapeMaltData);
 app.get("/api/scrapeFreelanceComData", freelancesCrawlApi.scrapeFreelanceComData);
 app.get("/api/scrapeUpworkData", freelancesCrawlApi.scrapeUpworkData);
 app.get("/api/scrapeFixnhourData", freelancesFixnhourApi.scrapeFixnhourData);
-app.get("/api/scrapeLehibouData", freelancesLehibouApi.scrapeLehibouData)
-app.get("/api/scrapeArcdevData", freelancesArcdevApi.scrapeArcdevData)
+app.get("/api/scrapeLehibouData", freelancesLehibouApi.scrapeLehibouData);
+app.get("/api/scrapeArcdevData", freelancesArcdevApi.scrapeArcdevData);
+app.get("/api/scrapeCodementorData", freelancesCodementorApi.scrapeCodementorData);
+app.get("/api/scrapeTruelancerData", freelancesTruelancerApi.scrapeTruelancerData);
 app.post("/api/sendemail", sibApi.sendEmail);
 
 module.exports = app;
