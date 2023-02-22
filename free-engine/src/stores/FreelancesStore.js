@@ -11,6 +11,8 @@ export function createFreelancesStore() {
     loadingFixnhour: null,
     loadingLehibou: null,
     loadingArcdev: null,
+    loadingCodementor: null,
+    loadingTruelancer: null,
     hasErrors: null,
     freelancesMalt: JSON.parse(localStorage.getItem('freelancesMalt')) || [],
     freelancesUpwork: JSON.parse(localStorage.getItem('freelancesUpwork')) || [],
@@ -18,6 +20,8 @@ export function createFreelancesStore() {
     freelancesFixnhour: JSON.parse(localStorage.getItem('freelancesFixnhour')) || [],
     freelancesLehibou: JSON.parse(localStorage.getItem('freelancesLehibou')) || [],
     freelancesArcdev: JSON.parse(localStorage.getItem('freelancesArcdev')) || [],
+    freelancesCodementor: JSON.parse(localStorage.getItem('freelancesCodementor')) || [],
+    freelancesTruelancer: JSON.parse(localStorage.getItem('freelancesTruelancer')) || [],
     priceOrdered: false,
     pricesRange: false,
 
@@ -291,9 +295,57 @@ export function createFreelancesStore() {
         
           runInAction(() => {
             this.loadingArcdev = false
-            console.log(response.data)
             this.freelancesArcdev = response.data
             localStorage.setItem('freelancesArcdev', JSON.stringify(this.freelancesArcdev))
+          })
+          
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async getFreelancesCodementor(infos) {
+      runInAction(() => {
+        this.loadingCodementor = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.get(`${BASE_URL}/scrapeCodementorData`,{
+          params: {
+              argument: infos
+          }
+        }) 
+        
+          runInAction(() => {
+            this.loadingCodementor = false
+            this.freelancesCodementor = response.data.slice(0, -1)
+            localStorage.setItem('freelancesCodementor', JSON.stringify(this.freelancesCodementor))
+          })
+          
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
+    async getFreelancesTruelancer(infos) {
+      runInAction(() => {
+        this.loadingTruelancer = true
+        this.hasErrors = false
+      })
+      try {
+        let response = await axios.get(`${BASE_URL}/scrapeTruelancerData`,{
+          params: {
+              argument: infos
+          }
+        }) 
+        
+          runInAction(() => {
+            this.loadingTruelancer = false
+            this.freelancesTruelancer = response.data.filter(innerArray => innerArray != null)
+            console.log(this.freelancesTruelancer)
+            // console.log(response.data.slice(0, -1))
+            // this.freelancesTruelancer = response.data.slice(0, -1)
+            localStorage.setItem('freelancesTruelancer', JSON.stringify(this.freelancesTruelancer))
           })
           
       } catch(error) {

@@ -14,59 +14,59 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import "./../cards.css"
 
-export const ArcdevCards = observer(() => {
+export const CodementorCards = observer(() => {
   const freelancesStore = useFreelancesStore();
-  const [freelancesArcdev, setFreelancesArcdev] = useState(null);
+  const [freelancesCodementor, setFreelancesCodementor] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const itemsPerPage = 6;
 
   useEffect(() => {
-    if (freelancesStore.freelancesArcdev.length > 0) {
-      setFreelancesArcdev(freelancesStore.freelancesArcdev)
-      setTotalPages(Math.ceil((freelancesStore.freelancesArcdev.length - 1) / itemsPerPage))
+    if (freelancesStore.freelancesCodementor.length > 0) {
+      setFreelancesCodementor(freelancesStore.freelancesCodementor)
+      setTotalPages(Math.ceil((freelancesStore.freelancesCodementor.length - 1) / itemsPerPage))
     }
-  }, [freelancesStore.freelancesArcdev, currentPage, freelancesStore.pricesRange])
+  }, [freelancesStore.freelancesCodementor, currentPage, freelancesStore.pricesRange])
 
-  function getArcdevCards() {
-    if (freelancesStore.loadingArcdev) {
+  function getCodementorCards() {
+    if (freelancesStore.loadingCodementor) {
       return (
         <Grid display='flex' height='10vh' marginLeft='45%' marginTop='2vh'>
           <BarLoader color="#e2e612" />
         </Grid>
       )
     }
-    if (freelancesArcdev) {
+    if (freelancesCodementor) {
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const currentItems = freelancesArcdev.filter((_, i) => i >= startIndex && i < endIndex);
+      const currentItems = freelancesCodementor.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://arc.dev${freelance[4]}`, '_blank')}>
+          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://codementor.io${freelance[3]}`, '_blank')}>
             <CardMedia
               sx={{ height: 200 }}
-              image={`${freelance[5]}`}
+              image={`${freelance[4]}`}
               title="Profile picture"
             />
-            <CardContent sx={{ height: "240px" }}>
+            <CardContent sx={{ height: "200px" }}>
             <Typography variant="body2" color="text.secondary">
-                {freelance[6]}
+                {freelance[5]} étoiles sur codementor.io
               </Typography>
               <Typography variant="h5" component="div">
                 {freelance[0]}
               </Typography>
               <Typography gutterBottom variant="h6" sx={{ color: 'blue' }}>
-                {freelance[1].replace(/<!-- -->([^<>]+?)<!-- -->/g, "$1")}
+                {freelance[1]}
               </Typography>
               <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-               {freelance[3].join(', ').slice(0, 134)}
+                {freelance[2].join(' ').replace(/<\/?em>/g, "")}
               </Typography>
             </CardContent>
             <Typography variant="body1" color="text.secondary" marginLeft="2vh">
-              Prix: voir sur Arc.dev
+              Prix disponibles sur codementor.io
             </Typography>
             <CardActions sx={{justifyContent: "center"}}>
-              <Button size="small" onClick={() => window.open(`https://arc.dev${freelance[4]}`, '_blank')}>Voir sur Arc.dev</Button>
+              <Button size="small" onClick={() => window.open(`https://codementor.io${freelance[3]}`, '_blank')}>Voir sur codementor.io</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -81,9 +81,9 @@ export const ArcdevCards = observer(() => {
   return (
     <>
       <Typography gutterBottom variant="body" component="div" sx={{ color: "white", ml: "2vh", mt: "3vh"}}>
-        {freelancesArcdev == null ? "Attente de résultats" : freelancesStore.freelancesArcdev.length } profils sur arc.dev
+        {freelancesCodementor == null ? "Attente de résultats" : freelancesStore.freelancesCodementor.length } profils, inscrivez-vous sur codementor.io pour voir plus.
       </Typography>
-      {freelancesArcdev == null ? "" :
+      {freelancesCodementor == null ? "" :
         <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"1vh"} sx={{ color: "white" }}>
           page {currentPage} sur {totalPages}
         </Typography>
@@ -91,7 +91,7 @@ export const ArcdevCards = observer(() => {
       <Grid container spacing={1}
         sx={{ mb: "1vh" }}
       >
-        {getArcdevCards()}
+        {getCodementorCards()}
       </Grid>
       {currentPage <= totalPages && currentPage >= 2 && 
         <Button 
