@@ -41,7 +41,7 @@ export const UpworkCards = observer(() => {
       const currentItems = freelancesUpwork.filter((_, i) => i >= startIndex && i < endIndex);
       return currentItems.map((freelance, index ) => (
         <Grid key={index} item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <Card key={index} sx={{ maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.upwork.com/freelancers/${freelance[3]}`, '_blank')}>
+          <Card key={index} sx={{ minWidth: 270, maxWidth: 300, margin: "1vh"}} onClick={() => window.open(`https://www.upwork.com/freelancers/${freelance[3]}`, '_blank')}>
             <CardMedia
               sx={{ height: 200 }}
               image={`${freelance[4][0]}`}

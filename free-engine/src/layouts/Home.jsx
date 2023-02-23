@@ -11,6 +11,7 @@ import { FixnhourCards } from '../components/cards/freelancesITCards/fixnhourCar
 import { LehibouCards } from '../components/cards/freelancesITCards/lehibouCards/LehibouCards'
 import { ArcdevCards } from '../components/cards/freelancesITCards/arcdevCards/ArcdevCards'
 import { CodementorCards } from '../components/cards/freelancesITCards/codementorCards.jsx/CodementorCards'
+import { TruelancerCards } from '../components/cards/freelancesITCards/truelancerCards/TruelancerCards'
 import { SearchFilters } from '../components/filters/searchFilters'
 import { useState, useEffect } from 'react'
 import { SideMenu } from '../components/sideMenu/SideMenu'
@@ -125,6 +126,7 @@ export const Home = observer(() => {
             {selectedPlatforms.includes("Arc.dev") ? <ArcdevCards /> : ""}
             {selectedPlatforms.includes("Codementor.io") ? <CodementorCards /> : ""}
             {selectedPlatforms.includes("Fixnhour.com") ? <FixnhourCards /> : ""}
+            {selectedPlatforms.includes("Truelancer.com") ? <TruelancerCards /> : ""}
             {selectedPlatforms.length === 0 ? (
               <> 
                 <MaltCards /> 
@@ -134,6 +136,7 @@ export const Home = observer(() => {
                 <ArcdevCards />
                 <CodementorCards />
                 <FixnhourCards />
+                <TruelancerCards />
               </>
             ) : ""}
           </div>
