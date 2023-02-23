@@ -60,7 +60,7 @@ input.MuiInputBase-input:not(:first-child) {
 	transform: scale(0.1, 1);
 }
 
-@media screen and (max-width: 771px) {
+/* @media screen and (max-width: 771px) {
   .css-1if42l7 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) {
     max-width: 77px;
   }
@@ -71,22 +71,42 @@ input.MuiInputBase-input:not(:first-child) {
   .css-19p6imb > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) {
     max-width: 76px;
   }
-}
+} */
 
 @media screen and (max-width: 611px) {
   div.MuiInputBase-inputSizeSmall {
-    max-width: 90px;
     text-overflow: ellipsis;
   }
 }
 
 @media screen and (max-width: 460px) {
-  .css-1if42l7 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1),
+  /* .css-1if42l7 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1),
   .css-19p6imb > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) {
     max-width: 15px;
-  }
+  } */
   div.MuiInputBase-inputSizeSmall {
-    max-width: 50px;
     text-overflow: ellipsis;
   }
 }
+/* 
+@media screen and (max-width: 553px) {
+	div.MuiContainer-root:nth-child(2) {
+		
+	}
+
+	.css-x5dlth {
+		min-width: 250px;
+	}
+	.css-64ijzu > div:nth-child(1) {
+		display: block;
+		min-width: 250px;
+	}
+	
+	#filters {
+		display: flex;
+		flex-direction: column;
+	}
+	.css-1riftde {
+
+	}
+} */
