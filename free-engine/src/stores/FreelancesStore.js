@@ -75,6 +75,7 @@ export function createFreelancesStore() {
       arrays = arrays.map(array => this.moveFirstItemToLast(array))
       this.sortCroissantPrices(this.freelancesUpwork)
       this.sortCroissantPrices(this.freelancesFixnhour)
+      this.sortCroissantPrices(this.freelancesTruelancer)
       this.priceOrdered = !this.priceOrdered
       return
     },
@@ -87,7 +88,7 @@ export function createFreelancesStore() {
       arrays = arrays.map(array => this.sortDescendingPrices(array))
       this.sortDescendingPrices(this.freelancesUpwork)
       this.sortDescendingPrices(this.freelancesFixnhour)
-
+      this.sortDescendingPrices(this.freelancesTruelancer)
       this.priceOrdered = !this.priceOrdered
       return
     },
@@ -126,6 +127,14 @@ export function createFreelancesStore() {
       return array
     },
 
+    pricesRangeRemoveTruelancer(array, minValue, maxValue) {
+      array = JSON.parse(localStorage.getItem('freelancesTruelancer'))
+      const newArray = array.filter(innerArray => innerArray[0] >= minValue && innerArray[0] <= maxValue);
+      array = newArray
+      this.freelancesTruelancer = newArray
+      return array
+    },
+
     getDayPricesRanges(minValue, maxValue) {
       this.freelancesMalt = JSON.parse(localStorage.getItem('freelancesMalt'))
       this.freelanceCom = JSON.parse(localStorage.getItem('freelanceCom'))
@@ -145,6 +154,7 @@ export function createFreelancesStore() {
     getHourPricesRange(minValue, maxValue) {
       this.pricesRangeRemoveUpwork(this.freelancesUpwork, (minValue * 100), (maxValue * 100))
       this.pricesRangeRemoveFixnhour(this.freelancesFixnhour, (minValue * 100), (maxValue * 100))
+      this.pricesRangeRemoveTruelancer(this.freelancesTruelancer, (minValue), (maxValue))
       this.pricesRange = !this.pricesRange
       return
     },
@@ -341,7 +351,15 @@ export function createFreelancesStore() {
         
           runInAction(() => {
             this.loadingTruelancer = false
-            this.freelancesTruelancer = response.data.filter(innerArray => innerArray != null)
+            let datasToFilter = response.data
+            let firstItem = datasToFilter.shift()
+            let priceFiltered = datasToFilter.map(freelance => {
+              if (typeof freelance[0] === "string") {
+                freelance[0] = parseInt(freelance[0].replace(/\D/g, "")); 
+              }
+              return freelance
+            });
+            this.freelancesTruelancer = priceFiltered
             console.log(this.freelancesTruelancer)
             // console.log(response.data.slice(0, -1))
             // this.freelancesTruelancer = response.data.slice(0, -1)

@@ -1,7 +1,7 @@
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-exports.scrapeTruelancerData = (req, res, next) => {
+export default (req, res, next) => {
   const baseSelector = 'html > body > div:nth-child(1) > div > div:nth-child(2) > div > div:nth-child(4) > div:nth-child(1) > div:nth-child(2) > div:nth-child';
   const getPrice = ($, i) => {
     return $(`${baseSelector}(${i+1}) > div:nth-child(3) > 
@@ -55,7 +55,7 @@ exports.scrapeTruelancerData = (req, res, next) => {
       )
       data.push(childrenData);
     }
-    await res.status(200).send(data)
+    await res.setHeader("Access-Control-Allow-Origin", "https://free-engine-front.vercel.app").status(200).send(data)
     return data;
   }
   scrapeData()
