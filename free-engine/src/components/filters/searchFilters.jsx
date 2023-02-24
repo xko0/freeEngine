@@ -24,7 +24,63 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const [priceOrder, setPriceOrder] = useState('');
+  const [minValue, setMinValue] = useState(null);
+  const [maxValue, setMaxValue] = useState(null);
+  const [hourMinValue, setHourMinValue] = useState('');
+  const [hourMaxValue, setHourMaxValue] = useState('');
+  const [dayMinValue, setDayMinValue] = useState('');
+  const [dayMaxValue, setDayMaxValue] = useState('');
 
+  const handlePriceRangeChange = (type) => {
+
+    const Hmin = parseInt(hourMinValue || 0);
+    const Hmax = parseInt(hourMaxValue || 5000);
+    const Dmin = parseInt(dayMinValue || 0);
+    const Dmax = parseInt(dayMaxValue || 50000);
+    
+    let newMinValue = minValue;
+    let newMaxValue = maxValue;
+
+    if (type === 'hour') {
+      if (isNaN(Hmin) && isNaN(Hmax)) {
+        newMinValue = 0
+        newMaxValue = 500;
+      }
+    
+      if (!isNaN(Hmin)) {
+        newMinValue = Hmin;
+      }
+    
+      if (!isNaN(Hmax)) {
+        newMaxValue = Hmax;
+      }
+    
+      setMinValue(newMinValue);
+      setMaxValue(newMaxValue);
+    } else if (type === 'day') {
+        if (isNaN(Dmin) && isNaN(Dmax)) {
+          newMinValue = 0
+          newMaxValue = 5000;
+        }
+      
+        if (!isNaN(Dmin)) {
+          newMinValue = Dmin;
+        }
+      
+        if (!isNaN(Dmax)) {
+          newMaxValue = Dmax;
+        }
+
+      setMinValue(newMinValue);
+      setMaxValue(newMaxValue);
+    }
+
+    if (type === 'hour') {
+      freelancesStore.getHourPricesRange(newMinValue, newMaxValue);
+    } else if (type === 'day') {
+      freelancesStore.getDayPricesRanges(newMinValue, newMaxValue);
+    }
+  };
 
   const handlePriceChange = (event) => {
     setPriceOrder(event.target.value)
@@ -33,42 +89,6 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
     } else if (event.target.value == "décroissant") {
       freelancesStore.getDescendingPrices()
     }
-  };
-
-  const handlePriceRangeChange = (type) => {
-    const minTextField = document.getElementById(`${type}MinTextField`);
-    const maxTextField = document.getElementById(`${type}MaxTextField`);
-  
-    const min = parseInt(minTextField.value);
-    const max = parseInt(maxTextField.value);
-  
-    let newMinValue = minValue;
-    let newMaxValue = maxValue;
-  
-    if (isNaN(min) && isNaN(max)) {
-      newMinValue = 0
-      newMaxValue = type === 'hour' ? 500 : 5000;
-    }
-  
-    if (!isNaN(min)) {
-      newMinValue = min;
-    }
-  
-    if (!isNaN(max)) {
-      newMaxValue = max;
-    }
-  
-    setMinValue(newMinValue);
-    setMaxValue(newMaxValue);
-  
-    if (type === 'hour') {
-      freelancesStore.getHourPricesRange(newMinValue, newMaxValue);
-    } else if (type === 'day') {
-      freelancesStore.getDayPricesRanges(newMinValue, newMaxValue);
-    }
-  
-    minTextField.value = "";
-    maxTextField.value = "";
   };
 
   const handlePlatformSelect = (platform) => {
@@ -142,7 +162,7 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
               options={MarketplaceFilters}
               disableCloseOnSelect
               getOptionLabel={(option) => option.title}
-              onChange={(value) => handlePlatformSelect(value.map(e => e.title))}
+              onChange={(event, value) => handlePlatformSelect(value.map(e => e.title))}
               renderOption={(props, option, { selected }) => (
                 <li {...props}>
                   <Checkbox
@@ -236,15 +256,17 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
         <TextField
           label="Minimum"
           id="dayMinTextField"
-          defaultValue=""
           size="small"
+          value={dayMinValue}
+          onChange={(e) => setDayMinValue(e.target.value)}
           sx={{width: "40%", mr: 2,backgroundColor: "white", borderRadius: "5px", maxWidth: "250px"}}
         />
         <TextField
           label="Maximum"
           id="dayMaxTextField"
-          defaultValue=""
           size="small"
+          value={dayMaxValue}
+          onChange={(e) => setDayMaxValue(e.target.value)}
           sx={{width: "40%", mr: 2, backgroundColor: "white", borderRadius: "5px", maxWidth: "250px"}}
         />
         <Button 
@@ -269,15 +291,17 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
         <TextField
           label="Minimum"
           id="hourMinTextField"
-          defaultValue=""
           size="small"
+          value={hourMinValue}
+          onChange={(e) => setHourMinValue(e.target.value)}
           sx={{width: "40%", mr: 2,backgroundColor: "white", borderRadius: "5px", maxWidth: "250px"}}
         />
         <TextField
           label="Maximum"
           id="hourMaxTextField"
-          defaultValue=""
           size="small"
+          value={hourMaxValue}
+          onChange={(e) => setHourMaxValue(e.target.value)}
           sx={{width: "40%", mr: 2,backgroundColor: "white", borderRadius: "5px", maxWidth: "250px"}}
         />
         <Button 

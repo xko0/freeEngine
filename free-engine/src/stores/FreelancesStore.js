@@ -152,6 +152,7 @@ export function createFreelancesStore() {
     },
 
     getHourPricesRange(minValue, maxValue) {
+      console.log(minValue, maxValue)
       this.pricesRangeRemoveUpwork(this.freelancesUpwork, (minValue * 100), (maxValue * 100))
       this.pricesRangeRemoveFixnhour(this.freelancesFixnhour, (minValue * 100), (maxValue * 100))
       this.pricesRangeRemoveTruelancer(this.freelancesTruelancer, (minValue), (maxValue))
@@ -361,8 +362,6 @@ export function createFreelancesStore() {
             });
             this.freelancesTruelancer = priceFiltered
             console.log(this.freelancesTruelancer)
-            // console.log(response.data.slice(0, -1))
-            // this.freelancesTruelancer = response.data.slice(0, -1)
             localStorage.setItem('freelancesTruelancer', JSON.stringify(this.freelancesTruelancer))
           })
           

@@ -82,7 +82,7 @@ export const TruelancerCards = observer(() => {
   return (
     <>
       <Typography gutterBottom variant="body" component="div" sx={{ color: "white", ml: "2vh", mt: "3vh"}}>
-        {freelancesTruelancer == null ? "Attente de résultats" : freelancesStore.freelancesTruelancer[freelancesStore.freelancesTruelancer.length - 1]} profils par page sur Truelancer.fr
+        {freelancesTruelancer == null ? "Attente de résultats" : freelancesStore.freelancesTruelancer.length} profils par page sur Truelancer.fr
       </Typography>
       {freelancesTruelancer == null ? "" :
         <Typography gutterBottom variant="body" component="div" marginLeft={"2vh"} marginTop={"1vh"} sx={{ color: "white" }}>
