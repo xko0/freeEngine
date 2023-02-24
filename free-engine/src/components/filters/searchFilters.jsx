@@ -196,37 +196,28 @@ export const SearchFilters = observer(({ selectedPlatforms, setSelectedPlatforms
             </Box>
           </Stack>
           <Stack sx={{ width: "30%", maxWidth: "250px" }}>
-            <Box
-              sx={{
+            <FormControl 
+              sx={{ 
+                ml: 4,
                 width: "auto", 
                 minWidth: "100px",
                 backgroundColor: "whitesmoke",
-                borderRadius: "5px",
-                ml: 4,
-                mr: 2
-              }}
+                borderRadius: "5px"
+              }} 
+              size= "small"
             >
-              <FormControl 
-                sx={{ 
-                  minWidth: "100%",
-                  backgroundColor: "whitesmoke",
-                  borderRadius: "5px"
-                }} 
-                size= "small"
+              <InputLabel id="demo-select-small">Trier par prix</InputLabel>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={priceOrder}
+                label="priceOrder"
+                onChange={handlePriceChange}
               >
-                <InputLabel id="demo-select-small">Trier par prix</InputLabel>
-                <Select
-                  labelId="demo-select-small"
-                  id="demo-select-small"
-                  value={priceOrder}
-                  label="priceOrder"
-                  onChange={handlePriceChange}
-                >
-                  <MenuItem value={"croissant"}>Prix croissants</MenuItem>
-                  <MenuItem value={"décroissant"}>Prix décroissants</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+                <MenuItem value={"croissant"}>Prix croissants</MenuItem>
+                <MenuItem value={"décroissant"}>Prix décroissants</MenuItem>
+              </Select>
+            </FormControl>
             <Button variant="contained" 
               endIcon={<SendIcon />}
               sx={{
