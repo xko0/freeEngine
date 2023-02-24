@@ -20,6 +20,8 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useFreelancesStore } from '../context/FreelancesContext'
 import { observer } from 'mobx-react';
+import { MarketplacesLogos } from '../components/marketplacesLogos/MarketplacesLogos'
+
 import "./home.css"
 
 export const Home = observer(() => {
@@ -83,6 +85,7 @@ export const Home = observer(() => {
     <>
       <Navbar/>
       <Banner />
+      < MarketplacesLogos/>
       <div className="layout">
         <SearchBar />
         <div className="sideBar" id="sidebar">
