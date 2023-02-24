@@ -68,17 +68,21 @@ export const SearchBar = observer (() => {
   return (
     <>
       <Container 
-        sx={{ minWidth: "200px", 
+        id ="search-bars"
+        sx={{
+          minWidth: "200px", 
           marginTop: "1%", 
-          display: "flex", 
-          alignItems: "center", 
-          justifyContent: "center", 
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "flex-start", 
+          justifyContent: "flex-start", 
           flexDirection: "row",
         }}
       >
         <Box
           sx={{
-            width: "40%",
+            width: "50%",
+            minWidth: "150px",
             backgroundColor: "whitesmoke",
             borderRadius: "5px",
             m: 2
@@ -96,7 +100,7 @@ export const SearchBar = observer (() => {
           sx={{ m: 2, width: "30%"}}
         >
           <div>
-            <FormControl sx={{ width: "100%"}}>
+            <FormControl sx={{ width: "100%", minWidth: "120px"}}>
               <InputLabel id="demo-multiple-name-label" sx={{marginTop:"-5px"}}>Plateforme (Par defaut: Toutes)</InputLabel>
               <Select
                 labelId="demo-multiple-checkbox-label"

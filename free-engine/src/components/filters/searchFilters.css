@@ -13,7 +13,6 @@ input.MuiInputBase-input:not(:first-child) {
 .btn-one-filters {
 	color: white;
 	transition: all 0.3s;
-	/* position: relative; */
 }
 .btn-one-filters span {
 	transition: all 0.3s;
@@ -60,19 +59,6 @@ input.MuiInputBase-input:not(:first-child) {
 	transform: scale(0.1, 1);
 }
 
-/* @media screen and (max-width: 771px) {
-  .css-1if42l7 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) {
-    max-width: 77px;
-  }
-}
-
-@media screen and (max-width: 630px) {
-  .css-1if42l7 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1),
-  .css-19p6imb > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) {
-    max-width: 76px;
-  }
-} */
-
 @media screen and (max-width: 611px) {
   div.MuiInputBase-inputSizeSmall {
     text-overflow: ellipsis;
@@ -80,33 +66,7 @@ input.MuiInputBase-input:not(:first-child) {
 }
 
 @media screen and (max-width: 460px) {
-  /* .css-1if42l7 > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1),
-  .css-19p6imb > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) {
-    max-width: 15px;
-  } */
   div.MuiInputBase-inputSizeSmall {
     text-overflow: ellipsis;
   }
 }
-/* 
-@media screen and (max-width: 553px) {
-	div.MuiContainer-root:nth-child(2) {
-		
-	}
-
-	.css-x5dlth {
-		min-width: 250px;
-	}
-	.css-64ijzu > div:nth-child(1) {
-		display: block;
-		min-width: 250px;
-	}
-	
-	#filters {
-		display: flex;
-		flex-direction: column;
-	}
-	.css-1riftde {
-
-	}
-} */
